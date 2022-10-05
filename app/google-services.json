@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "321205901499",
+    "project_id": "nosh-aa775",
+    "storage_bucket": "nosh-aa775.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:321205901499:android:6ed1ce9e295b7961caf19e",
+        "android_client_info": {
+          "package_name": "com.example.nosh"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "321205901499-nn2tb1r8377ckov710lcjcbg4o9sm7ue.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAevkxjBVN7brHcZtsVxF2aTwz3ScRnR44"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "321205901499-nn2tb1r8377ckov710lcjcbg4o9sm7ue.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
