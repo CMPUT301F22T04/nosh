@@ -20,7 +20,7 @@ public class FirebaseAuthInitializer implements Initializer<FirebaseAuth> {
         FirebaseAuth fAuth = FirebaseAuth.getInstance();
 
         if (BuildConfig.DEBUG) {
-            fAuth.useEmulator("10.0.2.2", 9090);
+            fAuth.useEmulator("10.0.2.2", 9099);
         }
 
         return fAuth;
