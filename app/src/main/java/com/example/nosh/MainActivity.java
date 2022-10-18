@@ -10,11 +10,20 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.startup.AppInitializer;
 
+import com.example.nosh.database.FirestoreInitializer;
 import com.example.nosh.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        AppInitializer.getInstance(this).initializeComponent(FirestoreInitializer.class);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
