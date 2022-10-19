@@ -3,20 +3,28 @@ package com.example.nosh.controller;
 import com.example.nosh.entity.StoredIngredient;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
-public class IngredientStorageController implements Observer {
 
-    final private ArrayList<StoredIngredient> ingredients;
+public class IngredientStorageController {
+
+    private final HashMap<Integer, StoredIngredient> storedIngredientHashMap;
 
     public IngredientStorageController() {
-        ingredients = new ArrayList<>();
-
+        storedIngredientHashMap = new HashMap<>();
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
+    public void add(StoredIngredient newStoredIngredients) {
+        storedIngredientHashMap.put(newStoredIngredients.hashCode(), newStoredIngredients);
+    }
 
+    public void remove(StoredIngredient storedIngredient) {
+        storedIngredientHashMap.remove(storedIngredient.hashCode());
+    }
+
+    public ArrayList<StoredIngredient> get() {
+        return new ArrayList<>(storedIngredientHashMap.values());
     }
 }
