@@ -3,6 +3,10 @@ package com.example.nosh.entity;
 import java.util.Observable;
 import java.util.Observer;
 
+
+/**
+ * Generalization ingredient (can be in ingredient storage, recipe, shopping list)
+ */
 public class Ingredient extends Observable {
 
     private int amount;

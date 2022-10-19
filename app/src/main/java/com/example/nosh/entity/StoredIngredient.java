@@ -3,6 +3,10 @@ package com.example.nosh.entity;
 
 import java.util.Date;
 
+
+/**
+ * Ingredient in ingredient storage
+ */
 public class StoredIngredient extends Ingredient {
 
     private Date bestBeforeDate;
