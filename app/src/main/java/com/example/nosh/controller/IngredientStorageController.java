@@ -4,8 +4,6 @@ import com.example.nosh.entity.StoredIngredient;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Observable;
-import java.util.Observer;
 
 
 public class IngredientStorageController {
