@@ -29,6 +29,6 @@ public class FirestoreInitializer implements Initializer<FirebaseFirestore> {
     @NonNull
     @Override
     public List<Class<? extends Initializer<?>>> dependencies() {
-        return Collections.singletonList(FirebaseAuthInitializer.class);
+        return Collections.emptyList();
     }
 }
