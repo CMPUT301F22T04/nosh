@@ -12,9 +12,9 @@ public class StoredIngredient extends Ingredient {
     private Date bestBeforeDate;
     private String location;
 
-    public StoredIngredient(Date bestBeforeDate, int amount, int unit, String description,
-                            String category, String location) {
-        super(amount, unit, description, category);
+    public StoredIngredient(Date bestBeforeDate, int amount, int unit, String name,
+                            String description, String category, String location) {
+        super(amount, unit, name, description, category);
         this.bestBeforeDate = bestBeforeDate;
         this.location = location;
     }
@@ -34,4 +34,5 @@ public class StoredIngredient extends Ingredient {
     void setLocation(String location) {
         this.location = location;
     }
+
 }

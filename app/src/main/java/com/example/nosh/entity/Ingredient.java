@@ -1,5 +1,9 @@
 package com.example.nosh.entity;
 
+import com.google.firebase.Timestamp;
+
+import java.util.Date;
+import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -11,12 +15,15 @@ public class Ingredient extends Observable {
 
     private int amount;
     private int unit;
+    private String name;
     private String description;
     private String category;
+    private String hashCode;
 
-    public Ingredient(int amount, int unit, String description, String category) {
+    public Ingredient(int amount, int unit, String name, String description, String category) {
         this.amount = amount;
         this.unit = unit;
+        this.name = name;
         this.description = description;
         this.category = category;
     }
@@ -35,6 +42,14 @@ public class Ingredient extends Observable {
 
     void setUnit(int unit) {
         this.unit = unit;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
