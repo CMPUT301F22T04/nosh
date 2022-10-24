@@ -11,12 +11,12 @@ import java.util.Collections;
 import java.util.List;
 
 
-public class DatabaseAccessFactoryInitializer implements Initializer<DatabaseAccessFactory> {
+public class DBControllerFactoryInitializer implements Initializer<DBControllerFactory> {
 
     @NonNull
     @Override
-    public DatabaseAccessFactory create(@NonNull Context context) {
-        return new DatabaseAccessFactory(FirebaseFirestore.getInstance());
+    public DBControllerFactory create(@NonNull Context context) {
+        return new DBControllerFactory(FirebaseFirestore.getInstance());
     }
 
     @NonNull
