@@ -11,14 +11,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.startup.AppInitializer;
 
 import com.example.nosh.R;
-import com.example.nosh.controller.IngredientStorageController;
-import com.example.nosh.database.DatabaseAccessFactory;
-import com.example.nosh.database.DatabaseAccessFactoryInitializer;
-import com.example.nosh.database.IngredientStorageAccess;
+import com.example.nosh.controller.IngrStorageController;
+import com.example.nosh.database.DBControllerFactory;
+import com.example.nosh.database.DBControllerFactoryInitializer;
+import com.example.nosh.database.IngrStorageDBController;
 import com.example.nosh.entity.StoredIngredient;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Observable;
+import java.util.Observer;
 
 
 /**
@@ -26,15 +28,15 @@ import java.util.Date;
  * Use the {@link IngredientsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class IngredientsFragment extends Fragment {
+public class IngredientsFragment extends Fragment implements Observer {
 
     private StoredIngredientAdapter adapter;
 
-    private IngredientStorageController controller;
+    private IngrStorageController controller;
 
     private IngredientsFragmentListener listener;
 
-    private ArrayList<StoredIngredient> ingredients;
+    private ArrayList<StoredIngredient> storedIngredients;
 
     private class IngredientsFragmentListener implements
             StoredIngredientAdapter.RecyclerViewListener, View.OnClickListener {
@@ -46,11 +48,12 @@ public class IngredientsFragment extends Fragment {
 
         @Override
         public void onDeleteButtonClick(int pos) {
-            controller.remove(ingredients.get(pos));
+            if (pos >= 0) {
+                controller.delete(storedIngredients.get(pos));
+                storedIngredients.remove(pos);
 
-            ingredients.remove(pos);
-
-            adapter.notifyItemRemoved(pos);
+                adapter.notifyItemRemoved(pos);
+            }
         }
     }
 
@@ -89,25 +92,15 @@ public class IngredientsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        DatabaseAccessFactory factory =
+        DBControllerFactory factory =
                 AppInitializer.getInstance(requireContext()).
-                        initializeComponent(DatabaseAccessFactoryInitializer.class);
+                        initializeComponent(DBControllerFactoryInitializer.class);
 
-        controller = new IngredientStorageController(factory
-                .createAccessController(IngredientStorageAccess.class.getSimpleName()));
+        controller = new IngrStorageController(factory
+                .createAccessController(IngrStorageDBController.class.getSimpleName()), this);
         listener = new IngredientsFragmentListener();
 
-        controller.add(
-                new Date(), 1, 8, "STARBUCKS Iced Coffee",
-                "1.18 ~ 1.42 L", "Dairy", "Fridge");
-
-        controller.add(new Date(), 1, 4, "COCA-COLA Mini Cans",
-                "6x222 mL", "Drinks", "Fridge");
-
-        controller.add(new Date(), 1, 5, "KRAFT Peanut Butter",
-                "750g", "Pantry", "Pantry");
-
-        ingredients = controller.get();
+        storedIngredients = controller.retrieve();
     }
 
     @Override
@@ -119,11 +112,20 @@ public class IngredientsFragment extends Fragment {
         RecyclerView recyclerView = v.findViewById(R.id.recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
 
-        adapter = new StoredIngredientAdapter(listener, getContext(), ingredients);
+        adapter = new StoredIngredientAdapter(listener, getContext(), storedIngredients);
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
         return v;
     }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        storedIngredients = controller.retrieve();
+
+        adapter.update(storedIngredients);
+        adapter.notifyItemRangeChanged(0, storedIngredients.size());
+    }
+
 }
