@@ -6,14 +6,12 @@ import com.example.nosh.entity.StoredIngredient;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
-import java.util.ArrayList;
 
-
-public class IngredientStorageAccess extends DatabaseAccessController {
+public class IngrStorageDBController extends DBController {
 
     static final String REF_NAME = "ingredient_storage";
 
-    IngredientStorageAccess(CollectionReference ref) {
+    IngrStorageDBController(CollectionReference ref) {
         super(ref);
     }
 
@@ -21,39 +19,43 @@ public class IngredientStorageAccess extends DatabaseAccessController {
     public void create(Object o) {
         assertType(o);
 
-        ref.document(String.valueOf(o.hashCode())).set(o)
+        ref.document(((StoredIngredient) o).getHashcode()).set(o)
                 .addOnSuccessListener(unused ->
                         Log.i("CREATE", "DocumentSnapshot written with ID: " +
-                                o.hashCode()))
+                                ((StoredIngredient) o).getHashcode()))
                 .addOnFailureListener(e ->
                         Log.w("CREATE", "Error adding document", e));
-
     }
 
     @Override
-    public void retrieve(Object o) {
+    public Object retrieve(Object o) {
         assertType(o);
+
+        return null;
     }
 
     @Override
-    public ArrayList<Object> retrieve() {
-        ArrayList<Object> storeIngredients = new ArrayList<>();
-
+    public void retrieve() {
         ref
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
+                        StoredIngredient[] storedIngredients =
+                                new StoredIngredient[task.getResult().size()];
+
+                        int i = 0;
                         for (DocumentSnapshot doc :
                                 task.getResult()) {
-                            storeIngredients.add(doc.toObject(StoredIngredient.class));
+                            storedIngredients[i++] = doc.toObject(StoredIngredient.class);
                         }
+
+                        setChanged();
+                        notifyObservers(storedIngredients);
                     } else {
                         Log.w("retrieve", "Cached get failed: ",
                                 task.getException());
                     }
                 });
-
-        return storeIngredients;
     }
 
     @Override
@@ -62,8 +64,8 @@ public class IngredientStorageAccess extends DatabaseAccessController {
     }
 
     @Override
-    public void remove(Object o) {
-        ref.document(String.valueOf(o.hashCode()))
+    public void delete(Object o) {
+        ref.document(((StoredIngredient) o).getHashcode())
                 .delete()
                 .addOnSuccessListener(unused ->
                         Log.d("remove", "DocumentSnapshot successfully deleted!"))
