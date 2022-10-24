@@ -12,6 +12,10 @@ public class StoredIngredient extends Ingredient {
     private Date bestBeforeDate;
     private String location;
 
+    public StoredIngredient() {
+        super();
+    }
+
     public StoredIngredient(Date bestBeforeDate, int amount, int unit, String name,
                             String description, String category, String location) {
         super(amount, unit, name, description, category);
