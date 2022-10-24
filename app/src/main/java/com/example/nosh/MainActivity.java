@@ -12,7 +12,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.startup.AppInitializer;
 
-import com.example.nosh.database.DatabaseAccessFactoryInitializer;
+import com.example.nosh.database.DBControllerFactoryInitializer;
 import com.example.nosh.databinding.ActivityMainBinding;
 
 
@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
 
         AppInitializer.getInstance(this).
-                initializeComponent(DatabaseAccessFactoryInitializer.class);
+                initializeComponent(DBControllerFactoryInitializer.class);
     }
 
     @Override
