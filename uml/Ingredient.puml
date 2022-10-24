@@ -1,0 +1,78 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+Ingredient <|-- StoredIngredient
+IngredientStorage "*" o-- StoredIngredient : contains
+
+DBController <|-- IngrStorageDBController
+
+DBControllerFactory --> DBController : creates
+
+IngrStorageController -- IngredientStorage : uses
+IngrStorageController -- IngrStorageDBController : uses
+
+IngredientFragment -- IngrStorageController : control
+IngredientFragment -- StoredIngredientAdapter
+StoredIngredientAdapter -- StoredIngredientViewHolder
+
+class Ingredient {
+    - amount
+    - unit
+    - name
+    - description
+    - category
+    --
+    Getters and Setters
+}
+
+class StoredIngredient {
+    - bestBeforeDate
+    - location
+    --
+    Getters and Setters
+}
+
+class IngredientStorage {
+    - storedIngredients : Collection<StoredIngredient>
+    + void add(StoredIngredient)
+    + Collection<StoredIngredient> retrieve()
+    + void delete(StoredIngredient)
+}
+
+class DBControllerFactory {
+    - firestore : FirebaseFirestore
+    + DBController getDBController(String name)
+}
+
+abstract class DBController {
+    - ref : CollectionReference
+    + {abstract} void create(Object o)
+    + {abstract} void retrieve(Object o)
+    + {abstract} Collection<Object> retrieve()
+    + {abstract} void update(Object o)
+    + {abstract} void delete(Object o)
+}
+
+class IngrStorageDBController {
+    + void create(Object o)
+    + Object retrieve(Object o)
+    + Collection<Object> retrieve()
+    + void update(Object o)
+    + void delete(Object o)
+}
+
+class IngrStorageController {
+    - ingredientStorage : IngredientStorage
+    - dbController : IngrStorageDBController
+    + void add(StoredIngredient)
+    + Collection<StoredIngredient> retrieve()
+    + void delete(StoredIngredient)
+}
+
+class IngredientFragment {
+    - storedIngredients : Collection<StoredIngredient>
+    - controller : IngrStorageDBController
+    
+}
+
+@enduml
