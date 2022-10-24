@@ -1,9 +1,9 @@
 package com.example.nosh.entity;
 
+import com.google.common.hash.Hashing;
 import com.google.firebase.Timestamp;
 
 import java.util.Date;
-import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -18,7 +18,11 @@ public class Ingredient extends Observable {
     private String name;
     private String description;
     private String category;
-    private String hashCode;
+    private String hashcode;
+
+    public Ingredient() {
+
+    }
 
     public Ingredient(int amount, int unit, String name, String description, String category) {
         this.amount = amount;
@@ -26,6 +30,7 @@ public class Ingredient extends Observable {
         this.name = name;
         this.description = description;
         this.category = category;
+        hashcode = Hashing.sha256().hashInt(new Timestamp(new Date()).getNanoseconds()).toString();
     }
 
     public int getAmount() {
@@ -66,6 +71,14 @@ public class Ingredient extends Observable {
 
     void setCategory(String category) {
         this.category = category;
+    }
+
+    public String getHashcode() {
+        return hashcode;
+    }
+
+    public void setHashcode(String hashcode) {
+        this.hashcode = hashcode;
     }
 
     @Override
