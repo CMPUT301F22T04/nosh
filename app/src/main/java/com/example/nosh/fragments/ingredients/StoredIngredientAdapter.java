@@ -21,17 +21,21 @@ public class StoredIngredientAdapter extends
 
     private final Context context;
 
-    private final ArrayList<StoredIngredient> ingredients;
+    private ArrayList<StoredIngredient> storedIngredients;
 
     public StoredIngredientAdapter(RecyclerViewListener listener, Context context,
-                                   ArrayList<StoredIngredient> ingredients) {
+                                   ArrayList<StoredIngredient> storedIngredients) {
         this.listener = listener;
         this.context = context;
-        this.ingredients = ingredients;
+        this.storedIngredients = storedIngredients;
     }
 
     interface RecyclerViewListener {
         void onDeleteButtonClick(int pos);
+    }
+
+    void update(ArrayList<StoredIngredient> storedIngredients) {
+        this.storedIngredients = storedIngredients;
     }
 
     @NonNull
@@ -47,14 +51,14 @@ public class StoredIngredientAdapter extends
     @Override
     public void onBindViewHolder(@NonNull StoredIngredientViewHolder holder,
                                  int position) {
-        holder.getNameTxtView().setText(ingredients.get(position).getName());
-        holder.getDescriptionTxtView().setText(ingredients.get(position).
+        holder.getNameTxtView().setText(storedIngredients.get(position).getName());
+        holder.getDescriptionTxtView().setText(storedIngredients.get(position).
                 getDescription());
 
     }
 
     @Override
     public int getItemCount() {
-        return ingredients.size();
+        return storedIngredients.size();
     }
 }
