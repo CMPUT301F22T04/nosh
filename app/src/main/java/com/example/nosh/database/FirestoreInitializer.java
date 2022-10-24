@@ -23,6 +23,8 @@ public class FirestoreInitializer implements Initializer<FirebaseFirestore> {
             fStore.useEmulator("10.0.2.2", 8080);
         }
 
+        fStore.clearPersistence();
+
         return fStore;
     }
 
