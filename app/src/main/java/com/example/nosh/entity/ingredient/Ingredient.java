@@ -16,6 +16,12 @@ public class Ingredient {
     private String name;
     private String description;
     private String category;
+
+    /**
+     * This field is used for Id of a document in the database
+     * The hashcode generate by taking the time of which this object creates, 
+     * and then hash using sha256. 
+     */
     private String hashcode;
 
     public Ingredient() {
