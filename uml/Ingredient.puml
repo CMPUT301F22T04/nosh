@@ -1,0 +1,126 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+together {
+    class IngredientFragment
+    class StoredIngredientAdapter
+    class StoredIngredientViewHolder
+}
+
+IngredientFragment --> IngrStorageController
+IngredientFragment --> StoredIngredientAdapter
+StoredIngredientAdapter --> StoredIngredientViewHolder
+
+
+together {
+    class DBControllerFactory
+    class DBController
+    class IngrStorageDBController
+}
+
+DBController <|-- IngrStorageDBController
+DBControllerFactory --> DBController : creates
+
+
+together {
+    class Ingredient
+    class StoredIngredient
+}
+
+Ingredient <|-- StoredIngredient
+StoredIngredientRepo "*" o-- StoredIngredient : contains
+
+
+together {
+    class StoredIngredientRepo
+    class IngrStorageController
+}
+
+IngrStorageController --> StoredIngredientRepo
+
+IngrStorageDBController <-- StoredIngredientRepo
+
+
+together {
+    class Observable
+    interface Observer
+}
+
+Observer <|.. IngredientFragment
+Observer <|.. StoredIngredientRepo
+
+Observable <|-- IngrStorageDBController
+Observable <|-- StoredIngredientRepo
+
+class Observable {
+
+}
+
+interface Observer {
+
+}
+
+class Ingredient {
+    - amount
+    - unit
+    - name
+    - description
+    - category
+    - hashcode
+    Getters and Setters
+}
+
+class StoredIngredient {
+    - bestBeforeDate
+    - location
+    --
+    Getters and Setters
+}
+
+class StoredIngredientRepo {
+    - dbController : DBController
+    - storedIngredients : HashMap<String, StoredIngredient>
+    + void add(StoredIngredient)
+    + ArrayList<StoredIngredient> retrieve()
+    + void delete(StoredIngredient)
+    + void sync()
+    + update(Observable o, Object arg)
+    + void notifyObservers()
+}
+
+class DBControllerFactory {
+    - firestore : FirebaseFirestore
+    + DBController getDBController(String name)
+}
+
+abstract class DBController {
+    - ref : CollectionReference
+    + {abstract} void create(Object o)
+    + {abstract} Object retrieve(Object o)
+    + {abstract} ArrayList<Object> retrieve()
+    + {abstract} void update(Object o)
+    + {abstract} void delete(Object o)
+}
+
+class IngrStorageDBController {
+    + void create(Object o)
+    + Object retrieve(Object o)
+    + ArrayList<Object> retrieve()
+    + void update(Object o)
+    + void delete(Object o)
+}
+
+class IngrStorageController {
+    - storedIngredientRepo : StoredIngredientRepo
+    + void add(bestBeforeDate, amount, unit, name, description, category, location)
+    + ArrayList<StoredIngredient> retrieve()
+    + void delete(StoredIngredient)
+}
+
+class IngredientFragment {
+    - storedIngredients : ArrayList<StoredIngredient>
+    - controller : IngrStorageDBController
+    - adapter : StoredIngredientAdapter
+}
+
+@enduml

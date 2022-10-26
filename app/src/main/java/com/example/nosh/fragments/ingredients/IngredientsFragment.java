@@ -1,21 +1,60 @@
 package com.example.nosh.fragments.ingredients;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.startup.AppInitializer;
+
 import com.example.nosh.R;
+import com.example.nosh.controller.IngrStorageController;
+import com.example.nosh.database.DBControllerFactory;
+import com.example.nosh.database.DBControllerFactoryInitializer;
+import com.example.nosh.database.IngrStorageDBController;
+import com.example.nosh.entity.ingredient.StoredIngredient;
+
+import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
+
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link IngredientsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class IngredientsFragment extends Fragment {
+public class IngredientsFragment extends Fragment implements Observer {
+
+    private StoredIngredientAdapter adapter;
+
+    private IngrStorageController controller;
+
+    private IngredientsFragmentListener listener;
+
+    private ArrayList<StoredIngredient> storedIngredients;
+
+    private class IngredientsFragmentListener implements
+            StoredIngredientAdapter.RecyclerViewListener, View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+
+        }
+
+        @Override
+        public void onDeleteButtonClick(int pos) {
+            if (pos >= 0) {
+                controller.delete(storedIngredients.get(pos));
+                storedIngredients.remove(pos);
+
+                adapter.notifyItemRemoved(pos);
+            }
+        }
+    }
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -51,15 +90,41 @@ public class IngredientsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
+        DBControllerFactory factory =
+                AppInitializer.getInstance(requireContext()).
+                        initializeComponent(DBControllerFactoryInitializer.class);
+
+        controller = new IngrStorageController(factory
+                .createAccessController(IngrStorageDBController.class.getSimpleName()), this);
+        listener = new IngredientsFragmentListener();
+
+        storedIngredients = controller.retrieve();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_ingredients, container, false);
+        View v = inflater.inflate(R.layout.fragment_ingredients, container, false);
+
+        RecyclerView recyclerView = v.findViewById(R.id.recycler_view);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+
+        adapter = new StoredIngredientAdapter(listener, getContext(), storedIngredients);
+
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+
+        return v;
     }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        storedIngredients = controller.retrieve();
+
+        adapter.update(storedIngredients);
+        adapter.notifyItemRangeChanged(0, storedIngredients.size());
+    }
+
 }
