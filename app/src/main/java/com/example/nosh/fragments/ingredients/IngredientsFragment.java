@@ -15,10 +15,9 @@ import com.example.nosh.controller.IngrStorageController;
 import com.example.nosh.database.DBControllerFactory;
 import com.example.nosh.database.DBControllerFactoryInitializer;
 import com.example.nosh.database.IngrStorageDBController;
-import com.example.nosh.entity.StoredIngredient;
+import com.example.nosh.entity.ingredient.StoredIngredient;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
 

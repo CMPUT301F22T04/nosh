@@ -2,7 +2,7 @@ package com.example.nosh.controller;
 
 import com.example.nosh.database.DBController;
 import com.example.nosh.repository.StoredIngredientRepo;
-import com.example.nosh.entity.StoredIngredient;
+import com.example.nosh.entity.ingredient.StoredIngredient;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,11 +29,11 @@ public class IngrStorageController {
         storedIngredientRepo.add(storedIngredient);
     }
 
-    public void delete(StoredIngredient storedIngredient) {
-        storedIngredientRepo.delete(storedIngredient);
-    }
-
     public ArrayList<StoredIngredient> retrieve() {
         return storedIngredientRepo.retrieve();
+    }
+
+    public void delete(StoredIngredient storedIngredient) {
+        storedIngredientRepo.delete(storedIngredient);
     }
 }

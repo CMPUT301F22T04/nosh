@@ -1,7 +1,7 @@
 package com.example.nosh.repository;
 
 import com.example.nosh.database.DBController;
-import com.example.nosh.entity.StoredIngredient;
+import com.example.nosh.entity.ingredient.StoredIngredient;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,13 +26,13 @@ public class StoredIngredientRepo extends Observable implements Observer {
         dbController.create(storedIngredient);
     }
 
+    public ArrayList<StoredIngredient> retrieve() {
+        return new ArrayList<>(storedIngredients.values());
+    }
+
     public void delete(StoredIngredient storedIngredient) {
         storedIngredients.remove(storedIngredient.getHashcode());
         dbController.delete(storedIngredient);
-    }
-
-    public ArrayList<StoredIngredient> retrieve() {
-        return new ArrayList<>(storedIngredients.values());
     }
 
     public void sync() {

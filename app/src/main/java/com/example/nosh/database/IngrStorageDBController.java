@@ -2,7 +2,7 @@ package com.example.nosh.database;
 
 import android.util.Log;
 
-import com.example.nosh.entity.StoredIngredient;
+import com.example.nosh.entity.ingredient.StoredIngredient;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 

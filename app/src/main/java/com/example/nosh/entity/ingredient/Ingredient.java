@@ -1,20 +1,18 @@
-package com.example.nosh.entity;
+package com.example.nosh.entity.ingredient;
 
 import com.google.common.hash.Hashing;
 import com.google.firebase.Timestamp;
 
 import java.util.Date;
-import java.util.Observable;
-import java.util.Observer;
 
 
 /**
  * Generalization ingredient (can be in ingredient storage, recipe, shopping list)
  */
-public class Ingredient extends Observable {
+public class Ingredient {
 
     private int amount;
-    private int unit;
+    private double unit;
     private String name;
     private String description;
     private String category;
@@ -24,7 +22,7 @@ public class Ingredient extends Observable {
 
     }
 
-    public Ingredient(int amount, int unit, String name, String description, String category) {
+    public Ingredient(int amount, double unit, String name, String description, String category) {
         this.amount = amount;
         this.unit = unit;
         this.name = name;
@@ -41,11 +39,11 @@ public class Ingredient extends Observable {
         this.amount = amount;
     }
 
-    public int getUnit() {
+    public double getUnit() {
         return unit;
     }
 
-    void setUnit(int unit) {
+    void setUnit(double unit) {
         this.unit = unit;
     }
 
@@ -79,15 +77,5 @@ public class Ingredient extends Observable {
 
     public void setHashcode(String hashcode) {
         this.hashcode = hashcode;
-    }
-
-    @Override
-    public synchronized void addObserver(Observer o) {
-        super.addObserver(o);
-    }
-
-    @Override
-    public void notifyObservers(Object arg) {
-        super.notifyObservers(arg);
     }
 }

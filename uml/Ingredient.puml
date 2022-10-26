@@ -1,19 +1,64 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-Ingredient <|-- StoredIngredient
-IngredientStorage "*" o-- StoredIngredient : contains
+together {
+    class IngredientFragment
+    class StoredIngredientAdapter
+    class StoredIngredientViewHolder
+}
+
+IngredientFragment --> IngrStorageController
+IngredientFragment --> StoredIngredientAdapter
+StoredIngredientAdapter --> StoredIngredientViewHolder
+
+
+together {
+    class DBControllerFactory
+    class DBController
+    class IngrStorageDBController
+}
 
 DBController <|-- IngrStorageDBController
-
 DBControllerFactory --> DBController : creates
 
-IngrStorageController -- IngredientStorage : uses
-IngrStorageController -- IngrStorageDBController : uses
 
-IngredientFragment -- IngrStorageController : control
-IngredientFragment -- StoredIngredientAdapter
-StoredIngredientAdapter -- StoredIngredientViewHolder
+together {
+    class Ingredient
+    class StoredIngredient
+}
+
+Ingredient <|-- StoredIngredient
+StoredIngredientRepo "*" o-- StoredIngredient : contains
+
+
+together {
+    class StoredIngredientRepo
+    class IngrStorageController
+}
+
+IngrStorageController --> StoredIngredientRepo
+
+IngrStorageDBController <-- StoredIngredientRepo
+
+
+together {
+    class Observable
+    interface Observer
+}
+
+Observer <|.. IngredientFragment
+Observer <|.. StoredIngredientRepo
+
+Observable <|-- IngrStorageDBController
+Observable <|-- StoredIngredientRepo
+
+class Observable {
+
+}
+
+interface Observer {
+
+}
 
 class Ingredient {
     - amount
@@ -21,7 +66,7 @@ class Ingredient {
     - name
     - description
     - category
-    --
+    - hashcode
     Getters and Setters
 }
 
@@ -32,11 +77,15 @@ class StoredIngredient {
     Getters and Setters
 }
 
-class IngredientStorage {
-    - storedIngredients : Collection<StoredIngredient>
+class StoredIngredientRepo {
+    - dbController : DBController
+    - storedIngredients : HashMap<String, StoredIngredient>
     + void add(StoredIngredient)
-    + Collection<StoredIngredient> retrieve()
+    + ArrayList<StoredIngredient> retrieve()
     + void delete(StoredIngredient)
+    + void sync()
+    + update(Observable o, Object arg)
+    + void notifyObservers()
 }
 
 class DBControllerFactory {
@@ -47,8 +96,8 @@ class DBControllerFactory {
 abstract class DBController {
     - ref : CollectionReference
     + {abstract} void create(Object o)
-    + {abstract} void retrieve(Object o)
-    + {abstract} Collection<Object> retrieve()
+    + {abstract} Object retrieve(Object o)
+    + {abstract} ArrayList<Object> retrieve()
     + {abstract} void update(Object o)
     + {abstract} void delete(Object o)
 }
@@ -56,23 +105,22 @@ abstract class DBController {
 class IngrStorageDBController {
     + void create(Object o)
     + Object retrieve(Object o)
-    + Collection<Object> retrieve()
+    + ArrayList<Object> retrieve()
     + void update(Object o)
     + void delete(Object o)
 }
 
 class IngrStorageController {
-    - ingredientStorage : IngredientStorage
-    - dbController : IngrStorageDBController
-    + void add(StoredIngredient)
-    + Collection<StoredIngredient> retrieve()
+    - storedIngredientRepo : StoredIngredientRepo
+    + void add(bestBeforeDate, amount, unit, name, description, category, location)
+    + ArrayList<StoredIngredient> retrieve()
     + void delete(StoredIngredient)
 }
 
 class IngredientFragment {
-    - storedIngredients : Collection<StoredIngredient>
+    - storedIngredients : ArrayList<StoredIngredient>
     - controller : IngrStorageDBController
-    
+    - adapter : StoredIngredientAdapter
 }
 
 @enduml

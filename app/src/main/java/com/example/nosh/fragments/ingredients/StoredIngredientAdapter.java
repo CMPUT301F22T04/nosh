@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nosh.R;
-import com.example.nosh.entity.StoredIngredient;
+import com.example.nosh.entity.ingredient.StoredIngredient;
 
 import java.util.ArrayList;
 

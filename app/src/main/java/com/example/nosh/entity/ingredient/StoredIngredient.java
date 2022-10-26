@@ -1,5 +1,7 @@
-package com.example.nosh.entity;
+package com.example.nosh.entity.ingredient;
 
+
+import com.example.nosh.entity.ingredient.Ingredient;
 
 import java.util.Date;
 
@@ -16,7 +18,7 @@ public class StoredIngredient extends Ingredient {
         super();
     }
 
-    public StoredIngredient(Date bestBeforeDate, int amount, int unit, String name,
+    public StoredIngredient(Date bestBeforeDate, int amount, double unit, String name,
                             String description, String category, String location) {
         super(amount, unit, name, description, category);
         this.bestBeforeDate = bestBeforeDate;
