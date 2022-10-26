@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,6 +19,7 @@ import com.example.nosh.database.IngrStorageDBController;
 import com.example.nosh.entity.ingredient.StoredIngredient;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -28,6 +30,8 @@ import java.util.Observer;
  * create an instance of this fragment.
  */
 public class IngredientsFragment extends Fragment implements Observer {
+
+    private ImageButton add_btn;
 
     private StoredIngredientAdapter adapter;
 
@@ -42,7 +46,11 @@ public class IngredientsFragment extends Fragment implements Observer {
 
         @Override
         public void onClick(View v) {
-
+            if (v.getId() == add_btn.getId()) {
+                // dummy instance
+                controller.add(new Date(), 1, 2.25, "name",
+                        "description", "category", "location");
+            }
         }
 
         @Override
@@ -108,10 +116,14 @@ public class IngredientsFragment extends Fragment implements Observer {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_ingredients, container, false);
 
+        add_btn = v.findViewById(R.id.add_btn);
+
         RecyclerView recyclerView = v.findViewById(R.id.recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
 
         adapter = new StoredIngredientAdapter(listener, getContext(), storedIngredients);
+
+        add_btn.setOnClickListener(listener);
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);

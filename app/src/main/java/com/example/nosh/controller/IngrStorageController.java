@@ -9,6 +9,9 @@ import java.util.Date;
 import java.util.Observer;
 
 
+/**
+ * This class acts as messenger between UI layer for
+ */
 public class IngrStorageController {
 
     private final StoredIngredientRepo storedIngredientRepo;
@@ -20,7 +23,7 @@ public class IngrStorageController {
         storedIngredientRepo.sync();
     }
 
-    public void add(Date bestBeforeDate, int amount, int unit, String name,
+    public void add(Date bestBeforeDate, int amount, double unit, String name,
                     String description, String category, String location) {
 
         StoredIngredient storedIngredient = new StoredIngredient(bestBeforeDate,
