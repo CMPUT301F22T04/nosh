@@ -20,7 +20,7 @@ public class IngrStorageController {
         storedIngredientRepo.sync();
     }
 
-    public void add(Date bestBeforeDate, int amount, int unit, String name,
+    public void add(Date bestBeforeDate, int amount, double unit, String name,
                     String description, String category, String location) {
 
         StoredIngredient storedIngredient = new StoredIngredient(bestBeforeDate,
