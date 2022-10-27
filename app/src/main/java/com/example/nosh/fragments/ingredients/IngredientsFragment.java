@@ -47,7 +47,6 @@ public class IngredientsFragment extends Fragment implements Observer {
         @Override
         public void onClick(View v) {
             if (v.getId() == add_btn.getId()) {
-                // dummy instance
                 controller.add(new Date(), 1, 2.25, "name",
                         "description", "category", "location");
             }
