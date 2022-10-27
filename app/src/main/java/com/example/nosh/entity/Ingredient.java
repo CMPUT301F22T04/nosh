@@ -11,6 +11,7 @@ import java.util.Date;
  */
 public class Ingredient {
 
+    private boolean inStorage = false;
     private Date bestBeforeDate;
     private double unit;
     private int amount;
@@ -18,7 +19,6 @@ public class Ingredient {
     private String description;
     private String location;
     private String name;
-    private boolean inStorage;
 
     /**
      * This field is used for Id of a document in the database
@@ -40,6 +40,7 @@ public class Ingredient {
         this(amount, unit, category, description, name);
         this.bestBeforeDate = bestBeforeDate;
         this.location = location;
+        inStorage = true;
     }
 
     public Ingredient(int amount, double unit, String category, String description,
@@ -51,6 +52,14 @@ public class Ingredient {
         this.category = category;
         hashcode = Hashing.sha256().hashInt(new Timestamp(new Date()).getNanoseconds())
                 .toString();
+    }
+
+    public boolean isInStorage() {
+        return inStorage;
+    }
+
+    public void setInStorage(boolean inStorage) {
+        this.inStorage = inStorage;
     }
 
     public Date getBestBeforeDate() {
