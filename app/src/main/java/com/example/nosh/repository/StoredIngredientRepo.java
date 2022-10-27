@@ -38,6 +38,8 @@ public class StoredIngredientRepo extends Observable implements Observer {
     public void add(StoredIngredient storedIngredient) {
         storedIngredients.put(storedIngredient.getHashcode(), storedIngredient);
         dbController.create(storedIngredient);
+
+        notifyObservers();
     }
 
     public ArrayList<StoredIngredient> retrieve() {

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,9 +19,9 @@ import com.example.nosh.database.IngrStorageDBController;
 import com.example.nosh.entity.ingredient.StoredIngredient;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,18 +29,21 @@ import java.util.Observer;
  * create an instance of this fragment.
  */
 public class IngredientsFragment extends Fragment implements Observer {
-
     private StoredIngredientAdapter adapter;
-
     private IngrStorageController controller;
-
     private IngredientsFragmentListener listener;
-
     private ArrayList<StoredIngredient> storedIngredients;
 
-    private class IngredientsFragmentListener implements
-            StoredIngredientAdapter.RecyclerViewListener, View.OnClickListener {
+    public IngredientsFragment() {
+        // Required empty public constructor
+    }
 
+    public static IngredientsFragment newInstance() {
+        IngredientsFragment fragment = new IngredientsFragment();
+        return fragment;
+    }
+
+    private class IngredientsFragmentListener implements StoredIngredientAdapter.RecyclerViewListener, View.OnClickListener {
         @Override
         public void onClick(View v) {
 
@@ -56,55 +60,22 @@ public class IngredientsFragment extends Fragment implements Observer {
         }
     }
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public IngredientsFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment IngredientsFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static IngredientsFragment newInstance(String param1, String param2) {
-        IngredientsFragment fragment = new IngredientsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         DBControllerFactory factory =
-                AppInitializer.getInstance(requireContext()).
-                        initializeComponent(DBControllerFactoryInitializer.class);
+                AppInitializer.getInstance(requireContext()).initializeComponent(DBControllerFactoryInitializer.class);
 
-        controller = new IngrStorageController(factory
-                .createAccessController(IngrStorageDBController.class.getSimpleName()), this);
+        controller =
+                new IngrStorageController(factory.createAccessController(IngrStorageDBController.class.getSimpleName()), this);
         listener = new IngredientsFragmentListener();
 
         storedIngredients = controller.retrieve();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_ingredients, container, false);
 
@@ -116,7 +87,31 @@ public class IngredientsFragment extends Fragment implements Observer {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
+        ImageButton addButton = v.findViewById(R.id.add_btn);
+        addButton.setOnClickListener(view -> openAddIngredientDialog());
+
+        addIngredientFragmentListener();
+
         return v;
+    }
+
+    private void openAddIngredientDialog() {
+        AddIngredientDialog addIngredientDialog = AddIngredientDialog.newInstance();
+        addIngredientDialog.show(getParentFragmentManager(), "ADD_INGREDIENT");
+    }
+
+    public void addIngredientFragmentListener() {
+        requireActivity().getSupportFragmentManager().setFragmentResultListener("add_ingredient",
+                getViewLifecycleOwner(), (requestKey, result) -> {
+            controller.add(
+                    (Date) result.getSerializable("date"),
+                    result.getInt("qty"),
+                    result.getDouble("unit"),
+                    result.getString("name"),
+                    result.getString("description"),
+                    result.getString("category"),
+                    result.getString("location"));
+        });
     }
 
     @Override
