@@ -88,6 +88,8 @@ public class Register extends AppCompatActivity {
         fAuth = AppInitializer.getInstance(this).
                 initializeComponent(FirebaseAuthInitializer.class);
 
+        fAuth.signOut();
+
         if (isSignedIn()) {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 
