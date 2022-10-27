@@ -2,7 +2,7 @@ package com.example.nosh.database;
 
 import android.util.Log;
 
-import com.example.nosh.entity.ingredient.StoredIngredient;
+import com.example.nosh.entity.Ingredient;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
@@ -19,10 +19,10 @@ public class IngrStorageDBController extends DBController {
     public void create(Object o) {
         assertType(o);
 
-        ref.document(((StoredIngredient) o).getHashcode()).set(o)
+        ref.document(((Ingredient) o).getHashcode()).set(o)
                 .addOnSuccessListener(unused ->
                         Log.i("CREATE", "DocumentSnapshot written with ID: " +
-                                ((StoredIngredient) o).getHashcode()))
+                                ((Ingredient) o).getHashcode()))
                 .addOnFailureListener(e ->
                         Log.w("CREATE", "Error adding document", e));
     }
@@ -40,17 +40,17 @@ public class IngrStorageDBController extends DBController {
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        StoredIngredient[] storedIngredients =
-                                new StoredIngredient[task.getResult().size()];
+                        Ingredient[] ingredients =
+                                new Ingredient[task.getResult().size()];
 
                         int i = 0;
                         for (DocumentSnapshot doc :
                                 task.getResult()) {
-                            storedIngredients[i++] = doc.toObject(StoredIngredient.class);
+                            ingredients[i++] = doc.toObject(Ingredient.class);
                         }
 
                         setChanged();
-                        notifyObservers(storedIngredients);
+                        notifyObservers(ingredients);
                     } else {
                         Log.w("retrieve", "Cached get failed: ",
                                 task.getException());
@@ -65,7 +65,7 @@ public class IngrStorageDBController extends DBController {
 
     @Override
     public void delete(Object o) {
-        ref.document(((StoredIngredient) o).getHashcode())
+        ref.document(((Ingredient) o).getHashcode())
                 .delete()
                 .addOnSuccessListener(unused ->
                         Log.d("remove", "DocumentSnapshot successfully deleted!"))
@@ -74,6 +74,6 @@ public class IngrStorageDBController extends DBController {
     }
 
     private void assertType(Object o) {
-        assert o instanceof StoredIngredient;
+        assert o instanceof Ingredient;
     }
 }

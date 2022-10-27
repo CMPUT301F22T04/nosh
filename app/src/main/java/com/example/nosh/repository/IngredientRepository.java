@@ -1,7 +1,7 @@
 package com.example.nosh.repository;
 
 import com.example.nosh.database.DBController;
-import com.example.nosh.entity.ingredient.StoredIngredient;
+import com.example.nosh.entity.Ingredient;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,32 +23,32 @@ import java.util.Observer;
  * Object, and it's a observer because there's latency when fetching data from 
  * database. This class do not wait for data return after making a request.
  */
-public class StoredIngredientRepo extends Observable implements Observer {
+public class IngredientRepository extends Observable implements Observer {
 
     private final DBController dbController;
-    private final HashMap<String, StoredIngredient> storedIngredients;
+    private final HashMap<String, Ingredient> ingredients;
 
-    public StoredIngredientRepo(DBController dbController) {
+    public IngredientRepository(DBController dbController) {
         this.dbController = dbController;
-        storedIngredients = new HashMap<>();
+        ingredients = new HashMap<>();
 
         this.dbController.addObserver(this);
     }
 
-    public void add(StoredIngredient storedIngredient) {
-        storedIngredients.put(storedIngredient.getHashcode(), storedIngredient);
-        dbController.create(storedIngredient);
+    public void add(Ingredient ingredient) {
+        ingredients.put(ingredient.getHashcode(), ingredient);
+        dbController.create(ingredient);
 
         notifyObservers();
     }
 
-    public ArrayList<StoredIngredient> retrieve() {
-        return new ArrayList<>(storedIngredients.values());
+    public ArrayList<Ingredient> retrieve() {
+        return new ArrayList<>(ingredients.values());
     }
 
-    public void delete(StoredIngredient storedIngredient) {
-        storedIngredients.remove(storedIngredient.getHashcode());
-        dbController.delete(storedIngredient);
+    public void delete(Ingredient ingredient) {
+        ingredients.remove(ingredient.getHashcode());
+        dbController.delete(ingredient);
     }
 
     /**
@@ -65,12 +65,12 @@ public class StoredIngredientRepo extends Observable implements Observer {
      */
     @Override
     public void update(Observable o, Object arg) {
-        assert (arg instanceof StoredIngredient[]);
+        assert (arg instanceof Ingredient[]);
 
-        StoredIngredient[] storedIngredients = (StoredIngredient[]) arg;
+        Ingredient[] ingredients = (Ingredient[]) arg;
 
-        for (StoredIngredient storedIngredient : storedIngredients) {
-            add(storedIngredient);
+        for (Ingredient ingredient : ingredients) {
+            add(ingredient);
         }
 
         notifyObservers();
