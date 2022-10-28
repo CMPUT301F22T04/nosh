@@ -88,7 +88,9 @@ public class Register extends AppCompatActivity {
         fAuth = AppInitializer.getInstance(this).
                 initializeComponent(FirebaseAuthInitializer.class);
 
-        if (isSignedIn()) { // Replace isSignedIn() with true if you're having issue with Authentication
+        fAuth.signOut();
+
+        if (isSignedIn()) {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 
             startActivity(intent);

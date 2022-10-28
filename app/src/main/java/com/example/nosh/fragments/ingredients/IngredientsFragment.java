@@ -6,17 +6,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.startup.AppInitializer;
 
 import com.example.nosh.R;
-import com.example.nosh.controller.IngrStorageController;
+import com.example.nosh.controller.IngredientStorageController;
 import com.example.nosh.database.DBControllerFactory;
 import com.example.nosh.database.DBControllerFactoryInitializer;
 import com.example.nosh.database.IngrStorageDBController;
-import com.example.nosh.entity.ingredient.StoredIngredient;
+import com.example.nosh.entity.Ingredient;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,33 +31,58 @@ import java.util.Observer;
  * create an instance of this fragment.
  */
 public class IngredientsFragment extends Fragment implements Observer {
+
+    private ImageButton addButton;
     private StoredIngredientAdapter adapter;
-    private IngrStorageController controller;
+    private IngredientStorageController controller;
     private IngredientsFragmentListener listener;
-    private ArrayList<StoredIngredient> storedIngredients;
+    private ArrayList<Ingredient> ingredients;
 
     public IngredientsFragment() {
         // Required empty public constructor
     }
 
     public static IngredientsFragment newInstance() {
-        IngredientsFragment fragment = new IngredientsFragment();
-        return fragment;
+        return new IngredientsFragment();
     }
 
-    private class IngredientsFragmentListener implements StoredIngredientAdapter.RecyclerViewListener, View.OnClickListener {
+    private class IngredientsFragmentListener
+            implements StoredIngredientAdapter.RecyclerViewListener,
+            View.OnClickListener, FragmentResultListener {
+
         @Override
         public void onClick(View v) {
-
+            if (v.getId() == addButton.getId()) {
+                openAddIngredientDialog();
+            }
         }
 
         @Override
         public void onDeleteButtonClick(int pos) {
             if (pos >= 0) {
-                controller.delete(storedIngredients.get(pos));
-                storedIngredients.remove(pos);
+                controller.delete(ingredients.get(pos));
+                ingredients.remove(pos);
 
                 adapter.notifyItemRemoved(pos);
+            }
+        }
+
+        private void openAddIngredientDialog() {
+            AddIngredientDialog addIngredientDialog = AddIngredientDialog.newInstance();
+            addIngredientDialog.show(getParentFragmentManager(), "ADD_INGREDIENT");
+        }
+
+        @Override
+        public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+            if (requestKey.equals("add_ingredient")) {
+                controller.add(
+                        (Date) result.getSerializable("date"),
+                        result.getInt("qty"),
+                        result.getDouble("unit"),
+                        result.getString("name"),
+                        result.getString("description"),
+                        result.getString("category"),
+                        result.getString("location"));
             }
         }
     }
@@ -68,10 +95,10 @@ public class IngredientsFragment extends Fragment implements Observer {
                 AppInitializer.getInstance(requireContext()).initializeComponent(DBControllerFactoryInitializer.class);
 
         controller =
-                new IngrStorageController(factory.createAccessController(IngrStorageDBController.class.getSimpleName()), this);
+                new IngredientStorageController(factory.createAccessController(IngrStorageDBController.class.getSimpleName()), this);
         listener = new IngredientsFragmentListener();
 
-        storedIngredients = controller.retrieve();
+        ingredients = controller.retrieve();
     }
 
     @Override
@@ -79,47 +106,34 @@ public class IngredientsFragment extends Fragment implements Observer {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_ingredients, container, false);
 
+
         RecyclerView recyclerView = v.findViewById(R.id.recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
 
-        adapter = new StoredIngredientAdapter(listener, getContext(), storedIngredients);
+        adapter = new StoredIngredientAdapter(listener, getContext(), ingredients);
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
-        ImageButton addButton = v.findViewById(R.id.add_btn);
-        addButton.setOnClickListener(view -> openAddIngredientDialog());
+        addButton = v.findViewById(R.id.add_btn);
+        addButton.setOnClickListener(listener);
 
-        addIngredientFragmentListener();
+        requireActivity()
+                .getSupportFragmentManager()
+                .setFragmentResultListener(
+                        "add_ingredient",
+                        getViewLifecycleOwner(),
+                        listener);
 
         return v;
     }
 
-    private void openAddIngredientDialog() {
-        AddIngredientDialog addIngredientDialog = AddIngredientDialog.newInstance();
-        addIngredientDialog.show(getParentFragmentManager(), "ADD_INGREDIENT");
-    }
-
-    public void addIngredientFragmentListener() {
-        requireActivity().getSupportFragmentManager().setFragmentResultListener("add_ingredient",
-                getViewLifecycleOwner(), (requestKey, result) -> {
-            controller.add(
-                    (Date) result.getSerializable("date"),
-                    result.getInt("qty"),
-                    result.getDouble("unit"),
-                    result.getString("name"),
-                    result.getString("description"),
-                    result.getString("category"),
-                    result.getString("location"));
-        });
-    }
-
     @Override
     public void update(Observable o, Object arg) {
-        storedIngredients = controller.retrieve();
+        ingredients = controller.retrieve();
 
-        adapter.update(storedIngredients);
-        adapter.notifyItemRangeChanged(0, storedIngredients.size());
+        adapter.update(ingredients);
+        adapter.notifyItemRangeChanged(0, ingredients.size());
     }
 
 }

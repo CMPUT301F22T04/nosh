@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nosh.R;
-import com.example.nosh.entity.ingredient.StoredIngredient;
+import com.example.nosh.entity.Ingredient;
 
 import java.util.ArrayList;
 
@@ -21,21 +21,21 @@ public class StoredIngredientAdapter extends
 
     private final Context context;
 
-    private ArrayList<StoredIngredient> storedIngredients;
+    private ArrayList<Ingredient> ingredients;
 
     public StoredIngredientAdapter(RecyclerViewListener listener, Context context,
-                                   ArrayList<StoredIngredient> storedIngredients) {
+                                   ArrayList<Ingredient> ingredients) {
         this.listener = listener;
         this.context = context;
-        this.storedIngredients = storedIngredients;
+        this.ingredients = ingredients;
     }
 
     interface RecyclerViewListener {
         void onDeleteButtonClick(int pos);
     }
 
-    void update(ArrayList<StoredIngredient> storedIngredients) {
-        this.storedIngredients = storedIngredients;
+    void update(ArrayList<Ingredient> ingredients) {
+        this.ingredients = ingredients;
     }
 
     @NonNull
@@ -51,14 +51,14 @@ public class StoredIngredientAdapter extends
     @Override
     public void onBindViewHolder(@NonNull StoredIngredientViewHolder holder,
                                  int position) {
-        holder.getNameTxtView().setText(storedIngredients.get(position).getName());
-        holder.getDescriptionTxtView().setText(storedIngredients.get(position).
+        holder.getNameTxtView().setText(ingredients.get(position).getName());
+        holder.getDescriptionTxtView().setText(ingredients.get(position).
                 getDescription());
 
     }
 
     @Override
     public int getItemCount() {
-        return storedIngredients.size();
+        return ingredients.size();
     }
 }
