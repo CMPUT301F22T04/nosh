@@ -9,16 +9,16 @@ import java.util.Date;
 /**
  * Generalization ingredient (can be in ingredient storage, recipe, shopping list)
  */
-public class Ingredient {
+public class Ingredient implements Hashable {
 
     private boolean inStorage = false;
-    private Date bestBeforeDate;
+    private Date bestBeforeDate = new Date();
     private double unit;
     private int amount;
-    private String category;
-    private String description;
-    private String location;
-    private String name;
+    private String category = "";
+    private String description = "";
+    private String location = "";
+    private String name = "";
 
     /**
      * This field is used for Id of a document in the database
@@ -27,6 +27,9 @@ public class Ingredient {
      */
     private String hashcode;
 
+    /**
+     * For creating new Object from Firestore
+     */
     public Ingredient() {
 
     }
@@ -37,13 +40,13 @@ public class Ingredient {
     public Ingredient(Date bestBeforeDate, double unit, int amount,
                       String category, String description, String location,
                       String name) {
-        this(amount, unit, category, description, name);
+        this(unit, amount, category, description, name);
         this.bestBeforeDate = bestBeforeDate;
         this.location = location;
         inStorage = true;
     }
 
-    public Ingredient(int amount, double unit, String category, String description,
+    public Ingredient(double unit, int amount, String category, String description,
                       String name) {
         this.amount = amount;
         this.unit = unit;
@@ -74,7 +77,7 @@ public class Ingredient {
         return unit;
     }
 
-    void setUnit(double unit) {
+    public void setUnit(double unit) {
         this.unit = unit;
     }
 
@@ -82,7 +85,7 @@ public class Ingredient {
         return amount;
     }
 
-    void setAmount(int amount) {
+    public void setAmount(int amount) {
         this.amount = amount;
     }
 
@@ -90,7 +93,7 @@ public class Ingredient {
         return category;
     }
 
-    void setCategory(String category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 
@@ -98,7 +101,7 @@ public class Ingredient {
         return description;
     }
 
-    void setDescription(String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -106,7 +109,7 @@ public class Ingredient {
         return location;
     }
 
-    void setLocation(String location) {
+    public void setLocation(String location) {
         this.location = location;
     }
 
