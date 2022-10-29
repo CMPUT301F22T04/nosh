@@ -12,7 +12,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.startup.AppInitializer;
 
-import com.example.nosh.database.DBControllerFactoryInitializer;
+import com.example.nosh.database.Initializer.DBControllerFactoryInitializer;
 import com.example.nosh.databinding.ActivityMainBinding;
 
 
