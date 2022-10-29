@@ -1,4 +1,4 @@
-package com.example.nosh.database;
+package com.example.nosh.database.controller;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -22,15 +22,23 @@ public class DBControllerFactory {
     /**
      * @param name This parameter specify the type of DBController needed to be 
      * instantiate, specifically, it specify the type via class name. For example, 
-     * if one wants to create a instance of IngrStorageDBController (one type of 
-     * DBController), pass in IngrStorageDBController.class.getSimpleName()
+     * if one wants to create a instance of IngredientDBController (one type of
+     * DBController), pass in IngredientDBController.class.getSimpleName()
      *
      * [ClassName].class.getSimpleName() will return a string representation of the class 
      * name
      */
     public DBController createAccessController(String name) {
-        if (name.equalsIgnoreCase(IngrStorageDBController.class.getSimpleName())) {
-            return new IngrStorageDBController(fStore.collection(IngrStorageDBController.REF_NAME));
+        if (name.equalsIgnoreCase(IngredientDBController.class.getSimpleName())) {
+
+            return new IngredientDBController(
+                    fStore.collection(IngredientDBController.REF_NAME));
+
+        } else if (name.equalsIgnoreCase(RecipeDBController.class.getSimpleName())) {
+
+            return new RecipeDBController(
+                    fStore.collection(RecipeDBController.REF_NAME));
+
         }
 
         return null;

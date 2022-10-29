@@ -1,6 +1,6 @@
 package com.example.nosh.controller;
 
-import com.example.nosh.database.DBController;
+import com.example.nosh.database.controller.DBController;
 import com.example.nosh.entity.Ingredient;
 import com.example.nosh.repository.IngredientRepository;
 
@@ -33,14 +33,20 @@ public class IngredientStorageController {
     public void add(Date bestBeforeDate, int amount, double unit, String name,
                     String description, String category, String location) {
 
-        Ingredient ingredient = new Ingredient(bestBeforeDate, unit, amount,
-                category, description, location, name);
-
-        ingredientRepository.add(ingredient);
+        ingredientRepository.add(bestBeforeDate, unit, amount, category,
+                description, location, name);
     }
 
     public ArrayList<Ingredient> retrieve() {
         return ingredientRepository.retrieve();
+    }
+
+    public void update(String hashcode, Date bestBeforeDate, int amount, double unit,
+                       String name, String description, String category,
+                       String location) {
+
+        ingredientRepository.update(hashcode, bestBeforeDate, unit, amount, category,
+                description, location, name);
     }
 
     public void delete(Ingredient ingredient) {

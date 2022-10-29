@@ -1,4 +1,4 @@
-package com.example.nosh.database;
+package com.example.nosh.database.Initializer;
 
 import android.content.Context;
 
@@ -6,24 +6,26 @@ import androidx.annotation.NonNull;
 import androidx.startup.Initializer;
 
 import com.example.nosh.BuildConfig;
-import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Collections;
 import java.util.List;
 
 
-public class FirebaseAuthInitializer implements Initializer<FirebaseAuth> {
+public class FirestoreInitializer implements Initializer<FirebaseFirestore> {
 
     @NonNull
     @Override
-    public FirebaseAuth create(@NonNull Context context) {
-        FirebaseAuth fAuth = FirebaseAuth.getInstance();
+    public FirebaseFirestore create(@NonNull Context context) {
+        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
 
         if (BuildConfig.DEBUG) {
-            fAuth.useEmulator("10.0.2.2", 9099);
+            fStore.useEmulator("10.0.2.2", 8080);
         }
 
-        return fAuth;
+        fStore.clearPersistence();
+
+        return fStore;
     }
 
     @NonNull

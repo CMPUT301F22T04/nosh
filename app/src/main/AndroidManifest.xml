@@ -38,7 +38,7 @@
             android:authorities="${applicationId}.androidx-startup"
             android:exported="false"
             tools:node="merge">
-            <meta-data  android:name="com.example.nosh.database.FirebaseAuthInitializer"
+            <meta-data  android:name="com.example.nosh.database.Initializer.FirebaseAuthInitializer"
                 android:value="androidx:startup" />
         </provider>
     </application>
