@@ -33,7 +33,7 @@ import java.util.Observer;
 public class IngredientsFragment extends Fragment implements Observer {
 
     private ImageButton addButton;
-    private StoredIngredientAdapter adapter;
+    private IngredientAdapter adapter;
     private IngredientStorageController controller;
     private IngredientsFragmentListener listener;
     private ArrayList<Ingredient> ingredients;
@@ -47,7 +47,7 @@ public class IngredientsFragment extends Fragment implements Observer {
     }
 
     private class IngredientsFragmentListener
-            implements StoredIngredientAdapter.RecyclerViewListener,
+            implements IngredientAdapter.RecyclerViewListener,
             View.OnClickListener, FragmentResultListener {
 
         @Override
@@ -110,7 +110,7 @@ public class IngredientsFragment extends Fragment implements Observer {
         RecyclerView recyclerView = v.findViewById(R.id.recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
 
-        adapter = new StoredIngredientAdapter(listener, getContext(), ingredients);
+        adapter = new IngredientAdapter(listener, getContext(), ingredients);
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);

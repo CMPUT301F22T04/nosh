@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.nosh.R;
 
 
-class StoredIngredientViewHolder extends RecyclerView.ViewHolder {
+class IngredientViewHolder extends RecyclerView.ViewHolder {
 
     public final ImageButton delBtn;
     private final TextView nameTxtView;
@@ -18,9 +18,9 @@ class StoredIngredientViewHolder extends RecyclerView.ViewHolder {
 
     private final class ViewHolderListener implements View.OnClickListener {
 
-        private final StoredIngredientAdapter.RecyclerViewListener listener;
+        private final IngredientAdapter.RecyclerViewListener listener;
 
-        ViewHolderListener(StoredIngredientAdapter.RecyclerViewListener listener) {
+        ViewHolderListener(IngredientAdapter.RecyclerViewListener listener) {
             this.listener = listener;
         }
 
@@ -32,7 +32,7 @@ class StoredIngredientViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    StoredIngredientViewHolder(StoredIngredientAdapter.RecyclerViewListener
+    IngredientViewHolder(IngredientAdapter.RecyclerViewListener
                                               listener, @NonNull View itemView) {
         super(itemView);
 
