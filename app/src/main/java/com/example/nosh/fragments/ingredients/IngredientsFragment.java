@@ -1,16 +1,11 @@
 package com.example.nosh.fragments.ingredients;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
@@ -24,7 +19,6 @@ import com.example.nosh.database.DBControllerFactory;
 import com.example.nosh.database.DBControllerFactoryInitializer;
 import com.example.nosh.database.IngrStorageDBController;
 import com.example.nosh.entity.Ingredient;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -43,7 +37,6 @@ public class IngredientsFragment extends Fragment implements Observer {
     private IngredientStorageController controller;
     private IngredientsFragmentListener listener;
     private ArrayList<Ingredient> ingredients;
-    private ActivityResultLauncher<Intent> launcher;
 
     public IngredientsFragment() {
         // Required empty public constructor
@@ -55,8 +48,7 @@ public class IngredientsFragment extends Fragment implements Observer {
 
     private class IngredientsFragmentListener
             implements StoredIngredientAdapter.RecyclerViewListener,
-            View.OnClickListener, FragmentResultListener,
-            ActivityResultCallback<ActivityResult> {
+            View.OnClickListener, FragmentResultListener {
 
         @Override
         public void onClick(View v) {
@@ -73,20 +65,6 @@ public class IngredientsFragment extends Fragment implements Observer {
 
                 adapter.notifyItemRemoved(pos);
             }
-        }
-
-        @Override
-        public void onEditClick(int pos) {
-            Ingredient ingredient = ingredients.get(pos);
-
-            // Instead of pass gson, pass every attribute of ingredient
-            Gson gson = new Gson();
-            String digest = gson.toJson(ingredient);
-
-            Intent intent = new Intent(getContext(), ViewIngredient.class);
-            intent.putExtra("ingredient", digest);
-
-            launcher.launch(intent);
         }
 
         private void openAddIngredientDialog() {
@@ -107,20 +85,6 @@ public class IngredientsFragment extends Fragment implements Observer {
                         result.getString("location"));
             }
         }
-
-        @Override
-        public void onActivityResult(ActivityResult result) {
-            if (result.getResultCode() == 0) {
-                Intent intent = result.getData();
-
-                if (intent != null) {
-                    System.out.println(intent.getStringExtra("name"));
-                    System.out.println();
-
-                    controller.update()
-                }
-            }
-        }
     }
 
     @Override
@@ -133,8 +97,6 @@ public class IngredientsFragment extends Fragment implements Observer {
         controller =
                 new IngredientStorageController(factory.createAccessController(IngrStorageDBController.class.getSimpleName()), this);
         listener = new IngredientsFragmentListener();
-
-        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), listener);
 
         ingredients = controller.retrieve();
     }

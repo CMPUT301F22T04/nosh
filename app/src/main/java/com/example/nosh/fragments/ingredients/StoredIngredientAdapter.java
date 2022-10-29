@@ -32,8 +32,6 @@ public class StoredIngredientAdapter extends
 
     interface RecyclerViewListener {
         void onDeleteButtonClick(int pos);
-
-        void onEditClick(int pos);
     }
 
     void update(ArrayList<Ingredient> ingredients) {
