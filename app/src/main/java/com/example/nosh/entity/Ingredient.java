@@ -3,6 +3,7 @@ package com.example.nosh.entity;
 import com.google.common.hash.Hashing;
 import com.google.firebase.Timestamp;
 
+import java.io.Serializable;
 import java.util.Date;
 
 
