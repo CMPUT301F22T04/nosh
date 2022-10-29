@@ -15,7 +15,7 @@ import androidx.startup.AppInitializer;
 
 import com.example.nosh.MainActivity;
 import com.example.nosh.R;
-import com.example.nosh.database.FirebaseAuthInitializer;
+import com.example.nosh.database.Initializer.FirebaseAuthInitializer;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
