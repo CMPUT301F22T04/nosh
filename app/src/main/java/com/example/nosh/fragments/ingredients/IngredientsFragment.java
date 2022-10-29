@@ -15,9 +15,9 @@ import androidx.startup.AppInitializer;
 
 import com.example.nosh.R;
 import com.example.nosh.controller.IngredientStorageController;
-import com.example.nosh.database.DBControllerFactory;
-import com.example.nosh.database.DBControllerFactoryInitializer;
-import com.example.nosh.database.IngrStorageDBController;
+import com.example.nosh.database.controller.DBControllerFactory;
+import com.example.nosh.database.Initializer.DBControllerFactoryInitializer;
+import com.example.nosh.database.controller.IngredientDBController;
 import com.example.nosh.entity.Ingredient;
 
 import java.util.ArrayList;
@@ -95,7 +95,7 @@ public class IngredientsFragment extends Fragment implements Observer {
                 AppInitializer.getInstance(requireContext()).initializeComponent(DBControllerFactoryInitializer.class);
 
         controller =
-                new IngredientStorageController(factory.createAccessController(IngrStorageDBController.class.getSimpleName()), this);
+                new IngredientStorageController(factory.createAccessController(IngredientDBController.class.getSimpleName()), this);
         listener = new IngredientsFragmentListener();
 
         ingredients = controller.retrieve();
