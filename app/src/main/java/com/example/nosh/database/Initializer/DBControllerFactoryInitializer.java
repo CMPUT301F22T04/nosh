@@ -1,10 +1,11 @@
-package com.example.nosh.database;
+package com.example.nosh.database.Initializer;
 
 import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.startup.Initializer;
 
+import com.example.nosh.database.controller.DBControllerFactory;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Collections;
