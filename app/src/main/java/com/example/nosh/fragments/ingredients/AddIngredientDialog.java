@@ -22,6 +22,9 @@ import com.example.nosh.utils.DateUtil;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * Handles the adding of a new ingredient
+ */
 public class AddIngredientDialog extends DialogFragment implements DatePickerDialog.OnDateSetListener {
     private EditText ingName;
     private EditText ingDescription;
@@ -73,6 +76,9 @@ public class AddIngredientDialog extends DialogFragment implements DatePickerDia
         return view;
     }
 
+    /**
+     * Checks required fields are filled in
+     */
     private boolean validInput() {
         boolean invalidInput = true;
 
@@ -92,6 +98,9 @@ public class AddIngredientDialog extends DialogFragment implements DatePickerDia
         return invalidInput;
     }
 
+    /**
+     * Gets all the new data and calls fragment result
+     */
     private void addIngredientAction() {
         Bundle args = new Bundle();
 
@@ -130,6 +139,9 @@ public class AddIngredientDialog extends DialogFragment implements DatePickerDia
         ingExpirationDate.setText(year + "-" + month + "-" + day);
     }
 
+    /**
+     * Will close the fragment dialog
+     */
     @Override
     public void dismiss() {
         super.dismiss();

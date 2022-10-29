@@ -3,13 +3,14 @@ package com.example.nosh.entity;
 import com.google.common.hash.Hashing;
 import com.google.firebase.Timestamp;
 
+import java.io.Serializable;
 import java.util.Date;
 
 
 /**
  * Generalization ingredient (can be in ingredient storage, recipe, shopping list)
  */
-public class Ingredient {
+public class Ingredient implements Serializable {
 
     private boolean inStorage = false;
     private Date bestBeforeDate;
