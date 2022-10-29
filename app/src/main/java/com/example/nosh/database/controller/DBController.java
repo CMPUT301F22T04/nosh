@@ -1,6 +1,7 @@
-package com.example.nosh.database;
+package com.example.nosh.database.controller;
 
 
+import com.example.nosh.entity.Hashable;
 import com.google.firebase.firestore.CollectionReference;
 
 import java.util.Observable;
@@ -29,13 +30,13 @@ public abstract class DBController extends Observable {
         this.ref = ref;
     }
 
-    abstract public void create(Object o);
+    abstract public void create(Hashable o);
 
-    abstract public Object retrieve(Object o);
+    abstract public Object retrieve(Hashable o);
 
     abstract public void retrieve();
 
-    abstract public void update(Object o);
+    abstract public void update(Hashable o);
 
-    abstract public void delete(Object o);
+    abstract public void delete(Hashable o);
 }
