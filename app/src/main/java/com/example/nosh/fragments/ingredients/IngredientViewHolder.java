@@ -28,6 +28,8 @@ class IngredientViewHolder extends RecyclerView.ViewHolder {
         public void onClick(View v) {
             if (v.getId() == delBtn.getId()) {
                 listener.onDeleteButtonClick(getAdapterPosition());
+            } else {
+                listener.onEditClick(getAdapterPosition());
             }
         }
     }
@@ -43,6 +45,7 @@ class IngredientViewHolder extends RecyclerView.ViewHolder {
         ViewHolderListener viewHolderListener = new ViewHolderListener(listener);
 
         delBtn.setOnClickListener(viewHolderListener);
+        itemView.setOnClickListener(viewHolderListener);
     }
 
     TextView getNameTxtView() {

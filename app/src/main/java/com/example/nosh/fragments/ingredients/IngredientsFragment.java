@@ -67,6 +67,17 @@ public class IngredientsFragment extends Fragment implements Observer {
             }
         }
 
+        @Override
+        public void onEditClick(int pos) {
+            Ingredient ingredient = ingredients.get(pos);
+            openEditIngredientDialog(ingredient);
+        }
+
+        private void openEditIngredientDialog(Ingredient ingredient) {
+            EditIngredientDialog editIngredientDialog = EditIngredientDialog.newInstance(ingredient);
+            editIngredientDialog.show(getParentFragmentManager(), "EDIT_INGREDIENT");
+        }
+
         private void openAddIngredientDialog() {
             AddIngredientDialog addIngredientDialog = AddIngredientDialog.newInstance();
             addIngredientDialog.show(getParentFragmentManager(), "ADD_INGREDIENT");
@@ -83,6 +94,10 @@ public class IngredientsFragment extends Fragment implements Observer {
                         result.getString("description"),
                         result.getString("category"),
                         result.getString("location"));
+            }
+            if (requestKey.equals("edit_ingredient")) {
+                // TODO: implement update once back-end PR is merged
+                // controller.update();
             }
         }
     }
@@ -122,6 +137,12 @@ public class IngredientsFragment extends Fragment implements Observer {
                 .getSupportFragmentManager()
                 .setFragmentResultListener(
                         "add_ingredient",
+                        getViewLifecycleOwner(),
+                        listener);
+        requireActivity()
+                .getSupportFragmentManager()
+                .setFragmentResultListener(
+                        "edit_ingredient",
                         getViewLifecycleOwner(),
                         listener);
 
