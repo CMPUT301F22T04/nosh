@@ -1,4 +1,4 @@
-package com.example.nosh.database;
+package com.example.nosh.database.Initializer;
 
 import android.content.Context;
 
