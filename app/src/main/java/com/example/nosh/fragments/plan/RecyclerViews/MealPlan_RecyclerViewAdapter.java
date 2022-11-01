@@ -1,4 +1,4 @@
-package com.example.nosh.fragments.plan;
+package com.example.nosh.fragments.plan.RecyclerViews;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nosh.R;
+import com.example.nosh.fragments.plan.MockMealPlan;
 
 import java.util.ArrayList;
 

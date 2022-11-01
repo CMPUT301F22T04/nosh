@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.nosh.R;
+import com.example.nosh.fragments.plan.RecyclerViews.MealSpan_RecyclerViewAdapter;
 
 import java.util.ArrayList;
 
@@ -20,7 +21,8 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class PlanFragment extends Fragment {
-    ArrayList<MockMealPlan> mealPlans = new ArrayList<>();
+    //ArrayList<MockMealPlan> mealPlans = new ArrayList<>();
+    ArrayList<MealDay> mealDays = new ArrayList<>();
 
     public PlanFragment() {
         // Required empty public constructor
@@ -45,7 +47,11 @@ public class PlanFragment extends Fragment {
 
         setUpTestData();
 
-        MealPlan_RecyclerViewAdapter adapter = new MealPlan_RecyclerViewAdapter(getContext(), mealPlans);
+        //MealPlan_RecyclerViewAdapter adapter = new MealPlan_RecyclerViewAdapter(getContext(), mealPlans);
+        //recyclerView.setAdapter(adapter);
+        //recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        MealSpan_RecyclerViewAdapter adapter = new MealSpan_RecyclerViewAdapter(getContext(), mealDays);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -53,11 +59,12 @@ public class PlanFragment extends Fragment {
     }
 
     private void setUpTestData(){
-        String[] planNames = {"Vegan Diet", "Uni Meal Prep", "Mom's Recipes"};
-        String[] planSpans = {"Dec 10 2022 - Dec 14 2022", "Dec 15 2022 - Dec 24 2022", "Jan 1 2022 - Jan 30 2022"};
+        //String[] planNames = {"Vegan Diet", "Uni Meal Prep", "Mom's Recipes"};
+        //String[] planSpans = {"Dec 10 2022 - Dec 14 2022", "Dec 15 2022 - Dec 24 2022", "Jan 1 2022 - Jan 30 2022"};
+        String[] days = {"Dec 10 2022", "Dec 15 2022", "Jan 1 2022"};
 
-        for (int i = 0; i < planNames.length; i++){
-            mealPlans.add(new MockMealPlan(planNames[i], planSpans[i]));
+        for (int i = 0; i < days.length; i++){
+            mealDays.add(new MealDay(days[i]));
         }
     }
 }
