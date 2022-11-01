@@ -61,7 +61,6 @@ public class IngredientsFragment extends Fragment implements Observer {
         public void onDeleteButtonClick(int pos) {
             if (pos >= 0) {
                 controller.delete(ingredients.get(pos));
-                ingredients.remove(pos);
 
                 adapter.notifyItemRemoved(pos);
             }
