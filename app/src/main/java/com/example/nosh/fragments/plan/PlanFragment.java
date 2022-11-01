@@ -3,6 +3,8 @@ package com.example.nosh.fragments.plan;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,56 +12,52 @@ import android.view.ViewGroup;
 
 import com.example.nosh.R;
 
+import java.util.ArrayList;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link PlanFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class PlanFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    ArrayList<MockMealPlan> mealPlans = new ArrayList<>();
 
     public PlanFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment PlanFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static PlanFragment newInstance(String param1, String param2) {
         PlanFragment fragment = new PlanFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_plan, container, false);
+        View v = inflater.inflate(R.layout.fragment_plan, container, false);
+
+        RecyclerView recyclerView = v.findViewById(R.id.plan_recycler_view);
+
+        setUpTestData();
+
+        MealPlan_RecyclerViewAdapter adapter = new MealPlan_RecyclerViewAdapter(getContext(), mealPlans);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        return v;
+    }
+
+    private void setUpTestData(){
+        String[] planNames = {"Vegan Diet", "Uni Meal Prep", "Mom's Recipes"};
+        String[] planSpans = {"Dec 10 2022 - Dec 14 2022", "Dec 15 2022 - Dec 24 2022", "Jan 1 2022 - Jan 30 2022"};
+
+        for (int i = 0; i < planNames.length; i++){
+            mealPlans.add(new MockMealPlan(planNames[i], planSpans[i]));
+        }
     }
 }
