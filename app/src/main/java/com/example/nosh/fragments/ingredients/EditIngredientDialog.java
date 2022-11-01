@@ -142,6 +142,8 @@ public class EditIngredientDialog extends DialogFragment implements DatePickerDi
                ingredient.getCategory() :
                 ingCategory.getText().toString());
 
+        args.putString("hashcode", ingredient.getHashcode());
+        args.putString("name", ingredient.getName());
         args.putString("description", description);
         args.putSerializable("date", date);
         args.putString("location", storageLocation);
