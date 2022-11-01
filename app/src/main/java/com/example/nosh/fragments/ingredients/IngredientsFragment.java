@@ -96,8 +96,15 @@ public class IngredientsFragment extends Fragment implements Observer {
                         result.getString("location"));
             }
             if (requestKey.equals("edit_ingredient")) {
-                // TODO: implement update once back-end PR is merged
-                // controller.update();
+                controller.update(
+                        result.getString("hashcode"),
+                        (Date) result.getSerializable("date"),
+                        result.getInt("qty"),
+                        result.getDouble("unit"),
+                        result.getString("name"),
+                        result.getString("description"),
+                        result.getString("category"),
+                        result.getString("location"));
             }
         }
     }
