@@ -26,13 +26,24 @@
                 app:layout_constraintHeight="true" />
         </LinearLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/btn_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/btn_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageButton
+            android:id="@+id/sort_button"
+            android:layout_width="53dp"
+            android:layout_height="54dp"
+            android:layout_marginEnd="4dp"
+            android:contentDescription="@string/sort_ingredient"
+            android:src="@drawable/ic_sort"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintEnd_toStartOf="@+id/add_btn"
+            app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
                 android:id="@+id/add_btn"

@@ -19,7 +19,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.Date;
 
+/**
+ * This class handles the login of a user, it will authenticate with FireBase
+ * The user can switch to the register activity if they already have an account
+ * @author JulianCamiloGallego
+ * @version 1.0
+ */
 public class Login extends AppCompatActivity {
     private EditText loginEmail;
     private EditText loginPassword;
