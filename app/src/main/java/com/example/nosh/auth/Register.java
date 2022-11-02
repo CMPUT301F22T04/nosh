@@ -115,7 +115,7 @@ public class Register extends AppCompatActivity {
     }
 
     private boolean isSignedIn() {
-        return fAuth.getCurrentUser() != null;
+        return true;
     }
 
     private void launchLogin() {
