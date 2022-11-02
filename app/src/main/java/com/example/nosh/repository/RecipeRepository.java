@@ -10,9 +10,11 @@ import java.util.HashMap;
 import java.util.Observable;
 
 
+
 public class RecipeRepository extends Repository {
 
     private final HashMap<String, Recipe> recipes;
+
 
     public RecipeRepository(DBController dbController) {
         super(dbController);
