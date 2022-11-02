@@ -44,7 +44,7 @@ public class IngredientAdapter extends
     public IngredientViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
                                                    int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.stored_ingredient_entry, parent, false);
+        View view = inflater.inflate(R.layout.ingredient_entry, parent, false);
 
         return new IngredientViewHolder(listener, view);
     }
@@ -55,7 +55,6 @@ public class IngredientAdapter extends
         holder.getNameTxtView().setText(ingredients.get(position).getName());
         holder.getDescriptionTxtView().setText(ingredients.get(position).
                 getDescription());
-
     }
 
     @Override
