@@ -93,8 +93,7 @@ public class IngredientsFragment extends Fragment implements Observer {
                         result.getString("description"),
                         result.getString("category"),
                         result.getString("location"));
-            }
-            if (requestKey.equals("edit_ingredient")) {
+            } else if (requestKey.equals("edit_ingredient")) {
                 controller.update(
                         result.getString("hashcode"),
                         (Date) result.getSerializable("date"),
@@ -128,7 +127,7 @@ public class IngredientsFragment extends Fragment implements Observer {
         View v = inflater.inflate(R.layout.fragment_ingredients, container, false);
 
 
-        RecyclerView recyclerView = v.findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = v.findViewById(R.id.ingr_recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
 
         adapter = new IngredientAdapter(listener, getContext(), ingredients);
@@ -155,6 +154,13 @@ public class IngredientsFragment extends Fragment implements Observer {
         return v;
     }
 
+
+    /**
+     * Receive notification from Ingredient Repository that there are new changes in
+     * data / entity objects. Retrieve the latest copy of the data
+     * @param o
+     * @param arg
+     */
     @Override
     public void update(Observable o, Object arg) {
         ingredients = controller.retrieve();
