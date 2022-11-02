@@ -4,6 +4,7 @@ import com.google.common.hash.Hashing;
 import com.google.firebase.Timestamp;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.Date;
 
 
@@ -20,6 +21,8 @@ public class Ingredient implements Hashable, Serializable {
     private String description = "";
     private String location = "";
     private String name = "";
+    private boolean Ascending = false;
+    private boolean Descending = false;
 
     /**
      * This field is used for Id of a document in the database
@@ -129,4 +132,118 @@ public class Ingredient implements Hashable, Serializable {
     public void setHashcode(String hashcode) {
         this.hashcode = hashcode;
     }
+
+    public boolean getAscending(){return Ascending;}
+
+    public void setAscending(boolean value){
+        Ascending = value;
+    }
+    public boolean getDescending(){return Descending;}
+
+    public void setDescending(boolean value){
+        Descending = value;
+    }
+
+
+
+    /**
+     * Following  4 functions are custom comparator functions for sorting
+     */
+    public static Comparator<Ingredient> DescriptionComparator = new Comparator<Ingredient>() {
+
+        public int compare(Ingredient d1, Ingredient d2) {
+            String desc1 = d1.getDescription().toUpperCase();
+            String desc2 = d2.getDescription().toUpperCase();
+
+            //ascending order
+            return desc1.compareTo(desc2);
+
+            //descending order
+            //return StudentName2.compareTo(StudentName1);
+        }};
+    public static Comparator<Ingredient> DateComparator = new Comparator<Ingredient>() {
+
+        public int compare(Ingredient d1, Ingredient d2) {
+            Date date1 = d1.getBestBeforeDate();
+            Date date2 = d2.getBestBeforeDate();
+
+            //ascending order
+            return date1.compareTo(date2);
+
+            //descending order
+            //return StudentName2.compareTo(StudentName1);
+        }};
+    public static Comparator<Ingredient> LocationComparator = new Comparator<Ingredient>() {
+
+        public int compare(Ingredient l1, Ingredient l2) {
+            String loc1 = l1.getLocation().toUpperCase();
+            String loc2 = l2.getLocation().toUpperCase();
+
+            //ascending order
+            return loc1.compareTo(loc2);
+
+            //descending order
+            //return StudentName2.compareTo(StudentName1);
+        }};
+    public static Comparator<Ingredient> CategoryComparator = new Comparator<Ingredient>() {
+
+        public int compare(Ingredient c1, Ingredient c2) {
+            String cat1 = c1.getCategory().toUpperCase();
+            String cat2 = c2.getCategory().toUpperCase();
+
+            //ascending order
+            return cat1.compareTo(cat2);
+
+            //descending order
+            //return StudentName2.compareTo(StudentName1);
+        }};
+
+    public static Comparator<Ingredient> DescriptionComparatorD = new Comparator<Ingredient>() {
+
+        public int compare(Ingredient d1, Ingredient d2) {
+            String desc1 = d1.getDescription().toUpperCase();
+            String desc2 = d2.getDescription().toUpperCase();
+
+            //ascending order
+            return desc2.compareTo(desc1);
+
+            //descending order
+            //return StudentName2.compareTo(StudentName1);
+        }};
+    public static Comparator<Ingredient> DateComparatorD = new Comparator<Ingredient>() {
+
+        public int compare(Ingredient d1, Ingredient d2) {
+            Date date1 = d1.getBestBeforeDate();
+            Date date2 = d2.getBestBeforeDate();
+
+            //ascending order
+            return date2.compareTo(date1);
+
+            //descending order
+            //return StudentName2.compareTo(StudentName1);
+        }};
+    public static Comparator<Ingredient> LocationComparatorD = new Comparator<Ingredient>() {
+
+        public int compare(Ingredient l1, Ingredient l2) {
+            String loc1 = l1.getLocation().toUpperCase();
+            String loc2 = l2.getLocation().toUpperCase();
+
+            //ascending order
+            return loc2.compareTo(loc1);
+
+            //descending order
+            //return StudentName2.compareTo(StudentName1);
+        }};
+    public static Comparator<Ingredient> CategoryComparatorD = new Comparator<Ingredient>() {
+
+        public int compare(Ingredient c1, Ingredient c2) {
+            String cat1 = c1.getCategory().toUpperCase();
+            String cat2 = c2.getCategory().toUpperCase();
+
+            //ascending order
+            return cat2.compareTo(cat1);
+
+            //descending order
+            //return StudentName2.compareTo(StudentName1);
+        }};
 }
