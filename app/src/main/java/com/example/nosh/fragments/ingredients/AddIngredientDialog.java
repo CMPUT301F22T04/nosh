@@ -23,7 +23,11 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * Handles the adding of a new ingredient
+ * This class takes input from the user and returns it to the parent fragment to create a new ingredient,
+ * ingName {@link String}, ingDescription {@link String}, ingExpirationDate {@link Date}, ingStorageLocation {@link String},
+ * ingQuantity {@link String}, ingUnit {@link String}, ingCategory {@link String}
+ * @author JulianCamiloGallego
+ * @version 1.0
  */
 public class AddIngredientDialog extends DialogFragment implements DatePickerDialog.OnDateSetListener {
     private EditText ingName;
@@ -34,6 +38,11 @@ public class AddIngredientDialog extends DialogFragment implements DatePickerDia
     private EditText ingUnit;
     private EditText ingCategory;
 
+    /**
+     * This is a newInstance method to create a AddIngredientDialog instance.
+     * optionally parameters can be set to pass in data to the fragment from the parent fragment
+     * @return AddIngredientDialog
+     */
     public static AddIngredientDialog newInstance() {
         return new AddIngredientDialog();
     }
@@ -44,14 +53,16 @@ public class AddIngredientDialog extends DialogFragment implements DatePickerDia
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.add_ingredient_layout, container, false);
-        // DatePickerDialog used for the date
+
+        // DatePickerDialog initialization
         Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
         DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext(), this, year,
                 month, day);
-        // fields
+
+        // views
         ingName = view.findViewById(R.id.add_name);
         ingDescription = view.findViewById(R.id.add_description);
         ingExpirationDate = view.findViewById(R.id.add_date);
@@ -59,11 +70,11 @@ public class AddIngredientDialog extends DialogFragment implements DatePickerDia
         ingQuantity = view.findViewById(R.id.add_qty);
         ingUnit = view.findViewById(R.id.add_unit);
         ingCategory = view.findViewById(R.id.add_ingredient_category);
-        // listeners
-        ingExpirationDate.setOnClickListener(v -> datePickerDialog.show());
-
         Button submitButton = view.findViewById(R.id.submit_add);
         ImageButton cancelButton = view.findViewById(R.id.cancel_add);
+
+        // listeners
+        ingExpirationDate.setOnClickListener(v -> datePickerDialog.show());
 
         cancelButton.setOnClickListener(v -> dismiss());
 
@@ -77,7 +88,8 @@ public class AddIngredientDialog extends DialogFragment implements DatePickerDia
     }
 
     /**
-     * Checks required fields are filled in
+     * This methods checks if the user filled in all the required fields
+     * @return boolean
      */
     private boolean validInput() {
         boolean invalidInput = true;
@@ -99,7 +111,7 @@ public class AddIngredientDialog extends DialogFragment implements DatePickerDia
     }
 
     /**
-     * Gets all the new data and calls fragment result
+     * This methods stores all user input into a bundle and passes it back to the parent.
      */
     private void addIngredientAction() {
         Bundle args = new Bundle();
@@ -120,10 +132,12 @@ public class AddIngredientDialog extends DialogFragment implements DatePickerDia
         dismiss();
     }
 
+    /**
+     * This methods formats Date String to be in the yyyy-mm-dd format.
+     */
     @SuppressLint("SetTextI18n")
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-        // Format Date String to be in the yyyy-mm-dd format
         if (Integer.toString(month).length() == 1 && Integer.toString(day).length() == 1) {
             ingExpirationDate.setText(year + "-" + "0" + month + "-" + "0" + day);
             return;
@@ -140,7 +154,7 @@ public class AddIngredientDialog extends DialogFragment implements DatePickerDia
     }
 
     /**
-     * Will close the fragment dialog
+     * This method will dismiss the fragment dialog.
      */
     @Override
     public void dismiss() {

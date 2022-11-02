@@ -1,13 +1,10 @@
 package com.example.nosh.fragments.ingredients;
 
-import android.content.Context;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -16,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.startup.AppInitializer;
 
-import com.example.nosh.MainActivity;
 import com.example.nosh.R;
 import com.example.nosh.controller.IngredientStorageController;
 import com.example.nosh.database.controller.DBControllerFactory;
@@ -31,27 +27,33 @@ import java.util.Observable;
 import java.util.Observer;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link IngredientsFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * This class is the parent IngredientFragment class, it will take care of displaying the list of
+ * ingredients, allow users to view/edit ingredients and adding new ingredients.
+ * The class will instantiate new fragments for each functionality
+ * @authors JulianCamiloGallego, Dekr0, FNov10
+ * @version 1.0
  */
 public class IngredientsFragment extends Fragment implements Observer {
+    private ArrayList<Ingredient> ingredients;
 
-    private ImageButton addButton;
-    private StoredIngredientAdapter adapter;
     private IngredientStorageController controller;
     private IngredientsFragmentListener listener;
-    private ArrayList<Ingredient> ingredients;
-    private ImageButton sortbutton;
+
+    private StoredIngredientAdapter adapter;
+    private ImageButton addButton;
+    private ImageButton sortButton;
     private String flag = "s";
 
+    /**
+     * Required empty constructor
+     */
+    public IngredientsFragment() {}
 
-
-
-    public IngredientsFragment() {
-
-    }
-
+    /**
+     * Returns a new instance of ingredients fragment
+     * optionally parameters can be set to pass data
+     * @return IngredientsFragment
+     */
     public static IngredientsFragment newInstance() {
         return new IngredientsFragment();
     }
@@ -62,14 +64,11 @@ public class IngredientsFragment extends Fragment implements Observer {
 
         @Override
         public void onClick(View v) {
-
-
-
             if (v.getId() == addButton.getId()) {
                 openAddIngredientDialog();
             }
 
-            if (v.getId() == sortbutton.getId()) {
+            if (v.getId() == sortButton.getId()) {
                 openSortIngredientDialog();
             }
         }
@@ -104,8 +103,10 @@ public class IngredientsFragment extends Fragment implements Observer {
             sortIngredientDialog.show(getChildFragmentManager(),"SORT_INGREDIENT");
         }
 
-
-            @Override
+        /**
+         * This method handles the results from the child fragments spawned
+         */
+        @Override
         public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
             if (requestKey.equals("add_ingredient")) {
                 controller.add(
@@ -128,8 +129,6 @@ public class IngredientsFragment extends Fragment implements Observer {
                         result.getString("description"),
                         result.getString("category"),
                         result.getString("location"));
-
-
             }
 
             if (requestKey.equals("sort_description")) {
@@ -157,9 +156,7 @@ public class IngredientsFragment extends Fragment implements Observer {
                 adapter.notifyItemRangeChanged(0, ingredients.size());
             }
 
-                /**Descending
-                 *
-                 */
+            // descending
             if (requestKey.equals("sort_descriptionD")) {
                 ingredients = controller.retrieve();
                 Collections.sort(ingredients, Ingredient.DescriptionComparatorD);
@@ -184,7 +181,6 @@ public class IngredientsFragment extends Fragment implements Observer {
                 adapter.update(ingredients);
                 adapter.notifyItemRangeChanged(0, ingredients.size());
             }
-
         }
     }
 
@@ -208,7 +204,6 @@ public class IngredientsFragment extends Fragment implements Observer {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_ingredients, container, false);
 
-
         RecyclerView recyclerView = v.findViewById(R.id.recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
 
@@ -220,8 +215,8 @@ public class IngredientsFragment extends Fragment implements Observer {
         addButton = v.findViewById(R.id.add_btn);
         addButton.setOnClickListener(listener);
 
-        sortbutton = v.findViewById(R.id.sort_button);
-        sortbutton.setOnClickListener(listener);
+        sortButton = v.findViewById(R.id.sort_button);
+        sortButton.setOnClickListener(listener);
 
         requireActivity()
                 .getSupportFragmentManager()
@@ -235,7 +230,6 @@ public class IngredientsFragment extends Fragment implements Observer {
                         "edit_ingredient",
                         getViewLifecycleOwner(),
                         listener);
-
         requireActivity()
                 .getSupportFragmentManager()
                 .setFragmentResultListener(
@@ -291,19 +285,13 @@ public class IngredientsFragment extends Fragment implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         //flag = "true";
-
         ingredients = controller.retrieve();
         if(flag == "true"){
             System.out.println(2);
             Collections.sort(ingredients, Ingredient.DescriptionComparator);
-
         }
-
 
         adapter.update(ingredients);
         adapter.notifyItemRangeChanged(0, ingredients.size());
-
-
     }
-
 }
