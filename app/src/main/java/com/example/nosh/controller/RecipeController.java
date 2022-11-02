@@ -21,6 +21,16 @@ public class RecipeController {
         recipeRepository.sync();
     }
 
+    /**
+     * Receive all necessary information from users to create a a new recipe
+     * @param preparationTime
+     * @param servings
+     * @param category
+     * @param comments
+     * @param photograph
+     * @param title
+     * @param ingredients
+     */
     public void add(double preparationTime, int servings, String category, String comments,
                     String photograph, String title, ArrayList<Ingredient> ingredients) {
 
@@ -28,10 +38,18 @@ public class RecipeController {
                 photograph, title, ingredients);
     }
 
+    /**
+     * Return a list of copy references of recipe objects
+     * @return
+     */
     public ArrayList<Recipe> retrieve() {
         return recipeRepository.retrieve();
     }
 
+    /**
+     * Delete a recipe
+     * @param recipe
+     */
     public void delete(Recipe recipe) {
         recipeRepository.delete(recipe);
     }
