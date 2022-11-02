@@ -21,7 +21,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-
+/**
+ * This class handles the registration of a user, it will authenticate with FireBase
+ * The user can switch to the login activity if they already have an account
+ * @author JulianCamiloGallego
+ * @version 1.0
+ */
 public class Register extends AppCompatActivity {
 
     private Button registerButton;

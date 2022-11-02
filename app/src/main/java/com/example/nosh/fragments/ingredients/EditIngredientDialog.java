@@ -24,7 +24,12 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * This fragment will handle both the view and editing of an ingredient
+ * This class takes input from the user and returns it to the parent fragment for the editing of an existing ingredient,
+ * The viewing and editing functionality are both handled here,
+ * ingName {@link String}, ingDescription {@link String}, ingExpirationDate {@link Date}, ingStorageLocation {@link String},
+ * ingQuantity {@link String}, ingUnit {@link String}, ingCategory {@link String}
+ * @author JulianCamiloGallego
+ * @version 1.0
  */
 public class EditIngredientDialog extends DialogFragment implements DatePickerDialog.OnDateSetListener {
     private EditText ingDescription;
@@ -35,7 +40,9 @@ public class EditIngredientDialog extends DialogFragment implements DatePickerDi
     private EditText ingCategory;
 
     /**
-     * Used to pass data to the fragment
+     * This is a newInstance method to create a EditIngredientDialog instance.
+     * @param ingredient stores the ingredient the user wished to edit/view {@link Ingredient}
+     * @return EditIngredientDialog
      */
     public static EditIngredientDialog newInstance(Ingredient ingredient) {
         EditIngredientDialog frag = new EditIngredientDialog();
@@ -53,30 +60,31 @@ public class EditIngredientDialog extends DialogFragment implements DatePickerDi
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.edit_ingredient_layout, container, false);
 
+        // get ingredient data and populate UI
         assert getArguments() != null;
         Ingredient ingredient = (Ingredient) getArguments().getSerializable("ingredient");
-
         populateFields(view, ingredient);
 
-        // DatePickerDialog used for the date
+        // DatePickerDialog initialization
         Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
         DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext(), this, year,
                 month, day);
-        // fields
+
+        // views
         ingDescription = view.findViewById(R.id.edit_description);
         ingExpirationDate = view.findViewById(R.id.edit_date);
         ingStorageLocation = view.findViewById(R.id.edit_storage_location);
         ingQuantity = view.findViewById(R.id.edit_qty);
         ingUnit = view.findViewById(R.id.edit_unit);
         ingCategory = view.findViewById(R.id.edit_ingredient_category);
-        // listeners
-        ingExpirationDate.setOnClickListener(v -> datePickerDialog.show());
-
         Button submitButton = view.findViewById(R.id.submit_edit);
         ImageButton cancelButton = view.findViewById(R.id.cancel_edit);
+
+        // listeners
+        ingExpirationDate.setOnClickListener(v -> datePickerDialog.show());
 
         cancelButton.setOnClickListener(v -> dismiss());
 
@@ -88,7 +96,7 @@ public class EditIngredientDialog extends DialogFragment implements DatePickerDi
     }
 
     /**
-     * Populates all the fields in the UI
+     * This method populates all the fields in the UI with the ingredient data
      */
     private void populateFields(View view, Ingredient ingredient){
         TextView name = view.findViewById(R.id.edit_name);
@@ -110,8 +118,8 @@ public class EditIngredientDialog extends DialogFragment implements DatePickerDi
     }
 
     /**
-     * Gets all the new data and calls fragment result
-     * if the user does not enter a new value the old value will be taken instead
+     * This methods stores all user input into a bundle and passes it back to the parent,
+     * if the user does not enter a new value the old value will be taken instead.
      */
     private void editIngredientAction(Ingredient ingredient) {
         Bundle args = new Bundle();
@@ -156,6 +164,9 @@ public class EditIngredientDialog extends DialogFragment implements DatePickerDi
         dismiss();
     }
 
+    /**
+     * This methods formats Date String to be in the yyyy-mm-dd format.
+     */
     @SuppressLint("SetTextI18n")
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
@@ -176,7 +187,7 @@ public class EditIngredientDialog extends DialogFragment implements DatePickerDi
     }
 
     /**
-     * Will close the fragment dialog
+     * This method will dismiss the fragment dialog.
      */
     @Override
     public void dismiss() {
