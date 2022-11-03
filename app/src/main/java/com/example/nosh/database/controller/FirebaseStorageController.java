@@ -56,12 +56,18 @@ public class FirebaseStorageController {
     }
 
     private void cacheIn(List<StorageReference> refs) throws IOException {
+        File cacheDir = context.getCacheDir();
+        File usrDir = new File(cacheDir, rootRef.getName());
+
+        usrDir.mkdirs();
+
         for (StorageReference ref : refs) {
             // Current file structure : /[uid]/...
             String[] filename = ref.getPath().split("/")[2].split("\\.");
-            File tempFile = File.createTempFile(filename[0], filename[1]);
+            File tempFile = File.createTempFile(filename[0], "." + filename[1], usrDir);
 
-            // Default location seems to be at DCIM folder
+            // Save to cache folder in the internal app storage
+            // Path: /data/usr/0/com.example.nosh/cache
             ref.getFile(tempFile)
                     .addOnSuccessListener(
                             taskSnapshot -> Log.d("Download", "Download Successfully")
