@@ -1,9 +1,13 @@
 package com.example.nosh.controller;
 
 
+import android.content.Context;
+
 import com.example.nosh.database.controller.DBController;
+import com.example.nosh.database.controller.FirebaseStorageController;
 import com.example.nosh.entity.Ingredient;
 import com.example.nosh.entity.Recipe;
+import com.example.nosh.repository.RecipeImageRepository;
 import com.example.nosh.repository.RecipeRepository;
 
 import java.util.ArrayList;
@@ -14,8 +18,13 @@ public class RecipeController {
 
     private final RecipeRepository recipeRepository;
 
-    public RecipeController(DBController dbController, Observer o) {
-        recipeRepository = new RecipeRepository(dbController);
+    public RecipeController(Context context, DBController dbController,
+                            FirebaseStorageController storageController, Observer o) {
+
+        recipeRepository = new RecipeRepository(
+                dbController,
+                new RecipeImageRepository(context, storageController)
+        );
 
         recipeRepository.addObserver(o);
         recipeRepository.sync();
