@@ -20,7 +20,7 @@ Welcome to the nosh, a meal planning mobile application!
 | Lok Him Isaac Cheng | lokhimis | 
 
 ## Introduction
-To assist in meal planning, we want a mobile application that allows one to track their food storage, record their recipes, plan their meals for several days, and prepare shopping lists.
+To assist in meal planning, we created a mobile application that allows user to track their food storage, record their recipes, plan their meals for several days, and prepare shopping lists.
 
 
 ## Installation
