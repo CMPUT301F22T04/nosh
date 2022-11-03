@@ -11,8 +11,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import javax.inject.Inject;
-
 
 public class FirebaseStorageController {
 
