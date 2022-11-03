@@ -1,9 +1,8 @@
 package com.example.nosh.fragments.recipes;
 
-import android.app.DatePickerDialog;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -16,14 +15,15 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nosh.R;
-
-import java.util.Calendar;
 
 
 public class AddRecipeDialog extends DialogFragment {
@@ -35,18 +35,70 @@ public class AddRecipeDialog extends DialogFragment {
     private EditText categoryInput;
     private EditText commentInput;
     private Button add;
-    private Button add_ingredient ;
-    private String image_uri;
+    private Button addIngredient;
+    private String imageUri;
 
+    private AddRecipeDialogListener listener;
+    private ActivityResultLauncher<Intent> launcher;
+
+    private class AddRecipeDialogListener implements View.OnClickListener,
+            ActivityResultCallback<ActivityResult> {
+
+        @Override
+        public void onClick(View v) {
+            if (v.getId() == add.getId()) {
+                if (validInput()) {
+                    addRecipeAction();
+                }
+            } else if (v.getId() == photo.getId()) {
+                Intent photoPicker = new Intent();
+
+                photoPicker.setType("image/*");
+                photoPicker.setAction(Intent.ACTION_GET_CONTENT);
+
+                launcher.launch(photoPicker);
+            } else if (v.getId() == backButton.getId()) {
+                dismiss();
+            }
+        }
+
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            if (result.getResultCode() == Activity.RESULT_OK) {
+                Intent data = result.getData();
+
+                if (data != null && data.getData() != null) {
+                    Uri uri = data.getData();
+
+                    imageUri = uri.getPath();
+                    photo.setImageURI(uri);
+                }
+            }
+        }
+    }
 
     public static AddRecipeDialog newInstance() {
         return new AddRecipeDialog();
     }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        listener = new AddRecipeDialogListener();
+
+        launcher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                listener
+        );
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+
         View view = inflater.inflate(R.layout.add_recipe, container, false);
         // fields
         backButton = view.findViewById(R.id.back_button);
@@ -59,35 +111,17 @@ public class AddRecipeDialog extends DialogFragment {
         categoryInput = view.findViewById(R.id.category_input);
         commentInput = view.findViewById(R.id.add_description);
         add = view.findViewById(R.id.save);
-        add_ingredient = view.findViewById(R.id.add_ingredient);
+        addIngredient = view.findViewById(R.id.add_ingredient);
+
         // listeners
         //Back out of program
-        backButton.setOnClickListener(v -> dismiss());
+        backButton.setOnClickListener(listener);
+        add.setOnClickListener(listener);
+        photo.setOnClickListener(listener);
 
-        add.setOnClickListener(v -> {
-            if (validInput()) {
-                addRecipeAction();
-            }
-        });
-        photo.setOnClickListener(v -> {
-            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-            photoPickerIntent.setType("image/*");
-            startActivityForResult(photoPickerIntent, 100);
-
-            });
         return view;
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        if (requestCode == 100) {
-          Uri uri = data.getData();
-          image_uri = uri.toString();
-          photo.setImageURI(uri);
-
-        }
-    }
     private boolean validInput() {
         boolean invalidInput = true;
 
@@ -130,7 +164,7 @@ public class AddRecipeDialog extends DialogFragment {
         args.putInt("servings", Integer.parseInt(servingInput.getText().toString()));
         args.putString("category", categoryInput.getText().toString());
         args.putString("comments", commentInput.getText().toString());
-        args.putString("photo",image_uri);
+        args.putString("photo", imageUri);
         requireActivity().getSupportFragmentManager().setFragmentResult("add_recipe", args);
 
         dismiss();
