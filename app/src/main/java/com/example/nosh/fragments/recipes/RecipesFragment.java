@@ -6,7 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.startup.AppInitializer;
 
 import com.example.nosh.R;
@@ -18,6 +22,7 @@ import com.example.nosh.entity.Ingredient;
 import com.example.nosh.entity.Recipe;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -28,58 +33,49 @@ import java.util.Observer;
  * create an instance of this fragment.
  */
 public class RecipesFragment extends Fragment implements Observer {
-
+    //Initalize some needed variables
     private ImageButton addBtn;
 
     private RecipeController controller;
+
+    private StoredRecipeAdapter adapter;
 
     private RecipesFragmentListener listener;
 
     private ArrayList<Recipe> recipes;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
-    private class RecipesFragmentListener implements View.OnClickListener {
+    private class RecipesFragmentListener implements View.OnClickListener, FragmentResultListener,
+    StoredRecipeAdapter.RecyclerViewListener{
 
         @Override
         public void onClick(View v) {
             if (v.getId() == addBtn.getId()) {
-                ArrayList<Ingredient> ingredients = new ArrayList<>();
-
-                ingredients.add(new Ingredient(
-                        1.00,
-                        1,
-                        "category",
-                        "description",
-                        "name"
-                ));
-
-                ingredients.add(new Ingredient(
-                        2.00,
-                        2,
-                        "category",
-                        "description",
-                        "name"
-                ));
-
-
-                controller.add(
-                        2.00,
-                        1,
-                        "category A",
-                        "comments",
-                        "photo",
-                        "title",
-                        ingredients
-                );
+                AddRecipeDialog addRecipeDialog = AddRecipeDialog.newInstance();
+                addRecipeDialog.show(getParentFragmentManager(),"ADD_RECIPE");
             }
+        }
+        @Override
+        public void onEditClick(int pos) {
+            Recipe recipe = recipes.get(pos);
+//            openEditIngredientDialog(ingredient);
+        }
+        @Override
+        public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+            if (requestKey.equals("add_recipe")) {
+                ArrayList<Ingredient> ing = new ArrayList<Ingredient>();
+               controller.add(result.getDouble("prep"),
+                       result.getInt("servings") ,
+                        result.getString("category"),
+                        result.getString("comments"),
+                        result.getString("photo"),
+                        result.getString("name"),
+                        ing
+                        );
+            }
+
+
         }
     }
 
@@ -90,39 +86,31 @@ public class RecipesFragment extends Fragment implements Observer {
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment RecipesFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static RecipesFragment newInstance(String param1, String param2) {
+    public static RecipesFragment newInstance() {
         RecipesFragment fragment = new RecipesFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
+    /**
+     * on creation of fragment we run this class to inialtize
+     */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //initalize the db
         DBControllerFactory factory = AppInitializer
                 .getInstance(requireContext())
                 .initializeComponent(DBControllerFactoryInitializer.class);
 
+        //intialize recipecontroller
         controller = new RecipeController(
                 factory
                         .createAccessController(RecipeDBController.class.getSimpleName()), this);
-
+        //initalize Fragment listener.
         listener = new RecipesFragmentListener();
-
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
 
 
     }
@@ -132,9 +120,20 @@ public class RecipesFragment extends Fragment implements Observer {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_recipes, container, false);
 
+        adapter = new StoredRecipeAdapter(listener,getContext(),recipes);
+
+        RecyclerView recyclerView = v.findViewById(R.id.recycler_view);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+
         addBtn = v.findViewById(R.id.add_recipe_btn);
 
         addBtn.setOnClickListener(listener);
+        requireActivity()
+                .getSupportFragmentManager()
+                .setFragmentResultListener(
+                        "add_recipe",
+                        getViewLifecycleOwner(),
+                        listener);
 
         return v;
     }
@@ -142,12 +141,8 @@ public class RecipesFragment extends Fragment implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         recipes = controller.retrieve();
+        adapter.update(recipes);
+        adapter.notifyItemRangeChanged(0, recipes.size());
 
-        for (Recipe recipe: recipes) {
-            System.out.println(recipe.getHashcode());
-            for (Ingredient ingredient: recipe.getIngredients()) {
-                System.out.println(ingredient.getAmount());
-            }
-        }
     }
 }
