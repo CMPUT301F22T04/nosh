@@ -1,5 +1,13 @@
 ## CMPUT301F22T04
 Welcome to the nosh, a meal planning mobile application!
+
+
+- [Installation](#installation)
+- [Team Members](#team-members)
+- [Page setup](#page-setup)
+- [License](#license)
+- [Links](#links)
+
 ## Team Members
 | Name  | CCID | 
 | ------------- | ------------- |
