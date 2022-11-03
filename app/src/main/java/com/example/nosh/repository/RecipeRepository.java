@@ -2,6 +2,7 @@ package com.example.nosh.repository;
 
 
 import com.example.nosh.database.controller.DBController;
+import com.example.nosh.database.controller.FirebaseStorageController;
 import com.example.nosh.entity.Ingredient;
 import com.example.nosh.entity.Recipe;
 
@@ -14,10 +15,13 @@ import java.util.Observable;
 public class RecipeRepository extends Repository {
 
     private final HashMap<String, Recipe> recipes;
+    private final RecipeImageRepository recipeImageRepository;
 
-
-    public RecipeRepository(DBController dbController) {
+    public RecipeRepository(DBController dbController,
+                            RecipeImageRepository recipeImageRepository) {
         super(dbController);
+
+        this.recipeImageRepository = recipeImageRepository;
 
         recipes = new HashMap<>();
     }
