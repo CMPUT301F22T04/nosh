@@ -4,7 +4,7 @@ Welcome to the nosh, a meal planning mobile application!
 | Name  | CCID | 
 | ------------- | ------------- |
 | Julian Gallego Franco  | gallegof | 
-| Al Hisham Anik | alhisham@ualberta.ca | 
+| Al Hisham Anik | alhisham | 
 | Mohammad Fahad Naveed  | mnaveed1  | 
 | Chengxuan Li | chengxua | 
 | Manav Powar | mpowar | 
