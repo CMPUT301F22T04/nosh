@@ -1,19 +1,13 @@
 package com.example.nosh.fragments.recipes;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.fragment.app.Fragment;
-
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,21 +35,18 @@ public class RecipesFragment extends Fragment implements Observer {
     private RecipeController controller;
     private RecipesFragmentListener listener;
     private ArrayList<Recipe> recipes;
-    private FirebaseStorageController storageController;
-
-    ActivityResultLauncher<Intent> launcher;
 
     /**
      * A event listener class. This class listen all events such as click
      */
     private class RecipesFragmentListener implements
             View.OnClickListener, RecipeAdapter.RecyclerViewListener,
-            ActivityResultCallback<ActivityResult>, FragmentResultListener {
+            FragmentResultListener {
 
         @Override
         public void onClick(View v) {
             if (v.getId() == addBtn.getId()) {
-
+                openAddRecipeDialog();
             }
         }
 
@@ -66,16 +57,9 @@ public class RecipesFragment extends Fragment implements Observer {
         }
 
         @Override
-        public void onActivityResult(ActivityResult result) {
-                AddRecipeDialog addRecipeDialog = AddRecipeDialog.newInstance();
-                addRecipeDialog.show(getParentFragmentManager(),"ADD_RECIPE");
-
-        }
-
-        @Override
         public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
             if (requestKey.equals("add_recipe")) {
-                ArrayList<Ingredient> ing = new ArrayList<Ingredient>();
+                ArrayList<Ingredient> ing = new ArrayList<>();
                controller.add(result.getDouble("prep"),
                        result.getInt("servings") ,
                         result.getString("category"),
@@ -85,6 +69,11 @@ public class RecipesFragment extends Fragment implements Observer {
                         ing
                         );
             }
+        }
+
+        private void openAddRecipeDialog() {
+            AddRecipeDialog addRecipeDialog = AddRecipeDialog.newInstance();
+            addRecipeDialog.show(getParentFragmentManager(), "ADD_RECIPE");
         }
     }
 
@@ -112,14 +101,15 @@ public class RecipesFragment extends Fragment implements Observer {
                 .getInstance(requireContext())
                 .initializeComponent(DBControllerFactoryInitializer.class);
 
-        controller = new RecipeController(
-                factory
-                        .createAccessController(
-                                RecipeDBController.class.getSimpleName()), this);
-
-        storageController = AppInitializer
+        FirebaseStorageController storageController = AppInitializer
                 .getInstance(requireContext())
                 .initializeComponent(FirebaseStorageControllerInitializer.class);
+
+        controller = new RecipeController(
+                requireContext(),
+                factory.createAccessController(RecipeDBController.class.getSimpleName()),
+                storageController,
+                this);
 
         listener = new RecipesFragmentListener();
 
@@ -131,9 +121,6 @@ public class RecipesFragment extends Fragment implements Observer {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_recipes, container, false);
 
-        launcher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(), listener
-        );
 
         RecyclerView recyclerView = v.findViewById(R.id.recipe_recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -146,6 +133,7 @@ public class RecipesFragment extends Fragment implements Observer {
         addBtn = v.findViewById(R.id.add_recipe_btn);
 
         addBtn.setOnClickListener(listener);
+
         requireActivity()
                 .getSupportFragmentManager()
                 .setFragmentResultListener(
