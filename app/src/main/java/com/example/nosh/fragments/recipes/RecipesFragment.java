@@ -26,11 +26,9 @@ import com.example.nosh.database.Initializer.FirebaseStorageControllerInitialize
 import com.example.nosh.database.controller.DBControllerFactory;
 import com.example.nosh.database.controller.FirebaseStorageController;
 import com.example.nosh.database.controller.RecipeDBController;
-import com.example.nosh.entity.Ingredient;
 import com.example.nosh.entity.Recipe;
 
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -56,76 +54,23 @@ public class RecipesFragment extends Fragment implements Observer {
         @Override
         public void onClick(View v) {
             if (v.getId() == addBtn.getId()) {
-                // Transition to Add Recipe UI
-                testAddRecipe();
-            } else if (v.getId() == R.id.pick_img) {
-                testPickImage();
+
             }
         }
 
         @Override
         public void onEditClick(int pos) {
-            System.out.println("Entry " + pos);
-            // Transition to Edit / View recipe
+
         }
 
         @Override
         public void onActivityResult(ActivityResult result) {
-            if (result.getResultCode() == Activity.RESULT_OK) {
-                Intent data = result.getData();
 
-                if (data != null && data.getData() != null) {
-                    Uri selectedImageUri = data.getData();
-                    if (null != selectedImageUri) {
-                        storageController.add(selectedImageUri);
-                    }
-                }
-            }
         }
     }
 
     public RecipesFragment() {
         // Required empty public constructor
-    }
-
-    private void testAddRecipe() {
-        ArrayList<Ingredient> ingredients = new ArrayList<>();
-
-        ingredients.add(new Ingredient(
-                1.00,
-                1,
-                "category",
-                "description",
-                "name"
-        ));
-
-        ingredients.add(new Ingredient(
-                2.00,
-                2,
-                "category",
-                "description",
-                "name"
-        ));
-
-        controller.add(
-                2.00,
-                1,
-                "category A",
-                "comments",
-                "photo",
-                "title",
-                ingredients
-        );
-    }
-
-
-    private void testPickImage() {
-
-        Intent i = new Intent();
-        i.setType("image/*");
-        i.setAction(Intent.ACTION_GET_CONTENT);
-
-        launcher.launch(i);
     }
 
     @Override
@@ -163,9 +108,6 @@ public class RecipesFragment extends Fragment implements Observer {
         RecyclerView recyclerView = v.findViewById(R.id.recipe_recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
 
-        // Test for picking image
-        Button btn = v.findViewById(R.id.pick_img);
-
         adapter = new RecipeAdapter(recipes, getContext(), listener);
 
         recyclerView.setLayoutManager(layoutManager);
@@ -173,7 +115,6 @@ public class RecipesFragment extends Fragment implements Observer {
 
         addBtn = v.findViewById(R.id.add_recipe_btn);
 
-        btn.setOnClickListener(listener);
         addBtn.setOnClickListener(listener);
 
         return v;
