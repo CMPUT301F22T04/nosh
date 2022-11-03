@@ -1,4 +1,4 @@
-# CMPUT301F22T04
+## CMPUT301F22T04
 Welcome to the nosh, a meal planning mobile application!
 ## Team Members
 | Name  | CCID | 
@@ -27,7 +27,7 @@ Give the repository a star :-)
 
 
 
-#Rubric
+##Rubric
 
 Project Part-3 Rubric:
 
