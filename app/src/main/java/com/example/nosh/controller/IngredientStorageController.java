@@ -5,7 +5,6 @@ import com.example.nosh.entity.Ingredient;
 import com.example.nosh.repository.IngredientRepository;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.Observer;
 
@@ -48,10 +47,6 @@ public class IngredientStorageController {
 
         ingredientRepository.update(hashcode, bestBeforeDate, unit, amount, category,
                 description, location, name);
-    }
-
-    public void sort(){
-        Collections.sort(retrieve(), Ingredient.DescriptionComparator);
     }
 
     public void delete(Ingredient ingredient) {

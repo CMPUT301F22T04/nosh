@@ -17,4 +17,23 @@
     <string name="add_ingredient">Add Ingredient</string>
     <string name="add_recipe">Add recipe</string>
     <string name="recipe_image">Recipe Image</string>
+
+    <string name="sort_ingredient">Sort Ingredient</string>
+    <string name="sort_ingredients_by">Sort Ingredients by</string>
+
+    <string name="ascending">Ascending</string>
+    <string name="descending">Descending</string>
+    <string name="description">Description</string>
+    <string name="best_before_date">Best Before Date</string>
+    <string name="location">Location</string>
+    <string name="category">Category</string>
+
+    <string name="asc">asc</string>
+    <string name="desc">desc</string>
+    <string name="by_description">by_description</string>
+    <string name="by_date">by_date</string>
+    <string name="by_category">by_category</string>
+    <string name="by_location">by_location</string>
+
+    <string name="sort">Sort</string>
 </resources>
