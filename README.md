@@ -5,7 +5,7 @@ Welcome to the nosh, a meal planning mobile application!
 - [Installation](#installation)
 - [Wiki Page](#wiki-page)
 - [Issue](#issue)
-- [License](#license)
+<!-- - [License](#license) -->
 - [Rubric](#lrubric)
 
 ## Team Members
