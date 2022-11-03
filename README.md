@@ -20,7 +20,7 @@ Link to our Wiki page: https://github.com/CMPUT301F22T04/nosh/wiki
 
 
 ## Issue
-This repository is maintained actively, so if you face any issue please <a href="[https://github.com/ankitwasankar/mftool-java/issues/new](https://github.com/CMPUT301F22T04/nosh/issues/new)">raise an issue</a>.
+This repository is maintained actively, so if you face any issue please <a href="https://github.com/ankitwasankar/mftool-java/issues/new">raise an issue</a>.
 
 <h4>Liked the work ?</h4>
 Give the repository a star :-)
