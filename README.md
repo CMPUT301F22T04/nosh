@@ -2,6 +2,7 @@
 Welcome to the nosh, a meal planning mobile application!
 
 ## Table of Contents
+- [Introduction](#introduction)
 - [Installation](#installation)
 - [Wiki Page](#wiki-page)
 - [Issue](#issue)
@@ -17,6 +18,13 @@ Welcome to the nosh, a meal planning mobile application!
 | Chengxuan Li | chengxua | 
 | Manav Powar | mpowar | 
 | Lok Him Isaac Cheng | lokhimis | 
+
+## Introduction
+To assist in meal planning, we want a mobile application that allows one to track their food storage, record their recipes, plan their meals for several days, and prepare shopping lists.
+
+
+## Installation
+Use the latest version of android studio software to run this program in your computer. This application is not available in the google play store yet.
 
 ## Wiki Page
 Link to our Wiki page: https://github.com/CMPUT301F22T04/nosh/wiki
