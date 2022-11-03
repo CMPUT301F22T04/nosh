@@ -1,13 +1,10 @@
 package com.example.nosh.fragments.recipes;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 
 import androidx.activity.result.ActivityResult;
@@ -15,6 +12,9 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.startup.AppInitializer;
@@ -26,6 +26,7 @@ import com.example.nosh.database.Initializer.FirebaseStorageControllerInitialize
 import com.example.nosh.database.controller.DBControllerFactory;
 import com.example.nosh.database.controller.FirebaseStorageController;
 import com.example.nosh.database.controller.RecipeDBController;
+import com.example.nosh.entity.Ingredient;
 import com.example.nosh.entity.Recipe;
 
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ import java.util.Observer;
 
 
 public class RecipesFragment extends Fragment implements Observer {
-
+    //Initalize some needed variables
     private ImageButton addBtn;
     private RecipeAdapter adapter;
     private RecipeController controller;
@@ -49,7 +50,7 @@ public class RecipesFragment extends Fragment implements Observer {
      */
     private class RecipesFragmentListener implements
             View.OnClickListener, RecipeAdapter.RecyclerViewListener,
-            ActivityResultCallback<ActivityResult> {
+            ActivityResultCallback<ActivityResult>, FragmentResultListener {
 
         @Override
         public void onClick(View v) {
@@ -60,12 +61,30 @@ public class RecipesFragment extends Fragment implements Observer {
 
         @Override
         public void onEditClick(int pos) {
-
+            Recipe recipe = recipes.get(pos);
+//            openEditIngredientDialog(ingredient);
         }
 
         @Override
         public void onActivityResult(ActivityResult result) {
+                AddRecipeDialog addRecipeDialog = AddRecipeDialog.newInstance();
+                addRecipeDialog.show(getParentFragmentManager(),"ADD_RECIPE");
 
+        }
+
+        @Override
+        public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+            if (requestKey.equals("add_recipe")) {
+                ArrayList<Ingredient> ing = new ArrayList<Ingredient>();
+               controller.add(result.getDouble("prep"),
+                       result.getInt("servings") ,
+                        result.getString("category"),
+                        result.getString("comments"),
+                        result.getString("photo"),
+                        result.getString("name"),
+                        ing
+                        );
+            }
         }
     }
 
@@ -73,6 +92,18 @@ public class RecipesFragment extends Fragment implements Observer {
         // Required empty public constructor
     }
 
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     * @return A new instance of fragment RecipesFragment.
+     */
+    public static RecipesFragment newInstance() {
+        return new RecipesFragment();
+    }
+
+    /**
+     * on creation of fragment we run this class to inialtize
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,7 +131,6 @@ public class RecipesFragment extends Fragment implements Observer {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_recipes, container, false);
 
-
         launcher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(), listener
         );
@@ -116,6 +146,12 @@ public class RecipesFragment extends Fragment implements Observer {
         addBtn = v.findViewById(R.id.add_recipe_btn);
 
         addBtn.setOnClickListener(listener);
+        requireActivity()
+                .getSupportFragmentManager()
+                .setFragmentResultListener(
+                        "add_recipe",
+                        getViewLifecycleOwner(),
+                        listener);
 
         return v;
     }
