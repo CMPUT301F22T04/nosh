@@ -1,13 +1,24 @@
-# nosh
-Main Repo
+# CMPUT301F22T04
+Welcome to the nosh, a meal planning mobile application!
+## Team Members
+| Name  | CCID | 
+| ------------- | ------------- |
+| Julian Gallego Franco  | gallegof | 
+| Al Hisham Anik | alhisham@ualberta.ca | 
+| Mohammad Fahad Naveed  | mnaveed1  | 
+| Chengxuan Li | chengxua | 
+| Manav Powar | mpowar | 
+| Lok Him Isaac Cheng | lokhimis | 
+
+## Wiki Page
+Link to our Wiki page: https://github.com/CMPUT301F22T04/nosh/wiki
+
 
 
 
 
 
 #Rubric
-
-
 
 Project Part-3 Rubric:
 
