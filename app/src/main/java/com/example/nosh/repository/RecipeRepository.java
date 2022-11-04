@@ -1,8 +1,9 @@
 package com.example.nosh.repository;
 
 
+import android.net.Uri;
+
 import com.example.nosh.database.controller.DBController;
-import com.example.nosh.database.controller.FirebaseStorageController;
 import com.example.nosh.entity.Ingredient;
 import com.example.nosh.entity.Recipe;
 
@@ -15,22 +16,21 @@ import java.util.Observable;
 public class RecipeRepository extends Repository {
 
     private final HashMap<String, Recipe> recipes;
-    private final RecipeImageRepository recipeImageRepository;
 
-    public RecipeRepository(DBController dbController,
-                            RecipeImageRepository recipeImageRepository) {
+    public RecipeRepository(DBController dbController) {
         super(dbController);
-
-        this.recipeImageRepository = recipeImageRepository;
 
         recipes = new HashMap<>();
     }
 
     public void add(double preparationTime, int servings, String category, String comments,
-                    String photograph, String title, ArrayList<Ingredient> ingredients) {
+                    String photographLocal, String photographRemote,
+                    String title, ArrayList<Ingredient> ingredients) {
 
         Recipe recipe = new Recipe(preparationTime, servings, category, comments,
-                photograph, title, ingredients);
+                photographRemote, title, ingredients);
+
+        recipe.setPhotographLocal(photographLocal);
 
         recipes.put(recipe.getHashcode(), recipe);
 

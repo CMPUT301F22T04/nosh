@@ -2,6 +2,7 @@ package com.example.nosh.controller;
 
 
 import android.content.Context;
+import android.net.Uri;
 
 import com.example.nosh.database.controller.DBController;
 import com.example.nosh.database.controller.FirebaseStorageController;
@@ -9,25 +10,29 @@ import com.example.nosh.entity.Ingredient;
 import com.example.nosh.entity.Recipe;
 import com.example.nosh.repository.RecipeImageRepository;
 import com.example.nosh.repository.RecipeRepository;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Observer;
 
 
 public class RecipeController {
 
     private final RecipeRepository recipeRepository;
+    private final RecipeImageRepository recipeImageRepository;
 
     public RecipeController(Context context, DBController dbController,
                             FirebaseStorageController storageController, Observer o) {
 
-        recipeRepository = new RecipeRepository(
-                dbController,
-                new RecipeImageRepository(context, storageController)
-        );
+        recipeRepository = new RecipeRepository(dbController);
+        recipeImageRepository = new RecipeImageRepository(context, storageController);
 
         recipeRepository.addObserver(o);
+        recipeImageRepository.addObserver(o);
+
         recipeRepository.sync();
+        recipeImageRepository.sync();
     }
 
     /**
@@ -36,15 +41,17 @@ public class RecipeController {
      * @param servings
      * @param category
      * @param comments
-     * @param photograph
+     * @param photographLocal
      * @param title
      * @param ingredients
      */
     public void add(double preparationTime, int servings, String category, String comments,
-                    String photograph, String title, ArrayList<Ingredient> ingredients) {
+                    String photographLocal, String title, ArrayList<Ingredient> ingredients) {
+
+        String photographRemote = recipeImageRepository.add(photographLocal);
 
         recipeRepository.add(preparationTime, servings, category, comments,
-                photograph, title, ingredients);
+                photographLocal, photographRemote, title, ingredients);
     }
 
     /**
@@ -53,6 +60,10 @@ public class RecipeController {
      */
     public ArrayList<Recipe> retrieve() {
         return recipeRepository.retrieve();
+    }
+
+    public HashMap<String, StorageReference> getRecipeImagesRemote() {
+        return recipeImageRepository.getRecipeImagesRemote();
     }
 
     /**

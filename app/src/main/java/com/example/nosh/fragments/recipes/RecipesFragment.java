@@ -22,8 +22,10 @@ import com.example.nosh.database.controller.FirebaseStorageController;
 import com.example.nosh.database.controller.RecipeDBController;
 import com.example.nosh.entity.Ingredient;
 import com.example.nosh.entity.Recipe;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -34,6 +36,7 @@ public class RecipesFragment extends Fragment implements Observer {
     private RecipeAdapter adapter;
     private RecipeController controller;
     private RecipesFragmentListener listener;
+    private HashMap<String, StorageReference> recipeImagesRemote;
     private ArrayList<Recipe> recipes;
 
     /**
@@ -117,7 +120,8 @@ public class RecipesFragment extends Fragment implements Observer {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_recipes, container, false);
 
@@ -125,7 +129,7 @@ public class RecipesFragment extends Fragment implements Observer {
         RecyclerView recyclerView = v.findViewById(R.id.recipe_recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
 
-        adapter = new RecipeAdapter(recipes, getContext(), listener);
+        adapter = new RecipeAdapter(recipes, getContext(), recipeImagesRemote, listener);
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
@@ -153,8 +157,9 @@ public class RecipesFragment extends Fragment implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         recipes = controller.retrieve();
+        recipeImagesRemote = controller.getRecipeImagesRemote();
 
-        adapter.update(recipes);
+        adapter.update(recipes, recipeImagesRemote);
         adapter.notifyItemRangeChanged(0, recipes.size());
     }
 }
