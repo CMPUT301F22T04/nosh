@@ -50,7 +50,6 @@ public class RegisterLoginTest {
         solo.enterText((EditText) solo.getView(R.id.confirmPassword), password);
         solo.clickOnButton("Register");
         solo.waitForActivity("Timeout", pause * 2);
-
     }
 
     @Test
@@ -69,7 +68,6 @@ public class RegisterLoginTest {
         // Check if current activity is MainActivity
         solo.assertCurrentActivity("Wrong activity", MainActivity.class);
         solo.waitForActivity("Timeout", pause * 2);
-
     }
 
     @After
