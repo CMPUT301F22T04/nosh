@@ -15,12 +15,15 @@ import com.example.nosh.fragments.plan.MockMealPlan;
 import java.util.ArrayList;
 
 public class MealPlan_RecyclerViewAdapter extends RecyclerView.Adapter<MealPlan_RecyclerViewAdapter.MyViewHolder> {
+    private MealPlanRecyclerViewInterface mealPlanRecyclerViewInterface;
+
     private Context context;
     private ArrayList<MockMealPlan> mealPlans;
 
-    public MealPlan_RecyclerViewAdapter(Context context, ArrayList<MockMealPlan> mealPlans){
+    public MealPlan_RecyclerViewAdapter(Context context, ArrayList<MockMealPlan> mealPlans, MealPlanRecyclerViewInterface mealPlanRecyclerViewInterface){
         this.context = context;
         this.mealPlans = mealPlans;
+        this.mealPlanRecyclerViewInterface = mealPlanRecyclerViewInterface;
     }
 
     @NonNull
@@ -30,7 +33,7 @@ public class MealPlan_RecyclerViewAdapter extends RecyclerView.Adapter<MealPlan_
         LayoutInflater inflater = LayoutInflater.from(context);
         View v = inflater.inflate(R.layout.meal_plan_recycler_view_row, parent, false);
 
-        return new MealPlan_RecyclerViewAdapter.MyViewHolder(v);
+        return new MealPlan_RecyclerViewAdapter.MyViewHolder(v, mealPlanRecyclerViewInterface);
     }
 
     @Override
@@ -50,11 +53,25 @@ public class MealPlan_RecyclerViewAdapter extends RecyclerView.Adapter<MealPlan_
         TextView planName;
         TextView planSpan;
 
-        public MyViewHolder(@NonNull View itemView) {
+        public MyViewHolder(@NonNull View itemView, MealPlanRecyclerViewInterface mealPlanRecyclerViewInterface) {
             super(itemView);
 
             planName = itemView.findViewById(R.id.plan_name);
             planSpan = itemView.findViewById(R.id.plan_span);
+
+            itemView.setOnClickListener(new View.OnClickListener(){
+
+                @Override
+                public void onClick(View view) {
+                    if(mealPlanRecyclerViewInterface != null){
+                        int position = getAdapterPosition();
+
+                        if (position != RecyclerView.NO_POSITION){
+                            mealPlanRecyclerViewInterface.onItemClick(position);
+                        }
+                    }
+                }
+            });
         }
     }
 }
