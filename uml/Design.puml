@@ -1,0 +1,30 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+
+package "Repository Classes" {
+    Repository <|-- IngredientRepository
+    Repository <|-- RecipeRepository
+    Repository <|-- MealRepository
+    Repository <|-- ShoppingRepository
+}
+
+class Ingredient {
+
+}
+
+class Recipe {
+
+}
+
+
+together {
+    class Repository
+    class IngredientRepository
+    class RecipeRepository
+    class MealRepository
+    class ShoppingRepository
+}
+
+
+@enduml

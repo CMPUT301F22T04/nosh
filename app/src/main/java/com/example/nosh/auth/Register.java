@@ -93,7 +93,7 @@ public class Register extends AppCompatActivity {
         fAuth = AppInitializer.getInstance(this).
                 initializeComponent(FirebaseAuthInitializer.class);
 
-        fAuth.signOut();
+//        fAuth.signOut();
 
         if (isSignedIn()) {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -120,7 +120,7 @@ public class Register extends AppCompatActivity {
     }
 
     private boolean isSignedIn() {
-        return true;
+        return fAuth.getCurrentUser() != null;
     }
 
     private void launchLogin() {

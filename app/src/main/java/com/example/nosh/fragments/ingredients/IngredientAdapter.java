@@ -14,8 +14,8 @@ import com.example.nosh.entity.Ingredient;
 import java.util.ArrayList;
 
 
-public class StoredIngredientAdapter extends
-        RecyclerView.Adapter<StoredIngredientViewHolder> {
+public class IngredientAdapter extends
+        RecyclerView.Adapter<IngredientViewHolder> {
 
     private final RecyclerViewListener listener;
 
@@ -23,8 +23,8 @@ public class StoredIngredientAdapter extends
 
     private ArrayList<Ingredient> ingredients;
 
-    public StoredIngredientAdapter(RecyclerViewListener listener, Context context,
-                                   ArrayList<Ingredient> ingredients) {
+    public IngredientAdapter(RecyclerViewListener listener, Context context,
+                             ArrayList<Ingredient> ingredients) {
         this.listener = listener;
         this.context = context;
         this.ingredients = ingredients;
@@ -41,21 +41,20 @@ public class StoredIngredientAdapter extends
 
     @NonNull
     @Override
-    public StoredIngredientViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
-                                                         int viewType) {
+    public IngredientViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
+                                                   int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.stored_ingredient_entry, parent, false);
+        View view = inflater.inflate(R.layout.ingredient_entry, parent, false);
 
-        return new StoredIngredientViewHolder(listener, view);
+        return new IngredientViewHolder(listener, view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull StoredIngredientViewHolder holder,
+    public void onBindViewHolder(@NonNull IngredientViewHolder holder,
                                  int position) {
         holder.getNameTxtView().setText(ingredients.get(position).getName());
         holder.getDescriptionTxtView().setText(ingredients.get(position).
                 getDescription());
-
     }
 
     @Override

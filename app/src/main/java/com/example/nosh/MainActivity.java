@@ -13,18 +13,26 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.startup.AppInitializer;
 
 import com.example.nosh.database.Initializer.DBControllerFactoryInitializer;
+import com.example.nosh.database.Initializer.FirebaseStorageControllerInitializer;
 import com.example.nosh.databinding.ActivityMainBinding;
 
 
 public class MainActivity extends AppCompatActivity {
+
     private AppBarConfiguration mAppBarConfiguration;
+
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        AppInitializer.getInstance(this).
-                initializeComponent(DBControllerFactoryInitializer.class);
+        AppInitializer
+                .getInstance(this)
+                .initializeComponent(DBControllerFactoryInitializer.class);
+        AppInitializer
+                .getInstance(this)
+                .initializeComponent(FirebaseStorageControllerInitializer.class);
+
     }
 
     @Override

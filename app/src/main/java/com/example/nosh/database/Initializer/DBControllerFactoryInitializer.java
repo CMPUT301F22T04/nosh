@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.startup.Initializer;
 
 import com.example.nosh.database.controller.DBControllerFactory;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Collections;
@@ -17,7 +18,8 @@ public class DBControllerFactoryInitializer implements Initializer<DBControllerF
     @NonNull
     @Override
     public DBControllerFactory create(@NonNull Context context) {
-        return new DBControllerFactory(FirebaseFirestore.getInstance());
+        return new DBControllerFactory(FirebaseFirestore.getInstance(),
+                FirebaseAuth.getInstance().getUid());
     }
 
     @NonNull

@@ -3,20 +3,22 @@ package com.example.nosh.database.controller;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 /**
- * This factory class is responible for the instantiation of different type 
+ * This factory class is responsible for the instantiation of different type
  * DBController. The main purpose of factory class is to separate and encapsulate 
  * the instance creation of different types of DBControllers out of other classes.
  */
 public class DBControllerFactory {
 
     private final FirebaseFirestore fStore;
+    private final String root;
 
     /**
      * Make sure remove public modifier when it is release
      * @param fStore
      */
-    public DBControllerFactory(FirebaseFirestore fStore) {
+    public DBControllerFactory(FirebaseFirestore fStore, String uid) {
         this.fStore = fStore;
+        this.root = uid + "/";
     }
 
     /**
@@ -32,13 +34,16 @@ public class DBControllerFactory {
         if (name.equalsIgnoreCase(IngredientDBController.class.getSimpleName())) {
 
             return new IngredientDBController(
-                    fStore.collection(IngredientDBController.REF_NAME));
+                    fStore.collection(root)
+                            .document(IngredientDBController.DOC_NAME)
+                            .collection(IngredientDBController.COLLECTION_NAME));
 
         } else if (name.equalsIgnoreCase(RecipeDBController.class.getSimpleName())) {
 
             return new RecipeDBController(
-                    fStore.collection(RecipeDBController.REF_NAME));
-
+                    fStore.collection(root)
+                            .document(RecipeDBController.DOC_NAME)
+                            .collection(RecipeDBController.COLLECTION_NAME));
         }
 
         return null;
