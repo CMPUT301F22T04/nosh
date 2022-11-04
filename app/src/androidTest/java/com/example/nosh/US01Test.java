@@ -17,32 +17,52 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
+import org.junit.Assert;
 
 @RunWith(AndroidJUnit4.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class US01Test {
-
-    /*Declaration of variables*/
+    // Testing variables declaration
     private Solo solo;
-    private final int pause = 200;
+    private final int pause = 10;
 
-    String name = "Spaghetti";
-    String description = "A long, thin pasta.";
-    String location = "Cabinet";
-    int year = 2025;
-    int month = 5;
-    int day = 20;
-    int quantity = 500;
-    int unit = 1;
-    String category = "Pasta";
+    // Sample Ingredient (Spaghetti) Information
+    String name1 = "Spaghetti";
+    String description1 = "A long, thin pasta.";
+    String location1 = "Cabinet";
+    int year1 = 2025, month1 = 11, day1 = 20;
+    String date1 = year1 + "-" + month1 + "-" + day1;
+    int quantity1 = 500;
+    int unit1 = 1;
+    String category1 = "Pasta";
 
-    /*Establishes test rules*/
+    // Sample Ingredient (Salt) Information
+    String name2 = "Salt";
+    String description2 = "A universal flavour improver.";
+    String location2 = "Counter-top";
+    int year2 = 2030, month2 = 10, day2 = 12;
+    String date2 = year2 + "-" + month2 + "-" + day2;
+    int quantity2 = 300;
+    int unit2 = 4;
+    String category2 = "Flavouring";
+
+    // Sample Ingredient (Tomato Sauce) Information
+    String name3 = "Tomato Sauce";
+    String description3 = "A simple Euro-style tomato sauce.";
+    String location3 = "Cabinet";
+    int year3 = 2023, month3 = 12, day3 = 25;
+    String date3 = year3 + "-" + month3 + "-" + day3;
+    int quantity3 = 398;
+    int unit3 = 2;
+    String category3 = "Sauce";
+
+    // Establishes test rules
     @Rule
     public ActivityTestRule<Register> rule =
             new ActivityTestRule<>(Register.class, true, true);
 
     /**
-     * Runs before all tests and creates solo instance.
+     * Goes to the login page and login with credentials
      */
     @Before
     public void setUp(){
@@ -65,14 +85,145 @@ public class US01Test {
         solo.clickOnButton("Login");
         solo.waitForActivity("Timeout", pause);
     }
+
+    /**
+     * US 01.01.01 Test
+     * This test if the app adds an ingredient successfully.
+     */
     @Test
-    public void test1US010101(){
-        // US 01.01.01 - add ingredient
+    public void US010101Test(){
         // Check if current activity is MainActivity
         solo.assertCurrentActivity("Wrong activity", MainActivity.class);
         solo.waitForActivity("Timeout", pause);
+
+        // Adds ingredient
+        addIngredient(name1, description1, location1, year1, month1, day1, quantity1,
+                unit1, category1);
+    }
+
+    /**
+     * US 01.02.01 Test
+     * This test if the app adds an ingredient correctly in the first test.
+     */
+    @Test
+    public void US010201Test(){
+        // Clicks on the ingredient
+        solo.clickOnText(name1);
+
+        // Check if info match
+        Assert.assertTrue("Search name", solo.searchText(name1));
+        Assert.assertTrue("Search description", solo.searchText(description1));
+        Assert.assertTrue("Search location", solo.searchText(location1));
+        Assert.assertTrue("Search date", solo.searchText(date1));
+        Assert.assertTrue("Search quantity", solo.searchText(String.valueOf(quantity1)));
+        Assert.assertTrue("Search quantity",
+                solo.searchText(String.valueOf(Double.valueOf(unit1))));
+        Assert.assertTrue("Search category", solo.searchText(category1));
+        solo.waitForActivity("Timeout", pause * 5);
+
+        // Go back to list
+        solo.goBack();
+        solo.waitForActivity("Timeout", pause);
+    }
+
+    /**
+     * US 01.03.01 Test
+     * This test edit the stored ingredient in the first test and checks if new info is saved
+     * correctly.
+     */
+    @Test
+    public void US010301Test(){
+        // Info to be edited
+        String locationEdit = "Jar";
+        int quantityEdit = 400;
+
+        // Click to view and edit info
+        solo.clickOnText(name1);
+        solo.clearEditText((EditText) solo.getView(R.id.edit_storage_location));
+        solo.enterText((EditText) solo.getView(R.id.edit_storage_location), locationEdit);
+        solo.waitForActivity("Timeout", pause);
+        solo.clearEditText((EditText) solo.getView(R.id.edit_qty));
+        solo.enterText((EditText) solo.getView(R.id.edit_qty), String.valueOf(quantityEdit));
+        solo.waitForActivity("Timeout", pause);
+        solo.clickOnButton("Confirm");
+        solo.waitForActivity("Timeout", pause * 3);
+
+        // Check if new info is stored correctly
+        solo.clickOnText(name1);
+        Assert.assertTrue("Search name", solo.searchText(name1));
+        Assert.assertTrue("Search description", solo.searchText(description1));
+        Assert.assertTrue("Search location", solo.searchText(locationEdit));
+        Assert.assertTrue("Search date", solo.searchText(date1));
+        Assert.assertTrue("Search quantity", solo.searchText(String.valueOf(quantityEdit)));
+        Assert.assertTrue("Search quantity",
+                solo.searchText(String.valueOf(Double.valueOf(unit1))));
+        Assert.assertTrue("Search category", solo.searchText(category1));
+        solo.waitForActivity("Timeout", pause * 5);
+
+        // Go back to list
+        solo.goBack();
+        solo.waitForActivity("Timeout", pause);
+    }
+
+    /**
+     * US 01.04.01 Test
+     * This test deletes the ingredient and checks if it is properly deleted.
+     */
+    @Test
+    public void US010401Test(){
+        solo.clickOnView(solo.getView("del_btn"));
+
+        // Checks if the item is no longer in the list
+        Assert.assertFalse("Search for \"Spaghetti\"", solo.searchText(name1));
+        solo.waitForActivity("Timeout", pause * 5);
+    }
+
+    /**
+     * US 01.05.01 Test
+     * This test will first add three ingredients to the list and then checks of they are
+     * displayed correctly.
+     */
+    @Test
+    public void US010501Test(){
+        // Add the three ingredients to the list
+        addIngredient(name1, description1, location1, year1, month1, day1, quantity1,
+                unit1, category1);
+        addIngredient(name2, description2, location2, year2, month2, day2, quantity2,
+                unit2, category2);
+        addIngredient(name3, description3, location3, year3, month3, day3, quantity3,
+                unit3, category3);
+
+        // Checks if the ingredients are in the list
+        Assert.assertTrue("Search for \"Spaghetti\"", solo.searchText(name1));
+        Assert.assertTrue("Search for \"Salt\"", solo.searchText(name2));
+        Assert.assertTrue("Search for \"Tomato Sauce\"", solo.searchText(name3));
+        solo.waitForActivity("Timeout", pause * 10);
+
+        // Delete all items (delete this when implement 06 test)
+        clearList(3);
+
+    }
+
+    /**
+     * This method adds an ingredient to the list given the info.
+     * @param name Name of the ingredient
+     * @param description Description of the ingredient
+     * @param location Location of the ingredient
+     * @param year Year of the best before date of the ingredient
+     * @param month Month of the best before date of the ingredient
+     * @param day Day of the best before date of the ingredient
+     * @param quantity Quantity of the ingredient
+     * @param unit Unit of the ingredient
+     * @param category Category of the ingredient
+     */
+    public void addIngredient(String name, String description, String location, int year,
+                              int month, int day, int quantity, int unit,
+                              String category){
+        // Press add button
         solo.clickOnView(solo.getView("add_btn"));
         solo.waitForActivity("Timeout", pause);
+
+        // Enter ingredient info
         solo.enterText((EditText) solo.getView(R.id.add_name), name);
         solo.waitForActivity("Timeout", pause);
         solo.enterText((EditText) solo.getView(R.id.add_description), description);
@@ -90,64 +241,20 @@ public class US01Test {
         solo.enterText((EditText) solo.getView(R.id.add_ingredient_category), category);
         solo.waitForActivity("Timeout", pause);
         solo.clickOnButton("Add");
-        solo.waitForActivity("Timeout", pause);
+        solo.waitForActivity("Timeout", pause * 2);
     }
 
     /**
-     * Unit and intent test for US01.02.01.
+     * This function clears the list.
+     * @param count Total number of ingredients in the list
      */
-    @Test
-    public void test2US010201(){
-        // US 01.02.01 - view ingredient
-        solo.clickOnText(name);
-        solo.waitForActivity("Timeout", pause * 5);
-        solo.goBack();
-        solo.waitForActivity("Timeout", pause);
-
+    public void clearList(int count) {
+        for (int i = 0; i < count; i++) {
+            solo.clickOnView(solo.getView("del_btn"));
+            solo.waitForActivity("Timeout", pause * 30);
+        }
     }
-
-
-    /**
-     * Known problem: unable to save the new info
-     * Need assert to test values
-     */
-    @Test
-    public void test3US010301(){
-        String name = "Spaghetti";
-        String locationEdit = "Jar";
-        int quantityEdit = 400;
-
-        // US 01.03.01 - edit ingredient
-        solo.clickOnText(name);
-        solo.clearEditText((EditText) solo.getView(R.id.edit_storage_location));
-        solo.enterText((EditText) solo.getView(R.id.edit_storage_location), locationEdit);
-        solo.waitForActivity("Timeout", pause);
-        solo.clearEditText((EditText) solo.getView(R.id.edit_qty));
-        solo.enterText((EditText) solo.getView(R.id.edit_qty), String.valueOf(quantityEdit));
-        solo.waitForActivity("Timeout", pause);
-        solo.clickOnButton("Confirm");
-        solo.waitForActivity("Timeout", pause);
-    }
-
-    /**
-     * Known problem: pressing delete crashes the app
-     */
-    @Test
-    public void test4US010401(){
-        // US 01.04.01 - delete ingredient
-        //solo.clickOnView(solo.getView("del_btn"));
-        //solo.waitForActivity("Timeout", seconds);
-    }
-
-    @Test
-    public void test5US010501(){
-        //US 01.05.01 - view list of ingredient
-        solo.waitForActivity("Timeout", pause * 10);
-    }
-
     @After
-    public void tearDown(){
-        solo.finishOpenedActivities();
+    public void tearDown(){ solo.finishOpenedActivities();
     }
 }
-
