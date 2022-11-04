@@ -15,7 +15,7 @@
         app:strokeColor="@color/grey">
 
         <TextView
-            android:id="@+id/stored_ingredient_name"
+            android:id="@+id/ingredient_entry_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/sample_text"
@@ -25,20 +25,20 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/stored_ingredient_description"
+            android:id="@+id/ingredient_entry_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/sample_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/stored_ingredient_name" />
+            app:layout_constraintTop_toBottomOf="@id/ingredient_entry_name" />
 
         <ImageButton
             android:id="@+id/del_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/delete_stored_ingredient"
+            android:contentDescription="@string/delete_ingredient"
             android:src="@android:drawable/ic_menu_delete"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
