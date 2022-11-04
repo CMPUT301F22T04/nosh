@@ -1,9 +1,13 @@
 package com.example.nosh;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.Menu;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -15,12 +19,17 @@ import androidx.startup.AppInitializer;
 import com.example.nosh.database.Initializer.DBControllerFactoryInitializer;
 import com.example.nosh.database.Initializer.FirebaseStorageControllerInitializer;
 import com.example.nosh.databinding.ActivityMainBinding;
+import com.example.nosh.utils.AndroidFileUtil;
+import com.google.firebase.auth.FirebaseAuth;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    private AppBarConfiguration mAppBarConfiguration;
+    private static final String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+    };
 
+    private AppBarConfiguration mAppBarConfiguration;
 
     @Override
     protected void onStart() {
@@ -33,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
                 .getInstance(this)
                 .initializeComponent(FirebaseStorageControllerInitializer.class);
 
+        AndroidFileUtil.createSubfolder(getCacheDir(),
+                FirebaseAuth.getInstance().getUid());
     }
 
     @Override
@@ -82,5 +93,26 @@ public class MainActivity extends AppCompatActivity {
                 R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration) ||
                 super.onSupportNavigateUp();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        getCacheDir().delete();
+    }
+
+    public static void verifyStorageReadPermission(Activity activity) {
+        int permission = ActivityCompat.checkSelfPermission(activity,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    activity,
+                    PERMISSIONS_STORAGE,
+                    1
+            );
+        }
     }
 }
