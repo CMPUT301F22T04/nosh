@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_ingredients">
+
+    <fragment
+        android:id="@+id/nav_ingredients"
+        android:name="com.example.nosh.fragments.ingredients.IngredientsFragment"
+        android:label="Ingredients"
+        tools:layout="@layout/fragment_ingredients" />
+
+    <fragment
+        android:id="@+id/nav_recipes"
+        android:name="com.example.nosh.fragments.recipes.RecipesFragment"
+        android:label="Recipes"
+        tools:layout="@layout/fragment_recipes" />
+
+    <fragment
+        android:id="@+id/nav_list"
+        android:name="com.example.nosh.fragments.list.ListFragment"
+        android:label="Shopping List"
+        tools:layout="@layout/fragment_list" />
+
+    <fragment
+        android:id="@+id/nav_plan"
+        android:name="com.example.nosh.fragments.plan.PlanFragment"
+        android:label="Shopping List"
+        tools:layout="@layout/fragment_plan" />
+</navigation>

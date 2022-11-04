@@ -1,0 +1,53 @@
+@startuml
+
+'Classes
+
+'UI / Boundary classes
+class LoginUI {
+
+}
+
+
+'---
+
+'Controller classes
+class UserController {
+
+}
+
+class IngredientController {
+
+}
+
+class RecipeController {
+
+}
+
+
+'---
+
+'Entity classes
+class User {
+    -name
+    -password
+}
+
+class Ingredient {
+    -name
+    -description
+    -date
+    -location
+    -amount
+    -unit
+    -category
+}
+
+class Recipe {
+    
+}
+
+'---
+
+'Relations
+
+@enduml

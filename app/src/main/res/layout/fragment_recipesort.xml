@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/dialog_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sort Recipes by"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:textSize="20sp" />
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dialog_title"
+        android:orientation="horizontal"
+        android:id="@+id/order_groupR">
+        <RadioButton
+            android:id="@+id/Ascending"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/asc"
+            android:text="@string/ascending" />
+
+        <RadioButton
+            android:id="@+id/Descending"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/desc"
+            android:text="@string/descending" />
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/type_groupR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/order_groupR"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/sort_Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:contentDescription="@string/by_title"
+            android:text="By Title" />
+
+        <RadioButton
+            android:id="@+id/sort_prep_before"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:contentDescription="@string/by_prep"
+            android:text="Preperation time" />
+
+        <RadioButton
+            android:id="@+id/sort_servings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:contentDescription="@string/by_servings"
+            android:text="Number of servings" />
+
+        <RadioButton
+            android:id="@+id/sort_categoryR"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:contentDescription="@string/by_categoryR"
+            android:text="@string/category"/>
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/confirm_sortR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/type_groupR"
+        android:text="@string/sort"/>
+
+</RelativeLayout>

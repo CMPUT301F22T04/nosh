@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "253565614722",
+    "project_id": "nosh-45f06",
+    "storage_bucket": "nosh-45f06.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:253565614722:android:ef02d3113dd525ba9c529b",
+        "android_client_info": {
+          "package_name": "com.example.nosh"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "253565614722-3nq455osq325mpi31rf3pd520a2b5q04.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxKtn_f-mqD3lMGrNuVq1kBP153WHVZNg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "253565614722-3nq455osq325mpi31rf3pd520a2b5q04.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
