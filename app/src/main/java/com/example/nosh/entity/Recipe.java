@@ -13,7 +13,8 @@ public class Recipe implements Hashable {
     int servings;
     String category = "";
     String comments = "";
-    String photograph = ""; // Image reference in storage
+    String photographRemote = ""; // Image reference in storage
+    String photographLocal = "";
     String title = "";
 
     ArrayList<Ingredient> ingredients = new ArrayList<>();
@@ -31,7 +32,7 @@ public class Recipe implements Hashable {
         this.servings = servings;
         this.category = category;
         this.comments = comments;
-        this.photograph = photograph;
+        this.photographRemote = photograph;
         this.title = title;
 
         this.ingredients = ingredients;
@@ -72,12 +73,20 @@ public class Recipe implements Hashable {
         this.comments = comments;
     }
 
-    public String getPhotograph() {
-        return photograph;
+    public String getPhotographRemote() {
+        return photographRemote;
     }
 
-    public void setPhotograph(String photograph) {
-        this.photograph = photograph;
+    public void setPhotographRemote(String photographRemote) {
+        this.photographRemote = photographRemote;
+    }
+
+    public String getPhotographLocal() {
+        return photographLocal;
+    }
+
+    public void setPhotographLocal(String photographLocal) {
+        this.photographLocal = photographLocal;
     }
 
     public String getTitle() {
