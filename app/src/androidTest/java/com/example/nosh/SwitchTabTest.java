@@ -69,4 +69,3 @@ public class SwitchTabTest {
         solo.finishOpenedActivities();
     }
 }
-
