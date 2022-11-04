@@ -6,7 +6,7 @@
     android:padding="16dp">
 
     <ImageButton
-        android:id="@+id/cancel_adding"
+        android:id="@+id/cancel_add_recipe_ingredient"
         android:layout_width="20dp"
         android:layout_height="wrap_content"
         android:src="?attr/actionModeCloseDrawable"
@@ -14,39 +14,48 @@
         app:backgroundTint="#FFFFFF" />
 
     <TextView
-        android:id="@+id/edit_name"
+        android:id="@+id/ingredient_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/cancel_adding"
+        android:layout_below="@id/cancel_add_recipe_ingredient"
         android:layout_alignParentStart="true"
         android:paddingTop="6dp"
         android:text="New Ingredient"
         android:textColor="#000000"
-        android:textSize="24sp"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
+    <EditText
+        android:id="@+id/add_name_recipe_ingredient"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ingredient_name"
+        android:layout_alignParentStart="true"
+        android:hint="What would you like to add today?"
+        android:inputType="text"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/about"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/edit_name"
+        android:layout_below="@id/add_name_recipe_ingredient"
         android:layout_alignParentStart="true"
         android:paddingTop="6dp"
-        android:text="Name"
+        android:text="About this ingredient"
         android:textColor="#000000"
         android:textSize="18sp"
         android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/edit_description"
+        android:id="@+id/add_description_recipe_ingredient"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="80dp"
         android:layout_below="@id/about"
         android:layout_alignParentStart="true"
         android:background="@drawable/description_border"
         android:gravity="start"
-        android:hint="Ingredient Name..."
+        android:hint="Description..."
         android:inputType="textMultiLine"
         android:maxLength="30"
         android:paddingLeft="6dp"
@@ -54,131 +63,77 @@
         android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/quantity"
+        android:id="@+id/price"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/edit_description"
+        android:layout_below="@id/add_description_recipe_ingredient"
         android:layout_alignParentStart="true"
         android:paddingTop="6dp"
-        android:text="Quantity"
+        android:text="Qty."
         android:textColor="#000000"
-        android:textSize="18sp"
+        android:textSize="18dp"
         android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/edit_quantity"
+        android:id="@+id/add_qty_recipe_ingredient"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_below="@id/quantity"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/price"
         android:layout_alignParentStart="true"
-        android:background="@drawable/description_border"
-        android:gravity="start"
-        android:hint="1"
-        android:inputType="textMultiLine"
-        android:maxLength="30"
-        android:paddingLeft="6dp"
-        android:paddingTop="6dp"
+        android:hint="How much?"
+        android:inputType="number"
         android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/unit"
+        android:id="@+id/count"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/edit_quantity"
+        android:layout_below="@id/add_qty_recipe_ingredient"
         android:layout_alignParentStart="true"
         android:paddingTop="6dp"
         android:text="Unit"
         android:textColor="#000000"
-        android:textSize="18sp"
+        android:textSize="18dp"
         android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/edit_unit"
+        android:id="@+id/add_unit_recipe_ingredient"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_below="@id/unit"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/count"
         android:layout_alignParentStart="true"
-        android:background="@drawable/description_border"
-        android:gravity="start"
-        android:hint="Grams"
-        android:inputType="textMultiLine"
-        android:maxLength="30"
-        android:paddingLeft="6dp"
-        android:paddingTop="6dp"
+        android:hint="Kg, g, box..."
+        android:inputType="number"
         android:textSize="16sp" />
 
     <TextView
         android:id="@+id/category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/edit_unit"
+        android:layout_below="@id/add_unit_recipe_ingredient"
         android:layout_alignParentStart="true"
         android:paddingTop="6dp"
-        android:text="Category"
+        android:text="Ingredient Category"
         android:textColor="#000000"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <!--    <EditText-->
-    <!--        android:id="@+id/edit_category"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="50dp"-->
-    <!--        android:layout_below="@id/category"-->
-    <!--        android:layout_alignParentStart="true"-->
-    <!--        android:background="@drawable/description_border"-->
-    <!--        android:gravity="start"-->
-    <!--        android:hint="Seasoning"-->
-    <!--        android:inputType="textMultiLine"-->
-    <!--        android:maxLength="30"-->
-    <!--        android:paddingLeft="6dp"-->
-    <!--        android:paddingTop="6dp"-->
-    <!--        android:textSize="16sp" />-->
-
-    <Spinner
-        android:id="@+id/edit_category"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_below="@id/category"
-        android:layout_alignParentStart="true"
-        android:gravity="start"
-        android:maxLength="30"
-        android:paddingLeft="6dp"
-        android:paddingTop="6dp" />
-
-    <TextView
-        android:id="@+id/comments"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/edit_category"
-        android:layout_alignParentStart="true"
-        android:paddingTop="6dp"
-        android:text="Category"
-        android:textColor="#000000"
-        android:textSize="18sp"
+        android:textSize="18dp"
         android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/edit_comments"
+        android:id="@+id/add_ingredient_recipe_category"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_below="@id/comments"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/category"
         android:layout_alignParentStart="true"
-        android:background="@drawable/description_border"
-        android:gravity="start"
-        android:hint="Comments.."
-        android:inputType="textMultiLine"
-        android:maxLength="200"
-        android:paddingLeft="6dp"
-        android:paddingTop="6dp"
-        android:textSize="16sp" />
-
+        android:hint="Pick a category"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        app:backgroundTint="@color/nosh" />
 
     <Button
-        android:gravity="center"
-        android:id="@+id/submit_edit"
+        android:id="@+id/submit_add_recipe_ingredient"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/edit_comments"
+        android:layout_below="@id/add_ingredient_recipe_category"
         android:layout_alignParentStart="true"
         android:text="Add"
         android:textAllCaps="false"

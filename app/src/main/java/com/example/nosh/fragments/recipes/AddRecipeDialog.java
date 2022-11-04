@@ -59,6 +59,12 @@ public class AddRecipeDialog extends DialogFragment {
                 launcher.launch(photoPicker);
             } else if (v.getId() == backButton.getId()) {
                 dismiss();
+            }else if (v.getId()==addIngredient.getId()){
+                AddIngredientToRecipeDialog addIngredientToRecipeDialog =
+                        new AddIngredientToRecipeDialog();
+                addIngredientToRecipeDialog.show(
+                        getParentFragmentManager(),
+                        "add_ingredient_recipe");
             }
         }
 
@@ -118,6 +124,13 @@ public class AddRecipeDialog extends DialogFragment {
         backButton.setOnClickListener(listener);
         add.setOnClickListener(listener);
         photo.setOnClickListener(listener);
+
+//        requireActivity()
+//                .getSupportFragmentManager()
+//                .setFragmentResultListener(
+//                        "add_ingredient",
+//                        getViewLifecycleOwner(),
+//                        listener);
 
         return view;
     }
