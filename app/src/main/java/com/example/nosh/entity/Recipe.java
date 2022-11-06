@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 
-public class Recipe implements Hashable {
+public class Recipe extends Foodstuff implements Hashable {
 
     double preparationTime;
     int servings;

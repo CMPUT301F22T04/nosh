@@ -12,14 +12,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Nosh"
-        tools:targetApi="31"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        tools:targetApi="31">
+        <activity
+            android:name=".activities.AddMealsToDaysActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.NewMealPlanActivity"
+            android:exported="false" />
+        <activity
+            android:name=".fragments.plan.MealSpanActivity"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.Nosh.NoActionBar">
-
-        </activity>
+            android:theme="@style/Theme.Nosh.NoActionBar" />
         <activity
             android:name=".auth.Register"
             android:exported="true">
@@ -38,7 +45,8 @@
             android:authorities="${applicationId}.androidx-startup"
             android:exported="false"
             tools:node="merge">
-            <meta-data  android:name="com.example.nosh.database.Initializer.FirebaseAuthInitializer"
+            <meta-data
+                android:name="com.example.nosh.database.Initializer.FirebaseAuthInitializer"
                 android:value="androidx:startup" />
         </provider>
     </application>

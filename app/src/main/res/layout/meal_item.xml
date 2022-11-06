@@ -18,22 +18,24 @@
         app:cardCornerRadius="5dp">
 
         <FrameLayout
-            android:background="#FF8C00"
+            android:background="@color/nosh"
             android:layout_width="4dp"
             android:layout_height="match_parent"/>
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+          >
 
             <TextView
                 android:id="@+id/meal_name"
-                style="@style/Base.TextAppearance.AppCompat.Headline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:text="Meal name"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -43,6 +45,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="24dp"
                 android:text="Servings"
+                android:textColor="#000000"
+                android:textSize="12sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -55,12 +60,14 @@
                 android:layout_width="254dp"
                 android:layout_height="20dp"
                 android:text="Recipe, Ingredient, Recipe..."
+                android:textColor="#000000"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintHorizontal_bias="0.171"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/meal_name"
-                app:layout_constraintVertical_bias="0.176" />
+                app:layout_constraintVertical_bias="0.0" />
 
             <TextView
                 android:id="@+id/textView11"
@@ -69,7 +76,7 @@
                 android:layout_marginEnd="24dp"
                 android:text="2"
                 android:textColor="#000000"
-                android:textStyle="bold"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView8"

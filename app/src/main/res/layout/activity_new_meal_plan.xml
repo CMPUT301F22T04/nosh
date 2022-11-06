@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.NewMealPlanActivity">
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="New meal plan"
+        android:textColor="@color/nosh"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+
+    <TextView
+        android:id="@+id/mealPlan_name"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView10"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="24dp"
+        android:paddingLeft="12dp"
+        android:paddingTop="6dp"
+        android:text="Plan name"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+    <EditText
+        android:id="@+id/new_meal_plan_name"
+        android:layout_width="350dp"
+        android:layout_height="35dp"
+        android:layout_below="@id/mealPlan_name"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/description_border"
+        android:hint="New name"
+        android:inputType="text"
+        android:paddingLeft="12dp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mealPlan_name" />
+
+    <TextView
+        android:id="@+id/meal_Plan_start"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/new_meal_plan_name"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="8dp"
+        android:paddingLeft="12dp"
+        android:paddingTop="6dp"
+        android:text="Starting date"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/new_meal_plan_name" />
+
+    <EditText
+        android:id="@+id/new_meal_plan_start"
+        android:layout_width="350dp"
+        android:layout_height="35dp"
+        android:layout_below="@id/mealPlan_name"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/description_border"
+        android:hint="YYYY/MM/DD"
+        android:inputType="text"
+        android:paddingLeft="12dp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/meal_Plan_start" />
+
+    <TextView
+        android:id="@+id/meal_Plan_end"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/new_meal_plan_name"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="8dp"
+        android:paddingLeft="12dp"
+        android:paddingTop="6dp"
+        android:text="Ending date"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/new_meal_plan_start" />
+
+
+    <EditText
+        android:id="@+id/new_meal_plan_end"
+        android:layout_width="350dp"
+        android:layout_height="35dp"
+        android:layout_below="@id/mealPlan_name"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/description_border"
+        android:hint="YYYY/MM/DD"
+        android:inputType="text"
+        android:paddingLeft="12dp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/meal_Plan_end" />
+
+    <Button
+        android:id="@+id/finish_new_meal_step1_button"
+        android:layout_width="180dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="28dp"
+        android:text="Create"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:backgroundTint="#22AE66"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/new_meal_plan_end"
+        app:layout_constraintVertical_bias="0.463" />
+
+    <Button
+        android:id="@+id/cancel_new_meal_plan_button"
+        android:layout_width="180dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="16dp"
+        android:text="Cancel"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:backgroundTint="#fa5555"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/new_meal_plan_end"
+        app:layout_constraintVertical_bias="0.463"
+        />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="257dp"
+        android:layout_height="265dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.59"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/new_plan_logo" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

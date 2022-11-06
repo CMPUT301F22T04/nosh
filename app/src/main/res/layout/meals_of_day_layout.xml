@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <ImageButton
+        android:id="@+id/cancel_days"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:src="?attr/actionModeCloseDrawable"
+        android:text="Cancel"
+        app:backgroundTint="#FFFFFF" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/meals_of_day_recycler"
+        android:layout_width="387dp"
+        android:layout_height="609dp"
+        android:layout_below="@id/cancel_days" />
+
+    <Button
+        android:id="@+id/submit_edit"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/meals_of_day_recycler"
+        android:layout_alignParentStart="true"
+        android:text="Confirm"
+        android:textAllCaps="false"
+        android:textStyle="bold"
+        app:backgroundTint="#22AE66" />
+</RelativeLayout>

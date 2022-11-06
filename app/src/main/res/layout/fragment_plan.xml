@@ -4,6 +4,7 @@
     android:id="@+id/meal_plan_recycler_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/nosh"
     tools:context=".fragments.plan.PlanFragment">
 
     <RelativeLayout
@@ -11,17 +12,44 @@
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
+            android:background="@color/white"
             android:id="@+id/plan_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="686dp"
+            android:layout_below="@+id/scale_recipes_button"
             android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_marginStart="0dp"
-            android:layout_marginTop="0dp"
+            android:layout_marginTop="-2dp"
             android:layout_marginEnd="0dp"
             android:layout_marginBottom="0dp" />
+
+        <Button
+            android:id="@+id/scale_recipes_button"
+            android:background="@color/nosh"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="-1dp"
+            android:layout_marginEnd="1dp"
+            android:layout_toStartOf="@+id/new_meal_plan_button"
+            android:text="Scale Recipes"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/new_meal_plan_button"
+            android:background="@color/nosh"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="0dp"
+            android:text="New Meal Plan"
+            android:textAllCaps="false" />
     </RelativeLayout>
 
 </FrameLayout>

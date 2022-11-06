@@ -10,7 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nosh.R;
-import com.example.nosh.fragments.plan.Meal;
+import com.example.nosh.entity.Foodstuff;
+import com.example.nosh.entity.Meal;
 
 import java.util.ArrayList;
 

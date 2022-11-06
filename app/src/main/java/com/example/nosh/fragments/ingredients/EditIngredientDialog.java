@@ -2,10 +2,13 @@ package com.example.nosh.fragments.ingredients;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -181,5 +184,15 @@ public class EditIngredientDialog extends DialogFragment implements DatePickerDi
     @Override
     public void dismiss() {
         super.dismiss();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Window window = getDialog().getWindow();
+        if(window == null) return;
+        WindowManager.LayoutParams params = window.getAttributes();
+        params.width = Resources.getSystem().getDisplayMetrics().widthPixels;
+        window.setAttributes(params);
     }
 }

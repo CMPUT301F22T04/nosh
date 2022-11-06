@@ -10,7 +10,7 @@ import java.util.Date;
 /**
  * Generalization ingredient (can be in ingredient storage, recipe, shopping list)
  */
-public class Ingredient implements Hashable, Serializable {
+public class Ingredient extends Foodstuff implements Hashable, Serializable {
 
     private boolean inStorage = false;
     private Date bestBeforeDate = new Date();

@@ -11,7 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nosh.R;
-import com.example.nosh.fragments.plan.Meal;
+import com.example.nosh.entity.Foodstuff;
+import com.example.nosh.entity.Meal;
 import com.example.nosh.fragments.plan.MealDay;
 
 import java.util.ArrayList;

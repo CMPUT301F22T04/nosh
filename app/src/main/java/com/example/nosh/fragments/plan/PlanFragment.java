@@ -1,5 +1,6 @@
 package com.example.nosh.fragments.plan;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,14 +11,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.nosh.R;
+import com.example.nosh.activities.NewMealPlanActivity;
+import com.example.nosh.entity.Ingredient;
+import com.example.nosh.fragments.ingredients.EditIngredientDialog;
 import com.example.nosh.fragments.plan.RecyclerViews.ItemAdapter;
 import com.example.nosh.fragments.plan.RecyclerViews.MealPlanRecyclerViewInterface;
 import com.example.nosh.fragments.plan.RecyclerViews.MealPlan_RecyclerViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -55,6 +61,12 @@ public class PlanFragment extends Fragment implements MealPlanRecyclerViewInterf
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        Button newMealPlanButton = v.findViewById(R.id.new_meal_plan_button);
+
+        newMealPlanButton.setOnClickListener(view -> {
+            launchNewMealPlanActivity();
+        });
+
         //ItemAdapter adapter = new ItemAdapter(mealDays);
         //recyclerView.setAdapter(adapter);
         //recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -86,10 +98,16 @@ public class PlanFragment extends Fragment implements MealPlanRecyclerViewInterf
     @Override
     public void onItemClick(int position) {
         // TODO: put a fragment container in this xml file instead of replacing the main one???
-        MealSpanFragment nextFrag= new MealSpanFragment();
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.nav_host_fragment_content_main, nextFrag, "meal_span_fragment")
-                .addToBackStack("true")
-                .commit();
+        openMealsOfDayDialog();
+    }
+
+    private void openMealsOfDayDialog() {
+        MealsOfDayDialog mealsOfDayDialog = MealsOfDayDialog.newInstance();
+        mealsOfDayDialog.show(getParentFragmentManager(), "MEALS_OF_DAY");
+    }
+
+    private void launchNewMealPlanActivity() {
+        Intent intent = new Intent(getContext(), NewMealPlanActivity.class);
+        startActivity(intent);
     }
 }
