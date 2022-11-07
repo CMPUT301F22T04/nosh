@@ -3,7 +3,6 @@ Welcome to the nosh, a meal planning mobile application!
 
 ## Table of Contents
 - [Introduction](#introduction)
-- [Firebase Emulator](#firebase emulator)
 - [Wiki Page](#wiki-page)
 - [Issue](#issue)
 - [License](#license)
