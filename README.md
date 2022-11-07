@@ -3,7 +3,7 @@ Welcome to the nosh, a meal planning mobile application!
 
 ## Table of Contents
 - [Introduction](#introduction)
-- [Firebase Emulator ](#firebase emulator)
+- [Firebase Emulator](#firebase emulator)
 - [Wiki Page](#wiki-page)
 - [Issue](#issue)
 - [License](#license)
@@ -25,6 +25,7 @@ To assist in meal planning, we created a mobile application that allows user to 
 
 ## Firebase Emulator 
 ---
+The instalation of this emulator is required to run the app as of project part 3.
 - To use emulator, you need Firebase CLI in your local machine.
   - If you're on Windows, use this https://firebase.tools/bin/win/instant/latest to download.
     - Remember to add it to your environmental path or place it in your project folder
