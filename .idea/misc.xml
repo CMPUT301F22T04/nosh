@@ -12,36 +12,6 @@
         <entry key="..\:/Fall22/CMPUT301/Project/nosh/app/src/main/res/layout/fragment_ingredients.xml" value="0.358695652173913" />
         <entry key="..\:/Fall22/CMPUT301/Project/nosh/app/src/main/res/layout/fragment_ingredientsort.xml" value="0.358695652173913" />
         <entry key="..\:/Fall22/CMPUT301/Project/nosh/app/src/main/res/layout/fragment_ingredientssort.xml" value="0.358695652173913" />
-        <entry key="app/src/main/res/drawable/ic_baseline_today_24.xml" value="0.171" />
-        <entry key="app/src/main/res/drawable/ic_done.xml" value="0.391" />
-        <entry key="app/src/main/res/drawable/ic_new_plan_logo_background.xml" value="0.323" />
-        <entry key="app/src/main/res/layout/activity_add_meals_to_days.xml" value="0.375" />
-        <entry key="app/src/main/res/layout/activity_login.xml" value="0.39114583333333336" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.3203125" />
-        <entry key="app/src/main/res/layout/activity_meal_span.xml" value="0.26296296296296295" />
-        <entry key="app/src/main/res/layout/activity_new_meal_plan.xml" value="0.335" />
-        <entry key="app/src/main/res/layout/activity_register.xml" value="0.39114583333333336" />
-        <entry key="app/src/main/res/layout/add_ingredient_layout.xml" value="0.39114583333333336" />
-        <entry key="app/src/main/res/layout/add_meals_to_days_layout.xml" value="0.39010416666666664" />
-        <entry key="app/src/main/res/layout/app_bar_main.xml" value="0.3203125" />
-        <entry key="app/src/main/res/layout/bottom_bar.xml" value="0.39114583333333336" />
-        <entry key="app/src/main/res/layout/content_main.xml" value="0.3203125" />
-        <entry key="app/src/main/res/layout/edit_ingredient_layout.xml" value="0.3203125" />
-        <entry key="app/src/main/res/layout/fragment_ingredients.xml" value="0.39114583333333336" />
-        <entry key="app/src/main/res/layout/fragment_list.xml" value="0.3203125" />
-        <entry key="app/src/main/res/layout/fragment_meal_span.xml" value="0.26296296296296295" />
-        <entry key="app/src/main/res/layout/fragment_plan.xml" value="0.5" />
-        <entry key="app/src/main/res/layout/fragment_recipes.xml" value="0.39114583333333336" />
-        <entry key="app/src/main/res/layout/meal_item.xml" value="0.8467559592021797" />
-        <entry key="app/src/main/res/layout/meal_plan_item.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/meal_plan_recycler_view_row.xml" value="0.3203125" />
-        <entry key="app/src/main/res/layout/meal_plan_span_recycler_view.xml" value="0.26296296296296295" />
-        <entry key="app/src/main/res/layout/meal_recycler_row.xml" value="0.3203125" />
-        <entry key="app/src/main/res/layout/meals_of_day_layout.xml" value="0.31927083333333334" />
-        <entry key="app/src/main/res/layout/nav_header_main.xml" value="0.3203125" />
-        <entry key="app/src/main/res/layout/stored_ingredient_entry.xml" value="0.3203125" />
-        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_new_plan_logo.xml" value="0.2075" />
-        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_new_plan_logo_round.xml" value="0.2295" />
       </map>
     </option>
   </component>

@@ -11,7 +11,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 
 public class IngredientDBController extends DBController {
 
-    static final String REF_NAME = "ingredient_storage";
+    static final String DOC_NAME = "ingredient_storage";
+    static final String COLLECTION_NAME = "ingredients";
 
     IngredientDBController(CollectionReference ref) {
         super(ref);

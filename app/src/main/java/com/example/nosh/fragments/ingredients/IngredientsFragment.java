@@ -14,9 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.startup.AppInitializer;
 
 import com.example.nosh.R;
+import com.example.nosh.controller.IngredientSorting;
 import com.example.nosh.controller.IngredientStorageController;
-import com.example.nosh.database.controller.DBControllerFactory;
 import com.example.nosh.database.Initializer.DBControllerFactoryInitializer;
+import com.example.nosh.database.controller.DBControllerFactory;
 import com.example.nosh.database.controller.IngredientDBController;
 import com.example.nosh.entity.Ingredient;
 
@@ -26,28 +27,28 @@ import java.util.Observable;
 import java.util.Observer;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link IngredientsFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * This class is the parent IngredientFragment class, it will take care of displaying the list of
+ * ingredients, allow users to view/edit ingredients and adding new ingredients.
+ * The class will instantiate new fragments for each functionality
+ * @authors JulianCamiloGallego, Dekr0, FNov10
+ * @version 1.0
  */
 public class IngredientsFragment extends Fragment implements Observer {
-
     private ImageButton addButton;
-    private StoredIngredientAdapter adapter;
+    private IngredientAdapter adapter;
     private IngredientStorageController controller;
     private IngredientsFragmentListener listener;
     private ArrayList<Ingredient> ingredients;
 
-    public IngredientsFragment() {
-        // Required empty public constructor
-    }
+    private ImageButton sortButton;
 
-    public static IngredientsFragment newInstance() {
-        return new IngredientsFragment();
-    }
+    /**
+     * Required empty constructor
+     */
+    public IngredientsFragment() {}
 
     private class IngredientsFragmentListener
-            implements StoredIngredientAdapter.RecyclerViewListener,
+            implements IngredientAdapter.RecyclerViewListener,
             View.OnClickListener, FragmentResultListener {
 
         @Override
@@ -55,13 +56,16 @@ public class IngredientsFragment extends Fragment implements Observer {
             if (v.getId() == addButton.getId()) {
                 openAddIngredientDialog();
             }
+
+            if (v.getId() == sortButton.getId()) {
+                openSortIngredientDialog();
+            }
         }
 
         @Override
         public void onDeleteButtonClick(int pos) {
             if (pos >= 0) {
                 controller.delete(ingredients.get(pos));
-                ingredients.remove(pos);
 
                 adapter.notifyItemRemoved(pos);
             }
@@ -83,28 +87,47 @@ public class IngredientsFragment extends Fragment implements Observer {
             addIngredientDialog.show(getParentFragmentManager(), "ADD_INGREDIENT");
         }
 
+        private void openSortIngredientDialog() {
+            SortIngredientDialog sortIngredientDialog = new SortIngredientDialog();
+            sortIngredientDialog.show(getChildFragmentManager(),"SORT_INGREDIENT");
+        }
+
+        /**
+         * This method handles the results from the child fragments spawned
+         */
         @Override
         public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-            if (requestKey.equals("add_ingredient")) {
-                controller.add(
-                        (Date) result.getSerializable("date"),
-                        result.getInt("qty"),
-                        result.getDouble("unit"),
-                        result.getString("name"),
-                        result.getString("description"),
-                        result.getString("category"),
-                        result.getString("location"));
-            }
-            if (requestKey.equals("edit_ingredient")) {
-                controller.update(
-                        result.getString("hashcode"),
-                        (Date) result.getSerializable("date"),
-                        result.getInt("qty"),
-                        result.getDouble("unit"),
-                        result.getString("name"),
-                        result.getString("description"),
-                        result.getString("category"),
-                        result.getString("location"));
+            switch (requestKey) {
+                case "add_ingredient":
+                    controller.add(
+                            (Date) result.getSerializable("date"),
+                            result.getInt("qty"),
+                            result.getDouble("unit"),
+                            result.getString("name"),
+                            result.getString("description"),
+                            result.getString("category"),
+                            result.getString("location"));
+                    break;
+                case "edit_ingredient":
+                    controller.update(
+                            result.getString("hashcode"),
+                            (Date) result.getSerializable("date"),
+                            result.getInt("qty"),
+                            result.getDouble("unit"),
+                            result.getString("name"),
+                            result.getString("description"),
+                            result.getString("category"),
+                            result.getString("location"));
+                    break;
+                case "sort_ingredient":
+                    IngredientSorting.sort(
+                            ingredients,
+                            result.getString("type"),
+                            result.getBoolean("order")
+                    );
+                    adapter.update(ingredients);
+                    adapter.notifyItemRangeChanged(0, ingredients.size());
+                    break;
             }
         }
     }
@@ -116,8 +139,7 @@ public class IngredientsFragment extends Fragment implements Observer {
         DBControllerFactory factory =
                 AppInitializer.getInstance(requireContext()).initializeComponent(DBControllerFactoryInitializer.class);
 
-        controller =
-                new IngredientStorageController(factory.createAccessController(IngredientDBController.class.getSimpleName()), this);
+        controller = new IngredientStorageController(factory.createAccessController(IngredientDBController.class.getSimpleName()), this);
         listener = new IngredientsFragmentListener();
 
         ingredients = controller.retrieve();
@@ -128,17 +150,19 @@ public class IngredientsFragment extends Fragment implements Observer {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_ingredients, container, false);
 
-
-        RecyclerView recyclerView = v.findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = v.findViewById(R.id.ingr_recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
 
-        adapter = new StoredIngredientAdapter(listener, getContext(), ingredients);
+        adapter = new IngredientAdapter(listener, getContext(), ingredients);
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
         addButton = v.findViewById(R.id.add_btn);
         addButton.setOnClickListener(listener);
+
+        sortButton = v.findViewById(R.id.sort_button);
+        sortButton.setOnClickListener(listener);
 
         requireActivity()
                 .getSupportFragmentManager()
@@ -152,16 +176,30 @@ public class IngredientsFragment extends Fragment implements Observer {
                         "edit_ingredient",
                         getViewLifecycleOwner(),
                         listener);
-
+        requireActivity()
+                .getSupportFragmentManager()
+                .setFragmentResultListener(
+                        "sort_ingredient",
+                        getViewLifecycleOwner(),
+                        listener
+                );
         return v;
     }
 
+
+    /**
+     * Receive notification from Ingredient Repository that there are new changes in
+     * data / entity objects. Retrieve the latest copy of the data
+     * @param o
+     * @param arg
+     */
     @Override
     public void update(Observable o, Object arg) {
         ingredients = controller.retrieve();
 
+        IngredientSorting.sort(ingredients, "", false);
+
         adapter.update(ingredients);
         adapter.notifyItemRangeChanged(0, ingredients.size());
     }
-
 }

@@ -6,7 +6,7 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.startup.Initializer;
 
-import com.google.firebase.BuildConfig;
+import com.example.nosh.BuildConfig;
 import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.Collections;

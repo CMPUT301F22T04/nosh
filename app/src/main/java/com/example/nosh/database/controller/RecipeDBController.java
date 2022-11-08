@@ -17,7 +17,8 @@ import java.util.Map;
 
 public class RecipeDBController extends DBController {
 
-    static final String REF_NAME = "recipes";
+    static final String DOC_NAME = "recipe_storage";
+    static final String COLLECTION_NAME = "recipes";
 
     RecipeDBController(CollectionReference ref) {
         super(ref);
@@ -103,7 +104,7 @@ public class RecipeDBController extends DBController {
                         Log.w("UPDATE", "Error updating document", e));
 
         /**
-         * Update ingredient will added later
+         * Update ingredients will added later
          */
     }
 
