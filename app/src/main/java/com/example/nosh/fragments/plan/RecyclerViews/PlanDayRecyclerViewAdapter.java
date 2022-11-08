@@ -13,17 +13,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nosh.R;
-import com.example.nosh.fragments.plan.MealDay;
+import com.example.nosh.entity.Foodstuff;
+import com.example.nosh.entity.Meal;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> {
+public class PlanDayRecyclerViewAdapter extends RecyclerView.Adapter<PlanDayRecyclerViewAdapter.ItemViewHolder> {
 
-    private List<MealDay> mList;
-    private List<String> list = new ArrayList<>();
+    private List<Meal> mList;
+    private List<Foodstuff> list = new ArrayList<>();
 
-    public ItemAdapter(List<MealDay> mList){
+    public PlanDayRecyclerViewAdapter(List<Meal> mList){
         this.mList  = mList;
     }
     @NonNull
@@ -35,11 +36,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
+        Meal model = mList.get(position);
+        holder.mTextView.setText(model.getName());
 
-        MealDay model = mList.get(position);
-        holder.mTextView.setText(model.getDay());
-
-        boolean isExpandable = model.isExpandable();;
+        boolean isExpandable = model.getExpanded();;
         holder.expandableLayout.setVisibility(isExpandable ? View.VISIBLE : View.GONE);
 
         if (isExpandable){
@@ -48,17 +48,14 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             holder.mArrowImage.setImageResource(R.drawable.arrow_down);
         }
 
-        NestedAdapter adapter = new NestedAdapter(list);
+        NestedMealAdapter adapter = new NestedMealAdapter(list);
         holder.nestedRecyclerView.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
         holder.nestedRecyclerView.setHasFixedSize(true);
         holder.nestedRecyclerView.setAdapter(adapter);
-        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                model.setExpandable(!model.isExpandable());
-                list = model.getMeals();
-                notifyItemChanged(holder.getAdapterPosition());
-            }
+        holder.linearLayout.setOnClickListener(v -> {
+            model.setExpanded(!model.getExpanded());
+            list = model.getFoodstuffs();
+            notifyItemChanged(holder.getAdapterPosition());
         });
     }
 

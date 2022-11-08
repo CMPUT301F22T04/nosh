@@ -13,8 +13,6 @@ import android.widget.EditText;
 import com.example.nosh.MainActivity;
 import com.example.nosh.R;
 import com.example.nosh.entity.MealPlan;
-import com.example.nosh.fragments.plan.AddMealsToDaysDialog;
-import com.example.nosh.fragments.plan.MealsOfDayDialog;
 
 import java.util.Date;
 

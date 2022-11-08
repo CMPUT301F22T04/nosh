@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,15 +14,12 @@ import android.widget.Button;
 
 import com.example.nosh.R;
 import com.example.nosh.activities.NewMealPlanActivity;
-import com.example.nosh.entity.Ingredient;
-import com.example.nosh.fragments.ingredients.EditIngredientDialog;
-import com.example.nosh.fragments.plan.RecyclerViews.ItemAdapter;
+import com.example.nosh.entity.MealPlan;
 import com.example.nosh.fragments.plan.RecyclerViews.MealPlanRecyclerViewInterface;
-import com.example.nosh.fragments.plan.RecyclerViews.MealPlan_RecyclerViewAdapter;
+import com.example.nosh.fragments.plan.RecyclerViews.MealPlanRecyclerViewAdapter;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,8 +27,7 @@ import java.util.Objects;
  * create an instance of this fragment.
  */
 public class PlanFragment extends Fragment implements MealPlanRecyclerViewInterface {
-    ArrayList<MockMealPlan> mealPlans = new ArrayList<>();
-    //ArrayList<MealDay> mealDays = new ArrayList<>();
+    ArrayList<MealPlan> mealPlans = new ArrayList<>();
 
     public PlanFragment() {
         // Required empty public constructor
@@ -57,7 +52,7 @@ public class PlanFragment extends Fragment implements MealPlanRecyclerViewInterf
 
         setUpTestData();
 
-        MealPlan_RecyclerViewAdapter adapter = new MealPlan_RecyclerViewAdapter(getContext(), mealPlans, this);
+        MealPlanRecyclerViewAdapter adapter = new MealPlanRecyclerViewAdapter(getContext(), mealPlans, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -67,31 +62,14 @@ public class PlanFragment extends Fragment implements MealPlanRecyclerViewInterf
             launchNewMealPlanActivity();
         });
 
-        //ItemAdapter adapter = new ItemAdapter(mealDays);
-        //recyclerView.setAdapter(adapter);
-        //recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
         return v;
     }
 
     private void setUpTestData(){
         String[] planNames = {"Vegan Diet", "Uni Meal Prep", "Mom's Recipes"};
-        String[] planSpans = {"Dec 10 2022 - Dec 14 2022", "Dec 15 2022 - Dec 24 2022", "Jan 1 2022 - Jan 30 2022"};
-        /*
-        String[] days = {"Dec 10 2022", "Dec 15 2022", "Jan 1 2022"};
-        List<String> nestedList1 = new ArrayList<>();
-        nestedList1.add("Jams and Honey");
-        nestedList1.add("Pickles and Chutneys");
-        nestedList1.add("Readymade Meal");
-        nestedList1.add("Chyawanprash");
-        nestedList1.add("Soup");
-        nestedList1.add("Sauce");
-        nestedList1.add("Namkeen");
-        nestedList1.add("Honey and Spreads");
-         */
 
         for (int i = 0; i < planNames.length; i++){
-            mealPlans.add(new MockMealPlan(planNames[i], planSpans[i]));
+            mealPlans.add(new MealPlan(planNames[i], new Date(), new Date()));
         }
     }
 

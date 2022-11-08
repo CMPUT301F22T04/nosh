@@ -15,10 +15,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nosh.R;
-import com.example.nosh.fragments.plan.RecyclerViews.ItemAdapter;
+import com.example.nosh.entity.Meal;
+import com.example.nosh.fragments.plan.RecyclerViews.PlanDayRecyclerViewAdapter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MealsOfDayDialog extends DialogFragment {
     public static MealsOfDayDialog newInstance() {
@@ -30,30 +30,19 @@ public class MealsOfDayDialog extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-
         View view = inflater.inflate(R.layout.meals_of_day_layout, container, false);
 
         RecyclerView recyclerView = view.findViewById(R.id.meals_of_day_recycler);
 
-        ArrayList<MealDay> mealDays = new ArrayList<>();
+        ArrayList<Meal> mealDays = new ArrayList<>();
 
-        String[] days = {"Dec 10 2022", "Dec 15 2022", "Jan 1 2022"};
-        List<String> nestedList1 = new ArrayList<>();
-        nestedList1.add("Jams and Honey");
-        nestedList1.add("Pickles and Chutneys");
-        nestedList1.add("Readymade Meal");
-        nestedList1.add("Chyawanprash");
-        nestedList1.add("Soup");
-        nestedList1.add("Sauce");
-        nestedList1.add("Namkeen");
-        nestedList1.add("Honey and Spreads");
-
-
-        for (int i = 0; i < days.length; i++){
-            mealDays.add(new MealDay(days[i], nestedList1));
+        String[] meals = {"Dec 10 2022", "Dec 15 2022", "Jan 1 2022"};
+        for (int i = 0; i < meals.length; i++){
+            Meal meal = new Meal(Integer.toString(i));
+            mealDays.add(meal);
         }
 
-        ItemAdapter adapter = new ItemAdapter(mealDays);
+        PlanDayRecyclerViewAdapter adapter = new PlanDayRecyclerViewAdapter(mealDays);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 

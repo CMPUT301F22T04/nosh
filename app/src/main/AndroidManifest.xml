@@ -21,9 +21,6 @@
             android:name=".activities.NewMealPlanActivity"
             android:exported="false" />
         <activity
-            android:name=".fragments.plan.MealSpanActivity"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Theme.Nosh.NoActionBar" />

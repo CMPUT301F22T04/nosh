@@ -14,25 +14,24 @@ public class Recipe extends Foodstuff implements Hashable {
     String category = "";
     String comments = "";
     String photograph = ""; // Image reference in storage
-    String title = "";
 
     ArrayList<Ingredient> ingredients = new ArrayList<>();
 
     String hashcode;
 
     public Recipe() {
-
+        super("NULL");
     }
 
     public Recipe(double preparationTime, int servings, String category,
-                  String comments, String photograph, String title,
+                  String comments, String photograph, String name,
                   ArrayList<Ingredient> ingredients) {
+        super(name);
         this.preparationTime = preparationTime;
         this.servings = servings;
         this.category = category;
         this.comments = comments;
         this.photograph = photograph;
-        this.title = title;
 
         this.ingredients = ingredients;
 
@@ -78,14 +77,6 @@ public class Recipe extends Foodstuff implements Hashable {
 
     public void setPhotograph(String photograph) {
         this.photograph = photograph;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public ArrayList<Ingredient> getIngredients() {

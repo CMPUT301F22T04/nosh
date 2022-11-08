@@ -12,25 +12,18 @@ import java.util.Date;
  */
 public class Meal extends Foodstuff {
     private final String hashcode; // id
-    private String name; // name of the meal
     private final ArrayList<Foodstuff> foodstuffs; // list of ingredients and recipes
+    private Boolean isExpanded;
 
     public Meal(String name){
+        super(name);
         this.hashcode = Hashing.sha256().hashInt(new Timestamp(new Date()).getNanoseconds())
                 .toString();
-        this.name = name;
         this.foodstuffs = new ArrayList<>();
+        isExpanded = false;
     }
 
     // Getters and Setters
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public ArrayList<Foodstuff> getFoodstuffs() {
         return foodstuffs;
     }
@@ -41,5 +34,13 @@ public class Meal extends Foodstuff {
 
     public String getHashcode() {
         return hashcode;
+    }
+
+    public Boolean getExpanded() {
+        return isExpanded;
+    }
+
+    public void setExpanded(Boolean expanded) {
+        isExpanded = expanded;
     }
 }

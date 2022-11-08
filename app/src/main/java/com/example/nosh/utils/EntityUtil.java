@@ -19,7 +19,7 @@ public class EntityUtil {
         data.put("servings", recipe.getServings());
         data.put("comments", recipe.getComments());
         data.put("photograph", recipe.getPhotograph());
-        data.put("title", recipe.getTitle());
+        data.put("title", recipe.getName());
 
         return data;
     }
