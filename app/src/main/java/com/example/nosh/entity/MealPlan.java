@@ -14,8 +14,8 @@ import java.util.Objects;
  * This is the MealPlan class, each MealPlan will have a name, a start/end date and a Map
  * The Map will hold a list of Meals that belong to a specific MealPlan day
  */
-public class MealPlan implements Serializable {
-    private final String hashcode; // id
+public class MealPlan implements Serializable, Hashable {
+    private String hashcode; // id
     private String name; // name of the meal plan
     private Date startDate; // start date of the meal plan
     private Date endDate; // end date of the meal plan
@@ -85,5 +85,9 @@ public class MealPlan implements Serializable {
 
     public String getHashcode() {
         return hashcode;
+    }
+
+    public void setHashcode(String hashcode) {
+        this.hashcode = hashcode;
     }
 }

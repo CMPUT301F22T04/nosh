@@ -49,7 +49,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull RecipeViewHolder holder, int position) {
-        holder.getNameTextView().setText(recipes.get(position).getTitle());
+        holder.getNameTextView().setText(recipes.get(position).getName());
     }
 
     @Override
