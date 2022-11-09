@@ -19,7 +19,6 @@ public class EntityUtil {
         data.put("servings", recipe.getServings());
         data.put("comments", recipe.getComments());
         data.put("photographRemote", recipe.getPhotographRemote());
-        data.put("photographLocal", recipe.getPhotographLocal());
         data.put("title", recipe.getTitle());
 
         return data;
