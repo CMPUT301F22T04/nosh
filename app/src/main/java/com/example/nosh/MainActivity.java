@@ -14,37 +14,18 @@ import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.startup.AppInitializer;
 
-import com.example.nosh.database.Initializer.DBControllerFactoryInitializer;
-import com.example.nosh.database.Initializer.FirebaseStorageControllerInitializer;
 import com.example.nosh.databinding.ActivityMainBinding;
-import com.example.nosh.utils.AndroidFileUtil;
-import com.google.firebase.auth.FirebaseAuth;
 
 
 public class MainActivity extends AppCompatActivity {
 
+    // List of permissions that will be asked for the users
     private static final String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
     };
 
     private AppBarConfiguration mAppBarConfiguration;
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        AppInitializer
-                .getInstance(this)
-                .initializeComponent(DBControllerFactoryInitializer.class);
-        AppInitializer
-                .getInstance(this)
-                .initializeComponent(FirebaseStorageControllerInitializer.class);
-
-        AndroidFileUtil.createSubfolder(getCacheDir(),
-                FirebaseAuth.getInstance().getUid());
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,19 +76,13 @@ public class MainActivity extends AppCompatActivity {
                 super.onSupportNavigateUp();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        getCacheDir().delete();
-    }
-
+    // Verify whether if Nosh has storage read permission
     public static void verifyStorageReadPermission(Activity activity) {
         int permission = ActivityCompat.checkSelfPermission(activity,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
         if (permission != PackageManager.PERMISSION_GRANTED) {
-            // We don't have permission so prompt the user
+            // We don't have permission so ask for user permission
             ActivityCompat.requestPermissions(
                     activity,
                     PERMISSIONS_STORAGE,
