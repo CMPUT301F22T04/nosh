@@ -1,5 +1,6 @@
 package com.example.nosh.fragments.recipes;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,19 +8,15 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.startup.AppInitializer;
 
+import com.example.nosh.Nosh;
 import com.example.nosh.R;
 import com.example.nosh.controller.RecipeController;
-import com.example.nosh.database.Initializer.DBControllerFactoryInitializer;
-import com.example.nosh.database.Initializer.FirebaseStorageControllerInitializer;
-import com.example.nosh.database.controller.DBControllerFactory;
-import com.example.nosh.database.controller.FirebaseStorageController;
-import com.example.nosh.database.controller.RecipeDBController;
 import com.example.nosh.entity.Ingredient;
 import com.example.nosh.entity.Recipe;
 import com.google.firebase.storage.StorageReference;
@@ -29,12 +26,17 @@ import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.inject.Inject;
+
 
 public class RecipesFragment extends Fragment implements Observer {
     //Initalize some needed variables
     private ImageButton addBtn;
     private RecipeAdapter adapter;
-    private RecipeController controller;
+
+    @Inject
+    RecipeController controller;
+
     private RecipesFragmentListener listener;
     private HashMap<String, StorageReference> recipeImagesRemote;
     private ArrayList<Recipe> recipes;
@@ -93,30 +95,26 @@ public class RecipesFragment extends Fragment implements Observer {
         return new RecipesFragment();
     }
 
-    /**
-     * on creation of fragment we run this class to inialtize
-     */
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onAttach(@NonNull Context context) {
+        ((Nosh) context.getApplicationContext())
+                .getAppComponent()
+                        .inject(this);
 
-        DBControllerFactory factory = AppInitializer
-                .getInstance(requireContext())
-                .initializeComponent(DBControllerFactoryInitializer.class);
+        controller.addObserver(this);
 
-        FirebaseStorageController storageController = AppInitializer
-                .getInstance(requireContext())
-                .initializeComponent(FirebaseStorageControllerInitializer.class);
-
-        controller = new RecipeController(
-                requireContext(),
-                factory.createAccessController(RecipeDBController.class.getSimpleName()),
-                storageController,
-                this);
+        super.onAttach(context);
 
         listener = new RecipesFragmentListener();
 
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
         recipes = controller.retrieve();
+        recipeImagesRemote = controller.getRecipeImagesRemote();
     }
 
     @Override
@@ -146,6 +144,13 @@ public class RecipesFragment extends Fragment implements Observer {
                         listener);
 
         return v;
+    }
+
+    @Override
+    public void onDestroy() {
+        controller.deleteObserver(this);
+
+        super.onDestroy();
     }
 
     /**
