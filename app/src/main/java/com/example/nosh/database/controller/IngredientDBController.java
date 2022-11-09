@@ -8,14 +8,17 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
+import javax.inject.Inject;
+
 
 public class IngredientDBController extends DBController {
 
     static final String DOC_NAME = "ingredient_storage";
     static final String COLLECTION_NAME = "ingredients";
 
-    IngredientDBController(CollectionReference ref) {
-        super(ref);
+    @Inject
+    public IngredientDBController(CollectionReference ref) {
+        super(ref.document(DOC_NAME).collection(COLLECTION_NAME));
     }
 
     @Override

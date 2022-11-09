@@ -14,14 +14,17 @@ import com.google.firebase.firestore.FieldValue;
 
 import java.util.Map;
 
+import javax.inject.Inject;
+
 
 public class RecipeDBController extends DBController {
 
     static final String DOC_NAME = "recipe_storage";
     static final String COLLECTION_NAME = "recipes";
 
+    @Inject
     RecipeDBController(CollectionReference ref) {
-        super(ref);
+        super(ref.document(DOC_NAME).collection(COLLECTION_NAME));
     }
 
     @Override

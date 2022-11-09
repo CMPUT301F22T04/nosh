@@ -1,11 +1,6 @@
 package com.example.nosh.controller;
 
 
-import android.content.Context;
-import android.net.Uri;
-
-import com.example.nosh.database.controller.DBController;
-import com.example.nosh.database.controller.FirebaseStorageController;
 import com.example.nosh.entity.Ingredient;
 import com.example.nosh.entity.Recipe;
 import com.example.nosh.repository.RecipeImageRepository;
@@ -16,34 +11,30 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observer;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
+
+/**
+ * This class act a messenger between the view model (RecipeFragment) and
+ * RecipeRepository and RecipeImageRepository.
+ * @author Dekr0
+ */
+@Singleton
 public class RecipeController {
 
     private final RecipeRepository recipeRepository;
     private final RecipeImageRepository recipeImageRepository;
 
-    public RecipeController(Context context, DBController dbController,
-                            FirebaseStorageController storageController, Observer o) {
-
-        recipeRepository = new RecipeRepository(dbController);
-        recipeImageRepository = new RecipeImageRepository(context, storageController);
-
-        recipeRepository.addObserver(o);
-        recipeImageRepository.addObserver(o);
-
-        recipeRepository.sync();
-        recipeImageRepository.sync();
+    @Inject
+    public RecipeController(RecipeRepository recipeRepository,
+                            RecipeImageRepository recipeImageRepository) {
+        this.recipeRepository = recipeRepository;
+        this.recipeImageRepository = recipeImageRepository;
     }
 
     /**
-     * Receive all necessary information from users to create a a new recipe
-     * @param preparationTime
-     * @param servings
-     * @param category
-     * @param comments
-     * @param photographLocal
-     * @param title
-     * @param ingredients
+     * Pass all necessary information from users to create a a new recipe
      */
     public void add(double preparationTime, int servings, String category, String comments,
                     String photographLocal, String title, ArrayList<Ingredient> ingredients) {
@@ -51,26 +42,37 @@ public class RecipeController {
         String photographRemote = recipeImageRepository.add(photographLocal);
 
         recipeRepository.add(preparationTime, servings, category, comments,
-                photographLocal, photographRemote, title, ingredients);
+                photographRemote, title, ingredients);
     }
 
     /**
      * Return a list of copy references of recipe objects
-     * @return
      */
     public ArrayList<Recipe> retrieve() {
         return recipeRepository.retrieve();
     }
 
+    /**
+     * Return a list of StorageReference of recipe images in Firebase Storage
+     */
     public HashMap<String, StorageReference> getRecipeImagesRemote() {
         return recipeImageRepository.getRecipeImagesRemote();
     }
 
     /**
      * Delete a recipe
-     * @param recipe
      */
     public void delete(Recipe recipe) {
         recipeRepository.delete(recipe);
+    }
+
+    public void addObserver(Observer o) {
+        recipeRepository.addObserver(o);
+        recipeImageRepository.addObserver(o);
+    }
+
+    public void deleteObserver(Observer o) {
+        recipeRepository.deleteObserver(o);
+        recipeImageRepository.deleteObserver(o);
     }
 }

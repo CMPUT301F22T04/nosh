@@ -1,6 +1,7 @@
 package com.example.nosh.repository;
 
 import com.example.nosh.database.controller.DBController;
+import com.example.nosh.database.controller.IngredientDBController;
 import com.example.nosh.entity.Ingredient;
 
 import java.util.ArrayList;
@@ -8,6 +9,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.Observable;
+
+import javax.inject.Inject;
 
 
 /**
@@ -28,10 +31,13 @@ public class IngredientRepository extends Repository {
 
     private final HashMap<String, Ingredient> ingredients;
 
-    public IngredientRepository(DBController dbController) {
+    @Inject
+    public IngredientRepository(IngredientDBController dbController) {
         super(dbController);
 
         ingredients = new HashMap<>();
+
+        sync();
     }
 
     public void add(Date bestBeforeDate, double unit, int amount,

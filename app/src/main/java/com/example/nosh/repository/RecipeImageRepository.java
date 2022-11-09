@@ -11,21 +11,22 @@ import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.inject.Inject;
+
 
 public class RecipeImageRepository extends Observable implements Observer {
 
-    private final Context context;
     private final FirebaseStorageController storageController;
-    private final HashMap<String, Uri> recipeImagesCache;
     private final HashMap<String, StorageReference> recipeImagesRemote;
 
-    public RecipeImageRepository(Context context,
-                                 FirebaseStorageController storageController) {
-        this.context = context;
+    @Inject
+    public RecipeImageRepository(FirebaseStorageController storageController) {
         this.storageController = storageController;
         this.storageController.addObserver(this);
+
         recipeImagesRemote = new HashMap<>();
-        recipeImagesCache = new HashMap<>();
+
+        sync();
     }
 
     public String add(String photograph) {
@@ -42,9 +43,6 @@ public class RecipeImageRepository extends Observable implements Observer {
         storageController.sync();
     }
 
-    HashMap<String, Uri> getRecipeImagesCache() {
-        return recipeImagesCache;
-    }
 
     public HashMap<String, StorageReference> getRecipeImagesRemote() {
         return recipeImagesRemote;
@@ -52,17 +50,7 @@ public class RecipeImageRepository extends Observable implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        if (arg instanceof File[]) {
-
-            File[] cachedInImages = (File[]) arg;
-
-            for (File image :
-                    cachedInImages) {
-                String filename = image.getName().replaceAll("\\d", "");
-
-                recipeImagesCache.put(filename, Uri.fromFile(image));
-            }
-        } else if (arg instanceof StorageReference[]) {
+        if (arg instanceof StorageReference[]) {
             StorageReference[] refs = (StorageReference[]) arg;
 
             for (StorageReference ref :

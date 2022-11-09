@@ -1,9 +1,7 @@
 package com.example.nosh.repository;
 
 
-import android.net.Uri;
-
-import com.example.nosh.database.controller.DBController;
+import com.example.nosh.database.controller.RecipeDBController;
 import com.example.nosh.entity.Ingredient;
 import com.example.nosh.entity.Recipe;
 
@@ -11,26 +9,28 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
 
+import javax.inject.Inject;
 
 
 public class RecipeRepository extends Repository {
 
     private final HashMap<String, Recipe> recipes;
 
-    public RecipeRepository(DBController dbController) {
+    @Inject
+    public RecipeRepository(RecipeDBController dbController) {
         super(dbController);
 
         recipes = new HashMap<>();
+
+        sync();
     }
 
     public void add(double preparationTime, int servings, String category, String comments,
-                    String photographLocal, String photographRemote,
-                    String title, ArrayList<Ingredient> ingredients) {
+                    String photographRemote, String title,
+                    ArrayList<Ingredient> ingredients) {
 
         Recipe recipe = new Recipe(preparationTime, servings, category, comments,
                 photographRemote, title, ingredients);
-
-        recipe.setPhotographLocal(photographLocal);
 
         recipes.put(recipe.getHashcode(), recipe);
 
