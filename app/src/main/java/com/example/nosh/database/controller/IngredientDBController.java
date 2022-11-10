@@ -4,9 +4,12 @@ import android.util.Log;
 
 import com.example.nosh.entity.Hashable;
 import com.example.nosh.entity.Ingredient;
+import com.example.nosh.utils.EntityUtil;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -25,13 +28,19 @@ public class IngredientDBController extends DBController {
     public void create(Hashable o) {
         assertType(o);
 
-        ref.document(o.getHashcode())
-                .set(o)
+        Ingredient ingredient = (Ingredient) o;
+
+        Map<String, Object> data = EntityUtil.ingredientToMap(ingredient);
+
+        DocumentReference doc = ref.document(o.getHashcode());
+
+        doc
+                .set(data)
                 .addOnSuccessListener(unused ->
                         Log.i("CREATE", "DocumentSnapshot written with ID: " +
                                 o.getHashcode()))
                 .addOnFailureListener(e ->
-                        Log.w("CREATE", "Error adding document", e));
+                        Log.w("CREATE", "Error adding document)"));
     }
 
     @Override
