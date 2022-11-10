@@ -10,7 +10,7 @@ import java.util.Date;
 /**
  * Generalization ingredient (can be in ingredient storage, recipe, shopping list)
  */
-public class Ingredient extends Foodstuff implements Hashable, Serializable {
+public class Ingredient extends MealComponent implements Hashable, Serializable {
 
     private boolean inStorage = false;
     private Date bestBeforeDate = new Date();
@@ -19,6 +19,7 @@ public class Ingredient extends Foodstuff implements Hashable, Serializable {
     private String category = "";
     private String description = "";
     private String location = "";
+    private String name = "";
 
     /**
      * This field is used for Id of a document in the database
@@ -31,7 +32,7 @@ public class Ingredient extends Foodstuff implements Hashable, Serializable {
      * For creating new Object from Firestore
      */
     public Ingredient() {
-        super("NULL");
+
     }
 
     /**
@@ -48,11 +49,11 @@ public class Ingredient extends Foodstuff implements Hashable, Serializable {
 
     public Ingredient(double unit, int amount, String category, String description,
                       String name) {
-        super(name);
         this.amount = amount;
         this.unit = unit;
         this.description = description;
         this.category = category;
+        this.name = name;
         hashcode = Hashing.sha256().hashInt(new Timestamp(new Date()).getNanoseconds())
                 .toString();
     }
@@ -119,5 +120,14 @@ public class Ingredient extends Foodstuff implements Hashable, Serializable {
 
     public void setHashcode(String hashcode) {
         this.hashcode = hashcode;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 }
