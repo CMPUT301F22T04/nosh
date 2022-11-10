@@ -1,9 +1,5 @@
 package com.example.nosh.controller;
 
-import android.content.Context;
-
-import com.example.nosh.database.controller.DBController;
-import com.example.nosh.database.controller.FirebaseStorageController;
 import com.example.nosh.entity.MealPlan;
 import com.example.nosh.repository.MealPlanRepository;
 
@@ -11,14 +7,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Observer;
 
-public class MealPlanController {
-    private final MealPlanRepository mealPlanRepository;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
-    public MealPlanController(Context context, DBController dbController,
-                            FirebaseStorageController storageController, Observer o) {
-        mealPlanRepository = new MealPlanRepository(dbController);
-        mealPlanRepository.addObserver(o);
-        mealPlanRepository.sync();
+
+@Singleton
+public class MealPlanController {
+
+    final MealPlanRepository mealPlanRepository;
+
+    @Inject
+    public MealPlanController(MealPlanRepository mealPlanRepository) {
+        this.mealPlanRepository = mealPlanRepository;
     }
 
     /**
@@ -46,5 +46,13 @@ public class MealPlanController {
     public void delete(MealPlan mealPlan) {
         //TODO: Should we even implement this?
         mealPlanRepository.delete(mealPlan);
+    }
+
+    public void addObserver(Observer o) {
+        mealPlanRepository.addObserver(o);
+    }
+
+    public void deleteObserver(Observer o) {
+        mealPlanRepository.deleteObserver(o);
     }
 }

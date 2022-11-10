@@ -8,12 +8,19 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Observable;
 
-public class MealPlanRepository extends Repository{
+import javax.inject.Inject;
+
+public class MealPlanRepository extends Repository {
+
     private final HashMap<String, MealPlan> mealPlans;
 
+    @Inject
     public MealPlanRepository(DBController dbController) {
         super(dbController);
+
         mealPlans = new HashMap<>();
+
+        sync();
     }
 
     public void add(String name, Date startDate, Date endDate) {
@@ -43,6 +50,7 @@ public class MealPlanRepository extends Repository{
         for (MealPlan mealPlan : mealPlans) {
             this.mealPlans.put(mealPlan.getHashcode(), mealPlan);
         }
+
         notifyObservers();
     }
 }
