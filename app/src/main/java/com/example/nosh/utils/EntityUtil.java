@@ -28,13 +28,14 @@ public class EntityUtil {
         data.put("preparationTime", recipe.getPreparationTime());
         data.put("servings", recipe.getServings());
         data.put("comments", recipe.getComments());
-        data.put("photograph", recipe.getPhotographRemote());
+        data.put("photographRemote", recipe.getPhotographRemote());
         data.put("title", recipe.getName());
 
         return data;
     }
 
     public static Map<String, Object> ingredientToMap(Ingredient ingredient) {
+
         Map<String, Object> data = new HashMap<>();
 
         data.put("inStorage", ingredient.isInStorage());
@@ -54,7 +55,8 @@ public class EntityUtil {
         Ingredient ingredient = new Ingredient();
 
         ingredient.setInStorage((boolean) map.get("inStorage"));
-        ingredient.setBestBeforeDate(((Timestamp) Objects.requireNonNull(map.get("bestBeforeDate"))).toDate());
+        ingredient.setBestBeforeDate(((Timestamp)
+                Objects.requireNonNull(map.get("bestBeforeDate"))).toDate());
         ingredient.setUnit((double) map.get("unit"));
         ingredient.setAmount( (int) ((long) map.get("amount")) );
         ingredient.setCategory((String) map.get("category"));
