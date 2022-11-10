@@ -9,15 +9,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nosh.R;
-import com.example.nosh.entity.Foodstuff;
+import com.example.nosh.entity.MealComponent;
 
 import java.util.List;
 
 public class NestedMealAdapter extends RecyclerView.Adapter<NestedMealAdapter.NestedViewHolder> {
 
-    private List<Foodstuff> mList;
+    private List<MealComponent> mList;
 
-    public NestedMealAdapter(List<Foodstuff> mList){
+    public NestedMealAdapter(List<MealComponent> mList){
         this.mList = mList;
     }
     @NonNull
@@ -29,7 +29,7 @@ public class NestedMealAdapter extends RecyclerView.Adapter<NestedMealAdapter.Ne
 
     @Override
     public void onBindViewHolder(@NonNull NestedViewHolder holder, int position) {
-        holder.mTv.setText("Foodstuff name");
+        holder.mTv.setText("MealComponent name");
     }
 
     @Override
