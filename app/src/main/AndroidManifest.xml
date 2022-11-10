@@ -29,11 +29,17 @@
         </provider>
 
         <activity
+            android:name=".activities.AddMealsToDaysActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.NewMealPlanActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.Nosh.NoActionBar">
+            android:theme="@style/Theme.Nosh.NoActionBar" />
 
-        </activity>
         <activity
             android:name=".auth.Register"
             android:exported="true">
@@ -43,6 +49,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".auth.Login"
             android:exported="true" />
