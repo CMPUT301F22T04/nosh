@@ -15,18 +15,18 @@ import java.util.Objects;
  * The Map will hold a list of Meals that belong to a specific MealPlan day
  */
 public class MealPlan implements Serializable, Hashable {
-    private String hashcode; // id
-    private String name; // name of the meal plan
+
     private Date startDate; // start date of the meal plan
     private Date endDate; // end date of the meal plan
     private Integer totalDays; // total number of days that the plan lasts
+    private String name; // name of the meal plan
+
     // TODO: Should not be an integer but a string of the date corresponding to a day
     private Map<Integer, ArrayList<Meal>> planDays; // days of the meal plan
 
+    private String hashcode; // id
+
     public MealPlan(String name, Date startDate, Date endDate) {
-        this.hashcode = Hashing.sha256().hashInt(new Timestamp(new Date()).getNanoseconds())
-                .toString();
-        this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
         this.totalDays = 5; // endDate - startDate
@@ -35,6 +35,11 @@ public class MealPlan implements Serializable, Hashable {
         for (int i = 0; i < 5; i++){ // create a new day entry for every day
             planDays.put(i, new ArrayList<>());
         }
+
+        this.name = name;
+
+        this.hashcode = Hashing.sha256().hashInt(new Timestamp(new Date()).getNanoseconds())
+                .toString();
     }
 
     // Getters and Setters
