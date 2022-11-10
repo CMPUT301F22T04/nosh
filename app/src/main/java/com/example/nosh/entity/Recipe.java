@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 
-public class Recipe implements Hashable {
+public class Recipe extends Foodstuff implements Hashable {
 
     double preparationTime;
     int servings;
@@ -21,12 +21,13 @@ public class Recipe implements Hashable {
     String hashcode;
 
     public Recipe() {
-
+        super("NULL");
     }
 
     public Recipe(double preparationTime, int servings, String category,
-                  String comments, String photograph, String title,
+                  String comments, String photograph, String name,
                   ArrayList<Ingredient> ingredients) {
+        super(name);
         this.preparationTime = preparationTime;
         this.servings = servings;
         this.category = category;
@@ -78,14 +79,6 @@ public class Recipe implements Hashable {
 
     public void setPhotographRemote(String photographRemote) {
         this.photographRemote = photographRemote;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public ArrayList<Ingredient> getIngredients() {

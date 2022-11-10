@@ -1,56 +1,47 @@
 package com.example.nosh.database.controller;
 
-
 import android.util.Log;
 
 import com.example.nosh.entity.Hashable;
-import com.example.nosh.entity.Ingredient;
-import com.example.nosh.entity.Recipe;
+import com.example.nosh.entity.MealPlan;
 import com.example.nosh.utils.EntityUtil;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
 
 import java.util.Map;
 
-import javax.inject.Inject;
+public class MealPlanDBController extends DBController{
+    static final String DOC_NAME = "meal_plan_storage";
+    static final String COLLECTION_NAME = "mealPlans";
 
-
-public class RecipeDBController extends DBController {
-
-    static final String DOC_NAME = "recipe_storage";
-    static final String COLLECTION_NAME = "recipes";
-
-    @Inject
-    RecipeDBController(CollectionReference ref) {
-        super(ref.document(DOC_NAME).collection(COLLECTION_NAME));
+    MealPlanDBController(CollectionReference ref) {
+        super(ref);
     }
 
     @Override
     public void create(Hashable o) {
         assertType(o);
 
-        Recipe recipe = (Recipe) o;
-
-        Map<String, Object> data = EntityUtil.recipeToMap(recipe);
-
+        MealPlan mealPlan = (MealPlan) o;
+        Map<String, Object> data = EntityUtil.mealPlanToMap(mealPlan);
         DocumentReference doc = ref.document(o.getHashcode());
 
-        doc
-                .set(data)
+        doc.set(data)
                 .addOnSuccessListener(unused ->
                         Log.i("CREATE", "DocumentSnapshot written with ID: " +
                                 o.getHashcode()))
                 .addOnFailureListener(e ->
                         Log.w("CREATE", "Error adding document)"));
 
+        // TODO: This should be for ingredients and recipes
+        /*
         for (Ingredient ingredient :
-                recipe.getIngredients()) {
-            doc
-                    .update("ingredients", FieldValue
+                mealPlan.getIngredients()) {
+            doc.update("ingredients", FieldValue
                             .arrayUnion(EntityUtil.ingredientToMap(ingredient)));
         }
+        */
     }
 
     @Override
@@ -60,22 +51,20 @@ public class RecipeDBController extends DBController {
 
     @Override
     public void retrieve() {
-        ref
-                .get()
+        ref.get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        Recipe[] recipes =
-                                new Recipe[task.getResult().size()];
+                        MealPlan[] mealPlans =
+                                new MealPlan[task.getResult().size()];
 
                         int i = 0;
                         for (DocumentSnapshot doc :
                                 task.getResult()) {
-                            recipes[i] = doc.toObject(Recipe.class);
-                            recipes[i++].setHashcode(doc.getId());
+                            mealPlans[i] = doc.toObject(MealPlan.class);
+                            mealPlans[i++].setHashcode(doc.getId());
                         }
-
                         setChanged();
-                        notifyObservers(recipes);
+                        notifyObservers(mealPlans);
                     } else {
                         Log.w("RETRIEVE", "Cached get failed: ",
                                 task.getException());
@@ -87,27 +76,18 @@ public class RecipeDBController extends DBController {
     public void update(Hashable o) {
         assertType(o);
 
-        Recipe recipe = (Recipe) o;
+        MealPlan mealPlan = (MealPlan) o;
+        DocumentReference doc = ref.document(mealPlan.getHashcode());
 
-        DocumentReference doc = ref.document(recipe.getHashcode());
-
-        doc
-                .update(
-                    "preparationTime", recipe.getPreparationTime(),
-                        "servings", recipe.getServings(),
-                        "category", recipe.getCategory(),
-                        "comments", recipe.getComments(),
-                        "photograph", recipe.getPhotographRemote(),
-                        "title", recipe.getName()
-                )
+        doc.update("name", mealPlan.getName(), "start", mealPlan.getStartDate(),
+                        "end", mealPlan.getEndDate())
                 .addOnSuccessListener(unused ->
                         Log.i("UPDATE", "DocumentSnapshot " +
-                                recipe.getHashcode() + "successfully updated"))
+                                mealPlan.getHashcode() + "successfully updated"))
                 .addOnFailureListener(e ->
                         Log.w("UPDATE", "Error updating document", e));
-
         /**
-         * Update ingredients will added later
+         * Update foodStuffs will be added later
          */
     }
 
@@ -125,6 +105,6 @@ public class RecipeDBController extends DBController {
     }
 
     private void assertType(Object o) {
-        assert o instanceof Recipe;
+        assert o instanceof MealPlan;
     }
 }

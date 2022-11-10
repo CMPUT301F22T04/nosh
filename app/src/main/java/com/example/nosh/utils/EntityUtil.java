@@ -1,6 +1,7 @@
 package com.example.nosh.utils;
 
 import com.example.nosh.entity.Ingredient;
+import com.example.nosh.entity.MealPlan;
 import com.example.nosh.entity.Recipe;
 import com.google.firebase.Timestamp;
 
@@ -11,6 +12,15 @@ import java.util.Objects;
 
 public class EntityUtil {
 
+    public static Map<String, Object> mealPlanToMap(MealPlan mealPlan) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("name", mealPlan.getName());
+        data.put("start", mealPlan.getStartDate());
+        data.put("end", mealPlan.getEndDate());
+
+        return data;
+    }
+
     public static Map<String, Object> recipeToMap(Recipe recipe) {
 
         Map<String, Object> data = new HashMap<>();
@@ -18,8 +28,8 @@ public class EntityUtil {
         data.put("preparationTime", recipe.getPreparationTime());
         data.put("servings", recipe.getServings());
         data.put("comments", recipe.getComments());
-        data.put("photographRemote", recipe.getPhotographRemote());
-        data.put("title", recipe.getTitle());
+        data.put("photograph", recipe.getPhotograph());
+        data.put("title", recipe.getName());
 
         return data;
     }
