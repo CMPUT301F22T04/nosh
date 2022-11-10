@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nosh.R;
-import com.example.nosh.entity.Foodstuff;
+import com.example.nosh.entity.MealComponent;
 import com.example.nosh.entity.Meal;
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ import java.util.List;
 public class PlanDayRecyclerViewAdapter extends RecyclerView.Adapter<PlanDayRecyclerViewAdapter.ItemViewHolder> {
 
     private List<Meal> mList;
-    private List<Foodstuff> list = new ArrayList<>();
+    private List<MealComponent> list = new ArrayList<>();
 
     public PlanDayRecyclerViewAdapter(List<Meal> mList){
         this.mList  = mList;
@@ -54,7 +54,7 @@ public class PlanDayRecyclerViewAdapter extends RecyclerView.Adapter<PlanDayRecy
         holder.nestedRecyclerView.setAdapter(adapter);
         holder.linearLayout.setOnClickListener(v -> {
             model.setExpanded(!model.getExpanded());
-            list = model.getFoodstuffs();
+            list = model.getMealComponents();
             notifyItemChanged(holder.getAdapterPosition());
         });
     }
