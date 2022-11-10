@@ -97,7 +97,7 @@ public class Register extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        fAuth.signOut();
+//        fAuth.signOut();
 
         if (isSignedIn()) {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
