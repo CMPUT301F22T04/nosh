@@ -15,7 +15,7 @@ public class Ingredient extends MealComponent implements Hashable, Serializable 
     private boolean inStorage = false;
     private Date bestBeforeDate = new Date();
     private double unit;
-    private int amount;
+    private long amount;
     private String category = "";
     private String description = "";
     private String location = "";
@@ -38,7 +38,7 @@ public class Ingredient extends MealComponent implements Hashable, Serializable 
     /**
      * This constructor is for creating ingredients in the ingredient storage
      */
-    public Ingredient(Date bestBeforeDate, double unit, int amount,
+    public Ingredient(Date bestBeforeDate, double unit, long amount,
                       String category, String description, String location,
                       String name) {
         this(unit, amount, category, description, name);
@@ -47,7 +47,7 @@ public class Ingredient extends MealComponent implements Hashable, Serializable 
         inStorage = true;
     }
 
-    public Ingredient(double unit, int amount, String category, String description,
+    public Ingredient(double unit, long amount, String category, String description,
                       String name) {
         this.amount = amount;
         this.unit = unit;
@@ -82,11 +82,11 @@ public class Ingredient extends MealComponent implements Hashable, Serializable 
         this.unit = unit;
     }
 
-    public int getAmount() {
+    public long getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(long amount) {
         this.amount = amount;
     }
 

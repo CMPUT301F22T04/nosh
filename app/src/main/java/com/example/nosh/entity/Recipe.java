@@ -9,12 +9,12 @@ import java.util.Date;
 
 public class Recipe extends MealComponent implements Hashable {
 
-    double preparationTime;
-    int servings;
-    String category = "";
-    String comments = "";
-    String photographRemote = ""; // Image reference in storage
-    String title = "";
+    private double preparationTime;
+    private long servings;
+    private String category = "";
+    private String comments = "";
+    private String photographRemote = ""; // Image reference in storage
+    private String title = "";
 
     ArrayList<Ingredient> ingredients = new ArrayList<>();
 
@@ -24,7 +24,7 @@ public class Recipe extends MealComponent implements Hashable {
 
     }
 
-    public Recipe(double preparationTime, int servings, String category,
+    public Recipe(double preparationTime, long servings, String category,
                   String comments, String photograph, String title,
                   ArrayList<Ingredient> ingredients) {
         this.preparationTime = preparationTime;
@@ -48,11 +48,11 @@ public class Recipe extends MealComponent implements Hashable {
         this.preparationTime = preparationTime;
     }
 
-    public int getServings() {
+    public long getServings() {
         return servings;
     }
 
-    public void setServings(int servings) {
+    public void setServings(long servings) {
         this.servings = servings;
     }
 
@@ -90,6 +90,11 @@ public class Recipe extends MealComponent implements Hashable {
 
     public ArrayList<Ingredient> getIngredients() {
         return ingredients;
+    }
+
+    // TODO : a better way to update ingredients instead of replace them entirely
+    public void setIngredients(ArrayList<Ingredient> ingredients) {
+        this.ingredients = ingredients;
     }
 
     public String getHashcode() {
