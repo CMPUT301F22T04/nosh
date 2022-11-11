@@ -39,7 +39,7 @@ public class IngredientStorageController {
      * Pass all the necessary information to instantiate an instance of
      * ingredient
      */
-    public void add(Date bestBeforeDate, int amount, double unit, String name,
+    public void add(Date bestBeforeDate, long amount, double unit, String name,
                     String description, String category, String location) {
 
         ingredientRepository.add(bestBeforeDate, unit, amount, category,
@@ -56,7 +56,7 @@ public class IngredientStorageController {
     /**
      * Pass all the information to update an instance of ingredient
      */
-    public void update(String hashcode, Date bestBeforeDate, int amount, double unit,
+    public void update(String hashcode, Date bestBeforeDate, long amount, double unit,
                        String name, String description, String category,
                        String location) {
 

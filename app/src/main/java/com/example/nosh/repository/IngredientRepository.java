@@ -40,7 +40,7 @@ public class IngredientRepository extends Repository {
         sync();
     }
 
-    public void add(Date bestBeforeDate, double unit, int amount,
+    public void add(Date bestBeforeDate, double unit, long amount,
                     String category, String description, String location,
                     String name) {
 
@@ -56,7 +56,7 @@ public class IngredientRepository extends Repository {
         return new ArrayList<>(ingredients.values());
     }
 
-    public void update(String hashcode, Date bestBeforeDate, double unit, int amount,
+    public void update(String hashcode, Date bestBeforeDate, double unit, long amount,
                        String category, String description, String location,
                        String name) {
 
