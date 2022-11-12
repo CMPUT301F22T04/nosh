@@ -13,6 +13,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 
 import java.util.Map;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -70,8 +71,8 @@ public class RecipeDBController extends DBController {
                         int i = 0;
                         for (DocumentSnapshot doc :
                                 task.getResult()) {
-                            recipes[i] = doc.toObject(Recipe.class);
-                            recipes[i++].setHashcode(doc.getId());
+                            recipes[i++] = EntityUtil
+                                    .mapToRecipe(Objects.requireNonNull(doc.getData()));
                         }
 
                         setChanged();
@@ -106,9 +107,15 @@ public class RecipeDBController extends DBController {
                 .addOnFailureListener(e ->
                         Log.w("UPDATE", "Error updating document", e));
 
-        /**
-         * Update ingredients will added later
-         */
+
+        // TODO : a better way to update ingredients instead of replace
+        //  all of entirely ?
+        doc.update("ingredients", FieldValue.delete());
+
+        for (Ingredient ingredient : recipe.getIngredients()) {
+            doc.update("ingredients",
+                    FieldValue.arrayUnion(EntityUtil.ingredientToMap(ingredient)));
+        }
     }
 
     @Override

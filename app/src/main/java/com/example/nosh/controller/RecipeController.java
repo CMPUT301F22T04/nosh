@@ -36,7 +36,7 @@ public class RecipeController {
     /**
      * Pass all necessary information from users to create a a new recipe
      */
-    public void add(double preparationTime, int servings, String category, String comments,
+    public void add(double preparationTime, long servings, String category, String comments,
                     String photographLocal, String title, ArrayList<Ingredient> ingredients) {
 
         String photographRemote = recipeImageRepository.add(photographLocal);
@@ -52,11 +52,21 @@ public class RecipeController {
         return recipeRepository.retrieve();
     }
 
+    public void update(String hashcode, double preparationTime, long servings,
+                       String category, String comments, String photographLocal,
+                       String title, ArrayList<Ingredient> ingredients) {
+        String photographRemote = recipeImageRepository.add(photographLocal);
+
+        recipeRepository.update(hashcode, preparationTime, servings, category,
+                comments, photographRemote, title, ingredients);
+    }
+
     /**
      * Return a list of StorageReference of recipe images in Firebase Storage
      */
     public HashMap<String, StorageReference> getRecipeImagesRemote() {
         return recipeImageRepository.getRecipeImagesRemote();
+
     }
 
     /**
