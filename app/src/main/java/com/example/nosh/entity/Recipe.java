@@ -1,5 +1,7 @@
 package com.example.nosh.entity;
 
+import androidx.annotation.NonNull;
+
 import com.google.common.hash.Hashing;
 import com.google.firebase.Timestamp;
 
@@ -21,12 +23,14 @@ public class Recipe extends MealComponent implements Hashable {
     String hashcode;
 
     public Recipe() {
-
+        hashcode = Hashing.sha256().hashInt(new Timestamp(new Date()).getNanoseconds())
+                .toString();
     }
 
     public Recipe(double preparationTime, long servings, String category,
                   String comments, String photograph, String title,
                   ArrayList<Ingredient> ingredients) {
+        this();
         this.preparationTime = preparationTime;
         this.servings = servings;
         this.category = category;
@@ -34,10 +38,26 @@ public class Recipe extends MealComponent implements Hashable {
         this.photographRemote = photograph;
         this.title = title;
 
-        this.ingredients = ingredients;
+        for (Ingredient ingredient: ingredients) {
+            this.ingredients.add(new Ingredient(ingredient));
+        }
+    }
 
-        hashcode = Hashing.sha256().hashInt(new Timestamp(new Date()).getNanoseconds())
-                .toString();
+    public Recipe(Recipe recipe) {
+        preparationTime = recipe.getPreparationTime();
+        servings = recipe.getServings();
+        category = recipe.getCategory();
+        comments = recipe.getComments();
+        photographRemote = recipe.getPhotographRemote();
+        title = recipe.getTitle();
+        ingredients = recipe.getIngredients();
+        hashcode = recipe.getHashcode();
+    }
+
+    @NonNull
+    @Override
+    public Object clone() {
+        return new Recipe(this);
     }
 
     public double getPreparationTime() {
@@ -61,7 +81,9 @@ public class Recipe extends MealComponent implements Hashable {
     }
 
     public void setCategory(String category) {
-        this.category = category;
+        if (category != null) {
+            this.category = category;
+        }
     }
 
     public String getComments() {
@@ -69,7 +91,9 @@ public class Recipe extends MealComponent implements Hashable {
     }
 
     public void setComments(String comments) {
-        this.comments = comments;
+        if (category != null) {
+            this.comments = comments;
+        }
     }
 
     public String getPhotographRemote() {
@@ -77,7 +101,9 @@ public class Recipe extends MealComponent implements Hashable {
     }
 
     public void setPhotographRemote(String photographRemote) {
-        this.photographRemote = photographRemote;
+        if (photographRemote != null) {
+            this.photographRemote = photographRemote;
+        }
     }
 
     public String getTitle() {
@@ -85,16 +111,31 @@ public class Recipe extends MealComponent implements Hashable {
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        if (title != null) {
+            this.title = title;
+        }
     }
 
     public ArrayList<Ingredient> getIngredients() {
+        ArrayList<Ingredient> ingredients = new ArrayList<>();
+
+        for (Ingredient ingredient : this.ingredients) {
+            ingredients.add(new Ingredient(ingredient));
+        }
+
         return ingredients;
     }
 
     // TODO : a better way to update ingredients instead of replace them entirely
     public void setIngredients(ArrayList<Ingredient> ingredients) {
-        this.ingredients = ingredients;
+        if (ingredients != null) {
+            this.ingredients = new ArrayList<>();
+
+            for (Ingredient ingredient :
+                    ingredients) {
+                this.ingredients.add(new Ingredient(ingredient));
+            }
+        }
     }
 
     public String getHashcode() {
@@ -102,7 +143,9 @@ public class Recipe extends MealComponent implements Hashable {
     }
 
     public void setHashcode(String hashcode) {
-        this.hashcode = hashcode;
+        if (hashcode != null) {
+            this.hashcode = hashcode;
+        }
     }
 
     @Override

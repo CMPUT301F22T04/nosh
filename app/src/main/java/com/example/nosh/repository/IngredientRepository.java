@@ -53,7 +53,14 @@ public class IngredientRepository extends Repository {
     }
 
     public ArrayList<Ingredient> retrieve() {
-        return new ArrayList<>(ingredients.values());
+        ArrayList<Ingredient> ingredients = new ArrayList<>();
+
+        for (Ingredient ingredient :
+                this.ingredients.values()) {
+            ingredients.add(new Ingredient(ingredient));
+        }
+
+        return ingredients;
     }
 
     public void update(String hashcode, Date bestBeforeDate, double unit, long amount,

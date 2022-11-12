@@ -13,11 +13,9 @@ import java.util.Date;
  */
 public class Meal {
 
-    private String name;
-
-    private final ArrayList<MealComponent> mealComponents; // list of ingredients and recipes
-
     private Boolean isExpanded;
+    private String name;
+    private final ArrayList<MealComponent> mealComponents; // list of ingredients and recipes
 
     private final String hashcode; // id
 
@@ -32,8 +30,22 @@ public class Meal {
                 .toString();
     }
 
+    public Meal(Meal meal) throws CloneNotSupportedException {
+        name = meal.getName();
+        mealComponents = meal.getMealComponents();
+        isExpanded =  meal.getExpanded();
+        hashcode = meal.getHashcode();
+    }
+
     // Getters and Setters
-    public ArrayList<MealComponent> getMealComponents() {
+    public ArrayList<MealComponent> getMealComponents() throws CloneNotSupportedException {
+        ArrayList<MealComponent> mealComponents = new ArrayList<>();
+
+        for (MealComponent mealComponent :
+                this.mealComponents) {
+            mealComponents.add((MealComponent) mealComponent.clone());
+        }
+
         return mealComponents;
     }
 
