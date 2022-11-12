@@ -5,6 +5,7 @@ import com.example.nosh.entity.MealPlan;
 import com.example.nosh.entity.Recipe;
 import com.google.firebase.Timestamp;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -27,9 +28,11 @@ public class EntityUtil {
 
         data.put("preparationTime", recipe.getPreparationTime());
         data.put("servings", recipe.getServings());
+        data.put("category", recipe.getCategory());
         data.put("comments", recipe.getComments());
         data.put("photographRemote", recipe.getPhotographRemote());
         data.put("title", recipe.getName());
+        data.put("hashcode", recipe.getHashcode());
 
         return data;
     }
@@ -54,11 +57,20 @@ public class EntityUtil {
     public static Ingredient mapToIngredient(Map<String, Object> map) {
         Ingredient ingredient = new Ingredient();
 
-        ingredient.setInStorage((boolean) map.get("inStorage"));
-        ingredient.setBestBeforeDate(((Timestamp)
-                Objects.requireNonNull(map.get("bestBeforeDate"))).toDate());
-        ingredient.setUnit((double) map.get("unit"));
-        ingredient.setAmount( (int) ((long) map.get("amount")) );
+        ingredient.setInStorage((Boolean)
+                Objects.requireNonNull(map.get("inStorage")));
+
+        if (map.containsKey("bestBeforeDate")) {
+            ingredient.setBestBeforeDate(((Timestamp)
+                    (Objects.requireNonNull(map.get("bestBeforeDate")))).toDate());
+        }
+
+       ingredient.setUnit((Double)
+               Objects.requireNonNull(map.get("unit")));
+
+        ingredient.setAmount((Long)
+                Objects.requireNonNull(map.get("amount")));
+
         ingredient.setCategory((String) map.get("category"));
         ingredient.setDescription((String) map.get("description"));
         ingredient.setLocation((String) map.get("location"));
@@ -66,5 +78,38 @@ public class EntityUtil {
         ingredient.setHashcode((String) map.get("hashcode"));
 
         return ingredient;
+    }
+
+    public static Recipe mapToRecipe(Map<String, Object> map) {
+        Recipe recipe = new Recipe();
+
+        recipe.setPreparationTime((Double)
+                Objects.requireNonNull(map.get("preparationTime")));
+
+        recipe.setServings((Long)
+                Objects.requireNonNull(map.get("servings")));
+
+        recipe.setCategory((String) map.get("category"));
+        recipe.setComments((String) map.get("comments"));
+        recipe.setPhotographRemote((String) map.get("photographRemote"));
+        recipe.setTitle((String) map.get("title"));
+
+        if (map.containsKey("ingredients")) {
+
+            ArrayList<Ingredient> ingredients = new ArrayList<>();
+
+            // TODO: Caution
+            //noinspection unchecked
+            for (Map<String, Object> pairs : (ArrayList<Map<String, Object>>)
+                    Objects.requireNonNull(map.get("ingredients"))) {
+                ingredients.add(mapToIngredient(pairs));
+            }
+
+            recipe.setIngredients(ingredients);
+        }
+
+        recipe.setHashcode((String) map.get("hashcode"));
+
+        return recipe;
     }
 }
