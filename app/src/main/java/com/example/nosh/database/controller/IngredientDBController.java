@@ -10,6 +10,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.Map;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -62,8 +63,8 @@ public class IngredientDBController extends DBController {
                         int i = 0;
                         for (DocumentSnapshot doc :
                                 task.getResult()) {
-                            ingredients[i] = doc.toObject(Ingredient.class);
-                            ingredients[i++].setHashcode(doc.getId());
+                            ingredients[i] = EntityUtil
+                                    .mapToIngredient(Objects.requireNonNull(doc.getData()));
                         }
 
                         setChanged();
