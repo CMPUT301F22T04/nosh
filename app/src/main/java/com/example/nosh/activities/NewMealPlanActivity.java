@@ -1,26 +1,26 @@
 package com.example.nosh.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.nosh.MainActivity;
 import com.example.nosh.R;
 import com.example.nosh.entity.MealPlan;
+import com.example.nosh.utils.DateUtil;
 
-import java.util.Date;
 
+/**
+ * This activity handles the creation of a new meal plan, it will register the new meal plan in
+ * firebase and pass it to the next activity where meals will be defined
+ */
 public class NewMealPlanActivity extends AppCompatActivity {
     private EditText planName;
     private EditText planStart;
     private EditText planEnd;
-    private MealPlan newMealPlan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,15 +35,19 @@ public class NewMealPlanActivity extends AppCompatActivity {
          Button cancelButton = findViewById(R.id.cancel_new_meal_plan_button);
 
          nextStepButton.setOnClickListener(view -> {
-             // TODO: Fix the dates to actually be dates
-             newMealPlan = new MealPlan(planName.getText().toString(), new Date(), new Date());
-             launchAddMealsToDaysActivity(newMealPlan);
+             launchAddMealsToDaysActivity(createNewMealPlan());
          });
 
          cancelButton.setOnClickListener(view -> {
              Intent intent = new Intent(this, MainActivity.class);
              startActivity(intent);
          });
+    }
+
+    MealPlan createNewMealPlan(){
+        return new MealPlan(planName.getText().toString(),
+                DateUtil.getCalendar(planStart.getText().toString()).getTime(),
+                DateUtil.getCalendar(planEnd.getText().toString()).getTime());
     }
 
     private void launchAddMealsToDaysActivity(MealPlan mealPlan){

@@ -12,18 +12,17 @@ import java.util.Date;
  * Each Meal will have a name and a list of recipes and ingredients that make up that meal
  */
 public class Meal {
+    private final String hashcode; // id
 
     private Boolean isExpanded;
     private String name;
+    private Integer servings;
     private final ArrayList<MealComponent> mealComponents; // list of ingredients and recipes
 
-    private final String hashcode; // id
-
-    public Meal(String name){
+    public Meal(String name, Integer servings){
         this.name = name;
-
+        this.servings = servings;
         this.mealComponents = new ArrayList<>();
-
         isExpanded = false;
 
         this.hashcode = Hashing.sha256().hashInt(new Timestamp(new Date()).getNanoseconds())
@@ -32,6 +31,7 @@ public class Meal {
 
     public Meal(Meal meal) throws CloneNotSupportedException {
         name = meal.getName();
+        servings = meal.getServings();
         mealComponents = meal.getMealComponents();
         isExpanded =  meal.getExpanded();
         hashcode = meal.getHashcode();
@@ -67,6 +67,14 @@ public class Meal {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getServings() {
+        return servings;
+    }
+
+    public void setServings(Integer servings) {
+        this.servings = servings;
     }
 
     public String getHashcode() {

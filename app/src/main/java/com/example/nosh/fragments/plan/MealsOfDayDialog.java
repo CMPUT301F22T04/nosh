@@ -36,12 +36,6 @@ public class MealsOfDayDialog extends DialogFragment {
 
         ArrayList<Meal> mealDays = new ArrayList<>();
 
-        String[] meals = {"Dec 10 2022", "Dec 15 2022", "Jan 1 2022"};
-        for (int i = 0; i < meals.length; i++){
-            Meal meal = new Meal(Integer.toString(i));
-            mealDays.add(meal);
-        }
-
         PlanDayRecyclerViewAdapter adapter = new PlanDayRecyclerViewAdapter(mealDays);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
