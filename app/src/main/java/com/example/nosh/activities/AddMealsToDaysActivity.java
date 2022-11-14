@@ -3,6 +3,7 @@ package com.example.nosh.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,9 +15,12 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.nosh.MainActivity;
 import com.example.nosh.R;
 import com.example.nosh.entity.Meal;
 import com.example.nosh.entity.MealPlan;
+
+import java.util.Date;
 
 /**
  * This activity allows the user to define a number of meals for each day of the meal plan,
@@ -34,7 +38,9 @@ public class AddMealsToDaysActivity extends AppCompatActivity {
     private ImageButton previousMealButton;
     private Button nextPlanDayButton;
 
+    private MealPlan mealPlan;
     private Integer dayCount = 1;
+    private String currentDayKey = "Day 1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +48,7 @@ public class AddMealsToDaysActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_meals_to_days);
 
         Bundle extras = getIntent().getExtras();
-        MealPlan mealPlan = (MealPlan) extras.getSerializable("meal_plan");
+        mealPlan = (MealPlan) extras.getSerializable("meal_plan");
 
         currentDay = findViewById(R.id.current_plan_day);
         mealName = findViewById(R.id.new_meal_name);
@@ -58,10 +64,9 @@ public class AddMealsToDaysActivity extends AppCompatActivity {
         foodStuff.setAdapter(adapter);
 
         // the day displayed at the top
-        currentDay.setText("Day " + dayCount);
+        currentDay.setText("Date " + dayCount);
 
-        // button listeners
-
+        // button listener
         previousMealButton.setOnClickListener(view -> {
             clearInput();
         });
@@ -73,8 +78,12 @@ public class AddMealsToDaysActivity extends AppCompatActivity {
 
         nextPlanDayButton.setOnClickListener(view -> {
             dayCount++;
-            currentDay.setText("Day " + dayCount);
+            if (dayCount > mealPlan.getTotalDays()){
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+            }
 
+            currentDay.setText("Day " + dayCount);
             createMeal();
             clearInput();
         });
@@ -84,13 +93,13 @@ public class AddMealsToDaysActivity extends AppCompatActivity {
      * Creates a new meal with all the user input and adds it to its meal plan
      */
     void createMeal(){
-        //Meal newMeal = new Meal(mealName.getText().toString(), Integer.parseInt(mealServings.getText().toString()));
+        Meal newMeal = new Meal(mealName.getText().toString(), Integer.parseInt(mealServings.getText().toString()));
         for (int i = 0; i < foodStuff.getCount(); i++){
             if (foodStuff.isItemChecked(i)){
-                // TODO: the selected meal components should be added to the meal
                 //newMeal.addMealComponent(foodStuff.getItemAtPosition(0));
             }
         }
+        mealPlan.addMealToDay(dayCount, newMeal);
 
         // TODO: call update on the meal in the database
     }

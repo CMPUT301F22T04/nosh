@@ -19,6 +19,7 @@ import com.example.nosh.fragments.plan.RecyclerViews.MealPlanRecyclerViewInterfa
 import com.example.nosh.fragments.plan.RecyclerViews.MealPlanRecyclerViewAdapter;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -67,9 +68,14 @@ public class PlanFragment extends Fragment implements MealPlanRecyclerViewInterf
 
     private void setUpTestData(){
         String[] planNames = {"Vegan Diet", "Uni Meal Prep", "Mom's Recipes"};
+        Calendar calendar = Calendar.getInstance();
+        Date today = calendar.getTime();
+
+        calendar.add(Calendar.DAY_OF_YEAR, 4);
+        Date tomorrow = calendar.getTime();
 
         for (int i = 0; i < planNames.length; i++){
-            mealPlans.add(new MealPlan(planNames[i], new Date(), new Date()));
+            mealPlans.add(new MealPlan(planNames[i], today, tomorrow));
         }
     }
 

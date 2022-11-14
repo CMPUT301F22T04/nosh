@@ -7,36 +7,36 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This is the MealPlan class, each MealPlan will have a name, a start/end date and a Map
  * The Map will hold a list of Meals that belong to a specific MealPlan day
  */
 public class MealPlan implements Serializable, Hashable {
-
     private Date startDate; // start date of the meal plan
     private Date endDate; // end date of the meal plan
     private Integer totalDays; // total number of days that the plan lasts
     private String name; // name of the meal plan
+    private LinkedHashMap<String, ArrayList<Meal>> planDays; // days of the meal plan
 
-    // TODO: Should not be an integer but a string of the date corresponding to a day
-    private Map<Integer, ArrayList<Meal>> planDays; // days of the meal plan
-
-    private String hashcode; // id
+    private String hashcode;
 
     public MealPlan(String name, Date startDate, Date endDate) {
         this.startDate = startDate;
         this.endDate = endDate;
-        this.totalDays = 5; // endDate - startDate
-
-        this.planDays = new HashMap<>();
-        for (int i = 0; i < 5; i++){ // create a new day entry for every day
-            planDays.put(i, new ArrayList<>());
-        }
-
         this.name = name;
+        this.totalDays = ((int) TimeUnit.DAYS.convert(
+                startDate.getTime() - endDate.getTime(), TimeUnit.MILLISECONDS)) * -1;
+
+        // init a hash map with number of days that span the plan
+        this.planDays = new LinkedHashMap<>();
+        for (int i = 0; i < this.totalDays; i++){
+            planDays.put("Day " + (i + 1), new ArrayList<>());
+        }
 
         this.hashcode = Hashing.sha256().hashInt(new Timestamp(new Date()).getNanoseconds())
                 .toString();
@@ -44,7 +44,6 @@ public class MealPlan implements Serializable, Hashable {
 
     // Getters and Setters
     public void addMealToDay(Integer day, Meal foodstuff){
-        // add a meal to one of the plan days
         Objects.requireNonNull(this.planDays.get(day)).add(foodstuff);
     }
 
@@ -80,11 +79,11 @@ public class MealPlan implements Serializable, Hashable {
         this.totalDays = totalDays;
     }
 
-    public Map<Integer, ArrayList<Meal>> getPlanDays() {
+    public LinkedHashMap<String, ArrayList<Meal>> getPlanDays() {
         return planDays;
     }
 
-    public void setPlanDays(Map<Integer, ArrayList<Meal>> planDays) {
+    public void setPlanDays(LinkedHashMap<String, ArrayList<Meal>> planDays) {
         this.planDays = planDays;
     }
 
