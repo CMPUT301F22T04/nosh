@@ -25,6 +25,8 @@ public class MealPlanRepository extends Repository {
 
     public void add(String name, Date startDate, Date endDate) {
         // TODO: Should we call this at the very end of the creation process or at the start?
+        // At the end
+
         MealPlan mealPlan = new MealPlan(name, startDate, endDate);
         mealPlans.put(mealPlan.getHashcode(), mealPlan);
 

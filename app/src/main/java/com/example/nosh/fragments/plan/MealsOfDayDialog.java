@@ -38,7 +38,7 @@ public class MealsOfDayDialog extends DialogFragment {
 
         String[] meals = {"Dec 10 2022", "Dec 15 2022", "Jan 1 2022"};
         for (int i = 0; i < meals.length; i++){
-            Meal meal = new Meal(Integer.toString(i));
+            Meal meal = new Meal();
             mealDays.add(meal);
         }
 
