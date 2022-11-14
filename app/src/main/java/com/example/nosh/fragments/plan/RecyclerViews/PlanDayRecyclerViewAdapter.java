@@ -1,5 +1,6 @@
 package com.example.nosh.fragments.plan.RecyclerViews;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,24 +38,21 @@ public class PlanDayRecyclerViewAdapter extends RecyclerView.Adapter<PlanDayRecy
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         Meal model = mList.get(position);
-        holder.mTextView.setText(model.getName());
 
-        boolean isExpandable = model.getExpanded();;
-        holder.expandableLayout.setVisibility(isExpandable ? View.VISIBLE : View.GONE);
+        holder.expandableLayout.setVisibility(View.GONE);
 
-        if (isExpandable){
-            holder.mArrowImage.setImageResource(R.drawable.arrow_up);
-        }else{
-            holder.mArrowImage.setImageResource(R.drawable.arrow_down);
-        }
+        holder.mArrowImage.setImageResource(R.drawable.arrow_down);
 
         NestedMealAdapter adapter = new NestedMealAdapter(list);
         holder.nestedRecyclerView.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
         holder.nestedRecyclerView.setHasFixedSize(true);
         holder.nestedRecyclerView.setAdapter(adapter);
         holder.linearLayout.setOnClickListener(v -> {
-            model.setExpanded(!model.getExpanded());
-            list = model.getMealComponents();
+            try {
+                list = model.getMealComponents();
+            } catch (CloneNotSupportedException e) {
+                Log.e("ERROR", e.toString());
+            }
             notifyItemChanged(holder.getAdapterPosition());
         });
     }
