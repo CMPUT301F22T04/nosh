@@ -5,6 +5,7 @@ import com.google.firebase.Timestamp;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,13 +23,24 @@ public class MealPlan implements Serializable, Hashable {
     private String name; // name of the meal plan
 
     // TODO: Should not be an integer but a string of the date corresponding to a day
+    // TODO: Notice a user should be able define multiple meal per days
     private Map<Integer, ArrayList<Meal>> planDays; // days of the meal plan
 
     private String hashcode; // id
 
+    public MealPlan() {
+        hashcode = Hashing
+                .sha256()
+                .hashInt(new Timestamp(new Date()).getNanoseconds())
+                .toString();
+    }
+
     public MealPlan(String name, Date startDate, Date endDate) {
+        this();
+
         this.startDate = startDate;
         this.endDate = endDate;
+
         this.totalDays = 5; // endDate - startDate
 
         this.planDays = new HashMap<>();
@@ -37,15 +49,14 @@ public class MealPlan implements Serializable, Hashable {
         }
 
         this.name = name;
-
-        this.hashcode = Hashing.sha256().hashInt(new Timestamp(new Date()).getNanoseconds())
-                .toString();
     }
 
     // Getters and Setters
-    public void addMealToDay(Integer day, Meal foodstuff){
+    public void addMealToDay(Integer day, Meal meal)
+            throws CloneNotSupportedException {
+
         // add a meal to one of the plan days
-        Objects.requireNonNull(this.planDays.get(day)).add(foodstuff);
+        Objects.requireNonNull(planDays.get(day)).add(new Meal(meal));
     }
 
     public String getName() {
@@ -57,19 +68,23 @@ public class MealPlan implements Serializable, Hashable {
     }
 
     public Date getStartDate() {
-        return startDate;
+        return (Date) startDate.clone();
     }
 
     public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+        if (startDate != null) {
+            this.startDate = (Date) startDate.clone();
+        }
     }
 
     public Date getEndDate() {
-        return endDate;
+        return (Date) endDate.clone();
     }
 
     public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+        if (endDate != null) {
+            this.endDate = (Date) endDate.clone();
+        }
     }
 
     public Integer getTotalDays() {
@@ -80,10 +95,12 @@ public class MealPlan implements Serializable, Hashable {
         this.totalDays = totalDays;
     }
 
+    // TODO: return a deep copy instead of a shallow copy
     public Map<Integer, ArrayList<Meal>> getPlanDays() {
         return planDays;
     }
 
+    // TODO: return a deep copy instead of a shallow copy
     public void setPlanDays(Map<Integer, ArrayList<Meal>> planDays) {
         this.planDays = planDays;
     }
