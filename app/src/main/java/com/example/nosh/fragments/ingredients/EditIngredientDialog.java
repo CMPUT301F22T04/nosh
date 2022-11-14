@@ -145,7 +145,7 @@ public class EditIngredientDialog extends DialogFragment implements DatePickerDi
 
         double unit = ((ingUnit.getText().toString().isEmpty()) ?
                 ingredient.getUnit() :
-                Double.parseDouble(ingQuantity.getText().toString()));
+                Double.parseDouble(ingUnit.getText().toString()));
 
         String category = ((ingCategory.getText().toString().isEmpty()) ?
                ingredient.getCategory() :
