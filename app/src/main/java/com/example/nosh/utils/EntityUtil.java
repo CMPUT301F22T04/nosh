@@ -65,8 +65,13 @@ public class EntityUtil {
                     (Objects.requireNonNull(map.get("bestBeforeDate")))).toDate());
         }
 
-       ingredient.setUnit((Double)
-               Objects.requireNonNull(map.get("unit")));
+        try {
+            ingredient.setUnit((Double)
+                    Objects.requireNonNull(map.get("unit")));
+        } catch (ClassCastException e) {
+            ingredient.setUnit((double) (Long)
+                    Objects.requireNonNull(map.get("unit")));
+        }
 
         ingredient.setAmount((Long)
                 Objects.requireNonNull(map.get("amount")));
@@ -83,8 +88,13 @@ public class EntityUtil {
     public static Recipe mapToRecipe(Map<String, Object> map) {
         Recipe recipe = new Recipe();
 
-        recipe.setPreparationTime((Double)
-                Objects.requireNonNull(map.get("preparationTime")));
+        try {
+                recipe.setPreparationTime((Double)
+                        Objects.requireNonNull(map.get("preparationTime")));
+        } catch (ClassCastException e) {
+                recipe.setPreparationTime((double) (Long)
+                        Objects.requireNonNull(map.get("preparationTime")));
+        }
 
         recipe.setServings((Long)
                 Objects.requireNonNull(map.get("servings")));
