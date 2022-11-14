@@ -18,12 +18,15 @@ public class Recipe extends MealComponent implements Hashable {
     private String photographRemote = ""; // Image reference in storage
     private String title = "";
 
-    ArrayList<Ingredient> ingredients = new ArrayList<>();
+    // TODO : Set this to Map for faster and easier access
+    private ArrayList<Ingredient> ingredients = new ArrayList<>();
 
     String hashcode;
 
     public Recipe() {
-        hashcode = Hashing.sha256().hashInt(new Timestamp(new Date()).getNanoseconds())
+        hashcode = Hashing
+                .sha256()
+                .hashInt(new Timestamp(new Date()).getNanoseconds())
                 .toString();
     }
 
@@ -116,6 +119,8 @@ public class Recipe extends MealComponent implements Hashable {
         }
     }
 
+    // For UIs : return a deep clone of all ingredients and perform different
+    // type of operations (add, remove, edit) on top of it
     public ArrayList<Ingredient> getIngredients() {
         ArrayList<Ingredient> ingredients = new ArrayList<>();
 
@@ -151,11 +156,6 @@ public class Recipe extends MealComponent implements Hashable {
     @Override
     public String getName() {
         return title;
-    }
-
-    @Override
-    public MealComponent getDetails() {
-        return super.getDetails();
     }
 
     @Override
