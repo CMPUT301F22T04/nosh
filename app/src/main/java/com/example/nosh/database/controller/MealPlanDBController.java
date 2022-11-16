@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.nosh.entity.Hashable;
 import com.example.nosh.entity.MealPlan;
+import com.example.nosh.entity.MealPlanComponent;
 import com.example.nosh.utils.EntityUtil;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -14,10 +15,11 @@ import java.util.Map;
 import javax.inject.Inject;
 
 
-public class MealPlanDBController extends DBController{
+public class MealPlanDBController extends DBController {
 
     static final String DOC_NAME = "meal_plan_storage";
-    static final String COLLECTION_NAME = "mealPlans";
+    static final String COLLECTION_NAME = "meal_plans";
+    
 
     @Inject
     MealPlanDBController(CollectionReference ref) {
@@ -32,21 +34,19 @@ public class MealPlanDBController extends DBController{
         Map<String, Object> data = EntityUtil.mealPlanToMap(mealPlan);
         DocumentReference doc = ref.document(o.getHashcode());
 
-        doc.set(data)
+        doc
+                .set(data)
                 .addOnSuccessListener(unused ->
                         Log.i("CREATE", "DocumentSnapshot written with ID: " +
                                 o.getHashcode()))
                 .addOnFailureListener(e ->
                         Log.w("CREATE", "Error adding document)"));
 
-        // TODO: This should be for ingredients and recipes
-        /*
-        for (Ingredient ingredient :
-                mealPlan.getIngredients()) {
-            doc.update("ingredients", FieldValue
-                            .arrayUnion(EntityUtil.ingredientToMap(ingredient)));
+        for (Map.Entry<String, MealPlanComponent> pairs :
+                mealPlan) {
+            CollectionReference subRef = doc.collection(pairs.getKey());
+
         }
-        */
     }
 
     @Override
