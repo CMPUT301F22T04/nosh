@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 
-public class Recipe extends MealComponent implements Hashable {
+public class Recipe extends MealComponent {
 
     private double preparationTime;
     private long servings;

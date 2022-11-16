@@ -12,7 +12,7 @@ import java.util.Date;
 /**
  * Generalization ingredient (can be in ingredient storage, recipe, shopping list)
  */
-public class Ingredient extends MealComponent implements Hashable, Serializable, Cloneable {
+public class Ingredient extends MealComponent implements Serializable, Cloneable {
 
     private boolean inStorage = false;
     private Date bestBeforeDate = new Date();
