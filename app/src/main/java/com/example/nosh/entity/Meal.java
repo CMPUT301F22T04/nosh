@@ -1,20 +1,25 @@
 package com.example.nosh.entity;
 
+import androidx.annotation.NonNull;
+
 import com.google.common.hash.Hashing;
 import com.google.firebase.Timestamp;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.function.Consumer;
 
 
 /**
  * This is the Meal class, each meals belong to a specific MealPlan day
  * Each Meal will have a name and a list of recipes and ingredients that make up that meal
  */
-public class Meal implements Hashable {
+public class Meal implements Hashable, Iterable<MealComponent> {
 
     // list of ingredients and recipes
-    private ArrayList<MealComponent> mealComponents;
+    private HashMap<String, MealComponent> mealComponents;
 
     private String hashcode; // id
 
@@ -23,36 +28,30 @@ public class Meal implements Hashable {
                 .sha256()
                 .hashInt(new Timestamp(new Date()).getNanoseconds())
                 .toString();
-        this.mealComponents = new ArrayList<>();
+        mealComponents = new HashMap<>();
     }
 
-    public Meal(Meal meal) throws CloneNotSupportedException {
-        mealComponents = meal.getMealComponents();
+    public Meal(Meal meal) {
+        mealComponents = new HashMap<>();
+
+        for (MealComponent mealComponent :
+                meal.getMealComponents()) {
+            mealComponents.put(mealComponent.getHashcode(), mealComponent);
+        }
+
         hashcode = meal.getHashcode();
     }
 
     // Getters and Setters
-    public ArrayList<MealComponent> getMealComponents()
-            throws CloneNotSupportedException {
-        ArrayList<MealComponent> mealComponents = new ArrayList<>();
-
-        for (MealComponent mealComponent :
-                this.mealComponents) {
-            mealComponents.add((MealComponent) mealComponent.clone());
-        }
-
-        return mealComponents;
+    public ArrayList<MealComponent> getMealComponents() {
+        return new ArrayList<>(this.mealComponents.values());
     }
 
-    public void setMealComponents(ArrayList<MealComponent> mealComponents)
-            throws CloneNotSupportedException {
+    public void setMealComponents(HashMap<String, MealComponent> mealComponents) {
         if (mealComponents != null) {
-            this.mealComponents = new ArrayList<>();
+            this.mealComponents = new HashMap<>();
 
-            for (MealComponent mealComponent :
-                    mealComponents) {
-                this.mealComponents.add((MealComponent) mealComponent.clone());
-            }
+            this.mealComponents.putAll(mealComponents);
         }
     }
 
@@ -64,5 +63,16 @@ public class Meal implements Hashable {
         if (hashcode != null) {
             this.hashcode = hashcode;
         }
+    }
+
+    @NonNull
+    @Override
+    public Iterator<MealComponent> iterator() {
+        return getMealComponents().iterator();
+    }
+
+    @Override
+    public void forEach(@NonNull Consumer<? super MealComponent> action) {
+        Iterable.super.forEach(action);
     }
 }
