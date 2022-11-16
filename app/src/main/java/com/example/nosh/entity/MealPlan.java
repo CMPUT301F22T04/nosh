@@ -19,7 +19,10 @@ import java.util.function.Consumer;
  */
 public class MealPlan implements Serializable, Hashable,
         Iterable<Map.Entry<String, MealPlanComponent>> {
-
+    private Date startDate;
+    private Date endDate;
+    private String name;
+    private Integer totalDays;
 
     // TODO: Should not be an integer but a string of the date corresponding to a day
     // TODO: Notice a user should be able define multiple meal per days
@@ -40,9 +43,7 @@ public class MealPlan implements Serializable, Hashable,
         this.startDate = startDate;
         this.endDate = endDate;
 
-        totalDays = DateUtil.dayDifferences(startDate, endDate);
-
-        // create a new day entry for every day
+        totalDays = (int) DateUtil.dayDifferences(startDate, endDate) * -1;
 
         this.name = name;
     }
@@ -88,7 +89,7 @@ public class MealPlan implements Serializable, Hashable,
         }
     }
 
-    public Long getTotalDays() {
+    public Integer getTotalDays() {
         return totalDays;
     }
 

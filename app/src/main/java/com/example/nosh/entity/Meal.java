@@ -17,34 +17,30 @@ import java.util.function.Consumer;
  * Each Meal will have a name and a list of recipes and ingredients that make up that meal
  */
 public class Meal implements Hashable, Iterable<MealComponent> {
-
+    private Integer servings;
     // list of ingredients and recipes
     private HashMap<String, MealComponent> mealComponents;
 
     private String hashcode; // id
 
     public Meal() {
-        hashcode = Hashing
-                .sha256()
-                .hashInt(new Timestamp(new Date()).getNanoseconds())
-                .toString();
+        hashcode = Hashing.sha256().hashInt(new Timestamp(new Date()).getNanoseconds()).toString();
         mealComponents = new HashMap<>();
     }
 
     public Meal(Meal meal) {
         mealComponents = new HashMap<>();
 
-        for (MealComponent mealComponent :
-                meal.getMealComponents()) {
+        for (MealComponent mealComponent : meal.getMealComponents()) {
             mealComponents.put(mealComponent.getHashcode(), mealComponent);
         }
-
+    }
     // Getters and Setters
-    public ArrayList<MealComponent> getMealComponents() {
+    public ArrayList<MealComponent> getMealComponents () {
         return new ArrayList<>(this.mealComponents.values());
     }
 
-    public void setMealComponents(HashMap<String, MealComponent> mealComponents) {
+    public void setMealComponents (HashMap < String, MealComponent > mealComponents){
         if (mealComponents != null) {
             this.mealComponents = new HashMap<>();
 
@@ -52,32 +48,29 @@ public class Meal implements Hashable, Iterable<MealComponent> {
         }
     }
 
-    public Integer getServings() {
+    public Integer getServings () {
         return servings;
     }
 
-    public void setServings(Integer servings) {
+    public void setServings (Integer servings){
         this.servings = servings;
     }
 
-    public String getHashcode() {
+    public String getHashcode () {
         return hashcode;
     }
 
-    public void setHashcode(String hashcode) {
+    public void setHashcode (String hashcode){
         if (hashcode != null) {
             this.hashcode = hashcode;
         }
     }
 
-    @NonNull
-    @Override
-    public Iterator<MealComponent> iterator() {
+    @NonNull @Override public Iterator<MealComponent> iterator () {
         return getMealComponents().iterator();
     }
 
-    @Override
-    public void forEach(@NonNull Consumer<? super MealComponent> action) {
+    @Override public void forEach (@NonNull Consumer < ? super MealComponent > action){
         Iterable.super.forEach(action);
     }
 }
