@@ -39,9 +39,6 @@ public class Meal implements Hashable, Iterable<MealComponent> {
             mealComponents.put(mealComponent.getHashcode(), mealComponent);
         }
 
-        hashcode = meal.getHashcode();
-    }
-
     // Getters and Setters
     public ArrayList<MealComponent> getMealComponents() {
         return new ArrayList<>(this.mealComponents.values());
@@ -53,6 +50,14 @@ public class Meal implements Hashable, Iterable<MealComponent> {
 
             this.mealComponents.putAll(mealComponents);
         }
+    }
+
+    public Integer getServings() {
+        return servings;
+    }
+
+    public void setServings(Integer servings) {
+        this.servings = servings;
     }
 
     public String getHashcode() {

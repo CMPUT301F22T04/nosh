@@ -20,10 +20,6 @@ import java.util.function.Consumer;
 public class MealPlan implements Serializable, Hashable,
         Iterable<Map.Entry<String, MealPlanComponent>> {
 
-    private Date startDate; // start date of the meal plan
-    private Date endDate; // end date of the meal plan
-    private long totalDays; // total number of days that the plan lasts
-    private String name; // name of the meal plan
 
     // TODO: Should not be an integer but a string of the date corresponding to a day
     // TODO: Notice a user should be able define multiple meal per days
