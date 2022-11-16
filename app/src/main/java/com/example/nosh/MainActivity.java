@@ -2,20 +2,23 @@ package com.example.nosh;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.nosh.auth.Login;
 import com.example.nosh.databinding.ActivityMainBinding;
+import com.google.firebase.auth.FirebaseAuth;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -37,14 +40,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.appBarMain.toolbar);
 
-        DrawerLayout drawer = binding.drawerLayout;
-
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_ingredients, R.id.nav_recipes, R.id.nav_list, R.id.nav_plan
-        )
-                .setOpenableLayout(drawer)
-                .build();
-
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
@@ -55,10 +50,6 @@ public class MainActivity extends AppCompatActivity {
 
         NavigationUI.setupWithNavController(binding.bottomBar.bottomNavigation,
                 navController);
-        NavigationUI.setupActionBarWithNavController(this, navController,
-                mAppBarConfiguration);
-        NavigationUI.setupWithNavController(binding.navView, navController);
-
     }
 
     @Override
@@ -88,6 +79,18 @@ public class MainActivity extends AppCompatActivity {
                     PERMISSIONS_STORAGE,
                     1
             );
+        }
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(getApplicationContext(), Login.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 }
