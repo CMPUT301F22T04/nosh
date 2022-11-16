@@ -48,11 +48,7 @@ public class PlanDayRecyclerViewAdapter extends RecyclerView.Adapter<PlanDayRecy
         holder.nestedRecyclerView.setHasFixedSize(true);
         holder.nestedRecyclerView.setAdapter(adapter);
         holder.linearLayout.setOnClickListener(v -> {
-            try {
                 list = model.getMealComponents();
-            } catch (CloneNotSupportedException e) {
-                Log.e("ERROR", e.toString());
-            }
             notifyItemChanged(holder.getAdapterPosition());
         });
     }
