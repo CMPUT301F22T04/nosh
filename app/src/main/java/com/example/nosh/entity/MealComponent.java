@@ -3,7 +3,7 @@ package com.example.nosh.entity;
 
 import androidx.annotation.NonNull;
 
-public abstract class MealComponent {
+public abstract class MealComponent implements Hashable {
 
     public String getName() {
         throw new UnsupportedOperationException();
