@@ -1,30 +1,33 @@
 package com.example.nosh.entity;
 
+import androidx.annotation.NonNull;
+
+import com.example.nosh.utils.DateUtil;
 import com.google.common.hash.Hashing;
 import com.google.firebase.Timestamp;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
-import java.util.Objects;
+import java.util.function.Consumer;
 
 /**
  * This is the MealPlan class, each MealPlan will have a name, a start/end date and a Map
  * The Map will hold a list of Meals that belong to a specific MealPlan day
  */
-public class MealPlan implements Serializable, Hashable {
+public class MealPlan implements Serializable, Hashable,
+        Iterable<Map.Entry<String, MealPlanComponent>> {
 
     private Date startDate; // start date of the meal plan
     private Date endDate; // end date of the meal plan
-    private Integer totalDays; // total number of days that the plan lasts
+    private long totalDays; // total number of days that the plan lasts
     private String name; // name of the meal plan
 
     // TODO: Should not be an integer but a string of the date corresponding to a day
     // TODO: Notice a user should be able define multiple meal per days
-    private Map<Integer, ArrayList<Meal>> planDays; // days of the meal plan
+    private HashMap<String, MealPlanComponent> plans;
 
     private String hashcode; // id
 
@@ -41,31 +44,13 @@ public class MealPlan implements Serializable, Hashable {
         this.startDate = startDate;
         this.endDate = endDate;
 
-        this.totalDays = 5; // endDate - startDate
+        totalDays = DateUtil.dayDifferences(startDate, endDate);
 
-        this.planDays = new HashMap<>();
-        for (int i = 0; i < 5; i++){ // create a new day entry for every day
-            planDays.put(i, new ArrayList<>());
-        }
+        // create a new day entry for every day
 
         this.name = name;
     }
 
-    // Getters and Setters
-    public void addMealToDay(Integer day, Meal meal)
-            throws CloneNotSupportedException {
-
-        // add a meal to one of the plan days
-        Objects.requireNonNull(planDays.get(day)).add(new Meal(meal));
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public Date getStartDate() {
         return (Date) startDate.clone();
@@ -87,7 +72,27 @@ public class MealPlan implements Serializable, Hashable {
         }
     }
 
-    public Integer getTotalDays() {
+    public HashMap<String, MealPlanComponent> getPlans() {
+        HashMap<String, MealPlanComponent> plans = new HashMap<>();
+
+        for (Map.Entry<String, MealPlanComponent> pairs :
+                this.plans.entrySet()) {
+            plans.put(pairs.getKey(), new MealPlanComponent(pairs.getValue()));
+        }
+
+        return plans;
+    }
+
+    public void setPlans(HashMap<String, MealPlanComponent> plans) {
+        this.plans = new HashMap<>();
+
+        for (Map.Entry<String, MealPlanComponent> pairs:
+             plans.entrySet()) {
+            this.plans.put(pairs.getKey(), new MealPlanComponent(pairs.getValue()));
+        }
+    }
+
+    public Long getTotalDays() {
         return totalDays;
     }
 
@@ -95,14 +100,12 @@ public class MealPlan implements Serializable, Hashable {
         this.totalDays = totalDays;
     }
 
-    // TODO: return a deep copy instead of a shallow copy
-    public Map<Integer, ArrayList<Meal>> getPlanDays() {
-        return planDays;
+    public String getName() {
+        return name;
     }
 
-    // TODO: return a deep copy instead of a shallow copy
-    public void setPlanDays(Map<Integer, ArrayList<Meal>> planDays) {
-        this.planDays = planDays;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getHashcode() {
@@ -111,5 +114,16 @@ public class MealPlan implements Serializable, Hashable {
 
     public void setHashcode(String hashcode) {
         this.hashcode = hashcode;
+    }
+
+    @NonNull
+    @Override
+    public Iterator<Map.Entry<String, MealPlanComponent>> iterator() {
+        return getPlans().entrySet().iterator();
+    }
+
+    @Override
+    public void forEach(@NonNull Consumer<? super Map.Entry<String, MealPlanComponent>> action) {
+        Iterable.super.forEach(action);
     }
 }
