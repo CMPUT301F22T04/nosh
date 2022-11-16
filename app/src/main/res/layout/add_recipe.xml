@@ -55,11 +55,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/recipe_image_view"
         android:layout_alignParentStart="true"
-        android:inputType="numberDecimal"
+        android:autofillHints="0"
         android:background="@drawable/description_border"
         android:gravity="center"
         android:hint="@string/preparation_time_field_hint"
-        android:autofillHints="0" />
+        android:inputType="numberDecimal" />
 
     <EditText
         android:id="@+id/serving_field"

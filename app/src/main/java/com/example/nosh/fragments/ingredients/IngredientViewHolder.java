@@ -38,7 +38,7 @@ class IngredientViewHolder extends RecyclerView.ViewHolder {
                                               listener, @NonNull View itemView) {
         super(itemView);
 
-        delBtn = itemView.findViewById(R.id.del_btn);
+        delBtn = itemView.findViewById(R.id.delete_ingredient_button);
         nameTxtView = itemView.findViewById(R.id.ingredient_entry_name);
         descriptionTxtView = itemView.findViewById(R.id.ingredient_entry_description);
 
