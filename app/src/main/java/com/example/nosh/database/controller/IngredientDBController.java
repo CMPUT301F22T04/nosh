@@ -4,9 +4,15 @@ import android.util.Log;
 
 import com.example.nosh.entity.Hashable;
 import com.example.nosh.entity.Ingredient;
+import com.example.nosh.utils.EntityUtil;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+
+import java.util.Map;
+import java.util.Objects;
+
+import javax.inject.Inject;
 
 
 public class IngredientDBController extends DBController {
@@ -14,21 +20,28 @@ public class IngredientDBController extends DBController {
     static final String DOC_NAME = "ingredient_storage";
     static final String COLLECTION_NAME = "ingredients";
 
-    IngredientDBController(CollectionReference ref) {
-        super(ref);
+    @Inject
+    public IngredientDBController(CollectionReference ref) {
+        super(ref.document(DOC_NAME).collection(COLLECTION_NAME));
     }
 
     @Override
     public void create(Hashable o) {
         assertType(o);
 
-        ref.document(o.getHashcode())
-                .set(o)
+        Ingredient ingredient = (Ingredient) o;
+
+        Map<String, Object> data = EntityUtil.ingredientToMap(ingredient);
+
+        DocumentReference doc = ref.document(o.getHashcode());
+
+        doc
+                .set(data)
                 .addOnSuccessListener(unused ->
                         Log.i("CREATE", "DocumentSnapshot written with ID: " +
                                 o.getHashcode()))
                 .addOnFailureListener(e ->
-                        Log.w("CREATE", "Error adding document", e));
+                        Log.w("CREATE", "Error adding document)"));
     }
 
     @Override
@@ -50,8 +63,8 @@ public class IngredientDBController extends DBController {
                         int i = 0;
                         for (DocumentSnapshot doc :
                                 task.getResult()) {
-                            ingredients[i] = doc.toObject(Ingredient.class);
-                            ingredients[i++].setHashcode(doc.getId());
+                            ingredients[i] = EntityUtil
+                                    .mapToIngredient(Objects.requireNonNull(doc.getData()));
                         }
 
                         setChanged();

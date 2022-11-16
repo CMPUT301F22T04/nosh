@@ -15,17 +15,19 @@
         app:strokeColor="@color/grey">
 
         <ImageView
-            android:id="@+id/recipe_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/recipe_entry_img"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:contentDescription="@string/recipe_image"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_recipes" />
+            app:srcCompat="@drawable/ic_recipes"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"/>
 
         <TextView
-            android:id="@+id/recipe_name"
+            android:id="@+id/recipe_entry_name"
             android:text="@string/sample_text"
             android:textSize="24sp"
             android:textStyle="bold"

@@ -1,45 +1,60 @@
 package com.example.nosh.repository;
 
-
-import com.example.nosh.database.controller.DBController;
-import com.example.nosh.database.controller.FirebaseStorageController;
+import com.example.nosh.database.controller.RecipeDBController;
 import com.example.nosh.entity.Ingredient;
 import com.example.nosh.entity.Recipe;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.Observable;
 
+import javax.inject.Inject;
 
 
 public class RecipeRepository extends Repository {
 
     private final HashMap<String, Recipe> recipes;
-    private final RecipeImageRepository recipeImageRepository;
 
-    public RecipeRepository(DBController dbController,
-                            RecipeImageRepository recipeImageRepository) {
+    @Inject
+    public RecipeRepository(RecipeDBController dbController) {
         super(dbController);
 
-        this.recipeImageRepository = recipeImageRepository;
-
         recipes = new HashMap<>();
+
+        sync();
     }
 
-    public void add(double preparationTime, int servings, String category, String comments,
-                    String photograph, String title, ArrayList<Ingredient> ingredients) {
+    public void add(double preparationTime, long servings, String category, String comments,
+                    String photographRemote, String title,
+                    ArrayList<Ingredient> ingredients) {
 
         Recipe recipe = new Recipe(preparationTime, servings, category, comments,
-                photograph, title, ingredients);
+                photographRemote, title, ingredients);
 
         recipes.put(recipe.getHashcode(), recipe);
 
         super.add(recipe);
     }
 
-    public void update(double preparationTime, int servings, String category, String comments,
-                       String photograph, String title, ArrayList<Ingredient> ingredients) {
+    public void update(String hashcode, double preparationTime, long servings,
+                       String category, String comments, String photographRemote,
+                       String title, ArrayList<Ingredient> ingredients) {
+        Recipe recipe = Objects.requireNonNull(recipes.get(hashcode));
 
+        recipe.setPreparationTime(preparationTime);
+        recipe.setServings(servings);
+        recipe.setCategory(category);
+        recipe.setComments(comments);
+        recipe.setPhotographRemote(photographRemote);
+        recipe.setTitle(title);
+
+        // TODO : a better way update ingredients ?
+        recipe.setIngredients(ingredients);
+
+        recipes.put(hashcode, recipe);
+
+        super.update(recipe);
     }
 
     public void delete(Recipe recipe) {
@@ -49,7 +64,14 @@ public class RecipeRepository extends Repository {
     }
 
     public ArrayList<Recipe> retrieve() {
-        return new ArrayList<>(recipes.values());
+        ArrayList<Recipe> recipes = new ArrayList<>();
+
+        for (Recipe recipe :
+                this.recipes.values()) {
+            recipes.add(new Recipe(recipe));
+        }
+
+        return recipes;
     }
 
     @Override

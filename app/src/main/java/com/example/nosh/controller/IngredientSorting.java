@@ -6,9 +6,20 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-
+/**
+ * This class contains a static method for sorting a list of ingredients by
+ * specific criteria
+ * @author Dekr0
+ * @version 1.0
+ */
 public class IngredientSorting {
 
+    /**
+     * Sort a list of ingredients by specific criteria
+     * @param ingredients
+     * @param sortBy
+     * @param des Ascending or Descending
+     */
     public static void sort(ArrayList<Ingredient> ingredients, String sortBy,
                             boolean des) {
 

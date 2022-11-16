@@ -39,8 +39,8 @@ class IngredientViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
 
         delBtn = itemView.findViewById(R.id.del_btn);
-        nameTxtView = itemView.findViewById(R.id.stored_ingredient_name);
-        descriptionTxtView = itemView.findViewById(R.id.stored_ingredient_description);
+        nameTxtView = itemView.findViewById(R.id.ingredient_entry_name);
+        descriptionTxtView = itemView.findViewById(R.id.ingredient_entry_description);
 
         ViewHolderListener viewHolderListener = new ViewHolderListener(listener);
 

@@ -1,5 +1,7 @@
 package com.example.nosh.entity;
 
+import androidx.annotation.NonNull;
+
 import com.google.common.hash.Hashing;
 import com.google.firebase.Timestamp;
 
@@ -7,37 +9,58 @@ import java.util.ArrayList;
 import java.util.Date;
 
 
-public class Recipe implements Hashable {
+public class Recipe extends MealComponent {
 
-    double preparationTime;
-    int servings;
-    String category = "";
-    String comments = "";
-    String photograph = ""; // Image reference in storage
-    String title = "";
+    private double preparationTime;
+    private long servings;
+    private String category = "";
+    private String comments = "";
+    private String photographRemote = ""; // Image reference in storage
+    private String title = "";
 
-    ArrayList<Ingredient> ingredients = new ArrayList<>();
+    // TODO : Set this to Map for faster and easier access
+    private ArrayList<Ingredient> ingredients = new ArrayList<>();
 
     String hashcode;
 
     public Recipe() {
-
+        hashcode = Hashing
+                .sha256()
+                .hashInt(new Timestamp(new Date()).getNanoseconds())
+                .toString();
     }
 
-    public Recipe(double preparationTime, int servings, String category,
+    public Recipe(double preparationTime, long servings, String category,
                   String comments, String photograph, String title,
                   ArrayList<Ingredient> ingredients) {
+        this();
         this.preparationTime = preparationTime;
         this.servings = servings;
         this.category = category;
         this.comments = comments;
-        this.photograph = photograph;
+        this.photographRemote = photograph;
         this.title = title;
 
-        this.ingredients = ingredients;
+        for (Ingredient ingredient: ingredients) {
+            this.ingredients.add(new Ingredient(ingredient));
+        }
+    }
 
-        hashcode = Hashing.sha256().hashInt(new Timestamp(new Date()).getNanoseconds())
-                .toString();
+    public Recipe(Recipe recipe) {
+        preparationTime = recipe.getPreparationTime();
+        servings = recipe.getServings();
+        category = recipe.getCategory();
+        comments = recipe.getComments();
+        photographRemote = recipe.getPhotographRemote();
+        title = recipe.getTitle();
+        ingredients = recipe.getIngredients();
+        hashcode = recipe.getHashcode();
+    }
+
+    @NonNull
+    @Override
+    public Object clone() {
+        return new Recipe(this);
     }
 
     public double getPreparationTime() {
@@ -48,11 +71,11 @@ public class Recipe implements Hashable {
         this.preparationTime = preparationTime;
     }
 
-    public int getServings() {
+    public long getServings() {
         return servings;
     }
 
-    public void setServings(int servings) {
+    public void setServings(long servings) {
         this.servings = servings;
     }
 
@@ -61,7 +84,9 @@ public class Recipe implements Hashable {
     }
 
     public void setCategory(String category) {
-        this.category = category;
+        if (category != null) {
+            this.category = category;
+        }
     }
 
     public String getComments() {
@@ -69,15 +94,19 @@ public class Recipe implements Hashable {
     }
 
     public void setComments(String comments) {
-        this.comments = comments;
+        if (category != null) {
+            this.comments = comments;
+        }
     }
 
-    public String getPhotograph() {
-        return photograph;
+    public String getPhotographRemote() {
+        return photographRemote;
     }
 
-    public void setPhotograph(String photograph) {
-        this.photograph = photograph;
+    public void setPhotographRemote(String photographRemote) {
+        if (photographRemote != null) {
+            this.photographRemote = photographRemote;
+        }
     }
 
     public String getTitle() {
@@ -85,11 +114,33 @@ public class Recipe implements Hashable {
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        if (title != null) {
+            this.title = title;
+        }
     }
 
+    // For UIs : return a deep clone of all ingredients and perform different
+    // type of operations (add, remove, edit) on top of it
     public ArrayList<Ingredient> getIngredients() {
+        ArrayList<Ingredient> ingredients = new ArrayList<>();
+
+        for (Ingredient ingredient : this.ingredients) {
+            ingredients.add(new Ingredient(ingredient));
+        }
+
         return ingredients;
+    }
+
+    // TODO : a better way to update ingredients instead of replace them entirely
+    public void setIngredients(ArrayList<Ingredient> ingredients) {
+        if (ingredients != null) {
+            this.ingredients = new ArrayList<>();
+
+            for (Ingredient ingredient :
+                    ingredients) {
+                this.ingredients.add(new Ingredient(ingredient));
+            }
+        }
     }
 
     public String getHashcode() {
@@ -97,6 +148,18 @@ public class Recipe implements Hashable {
     }
 
     public void setHashcode(String hashcode) {
-        this.hashcode = hashcode;
+        if (hashcode != null) {
+            this.hashcode = hashcode;
+        }
+    }
+
+    @Override
+    public String getName() {
+        return title;
+    }
+
+    @Override
+    public void scale(int factor) {
+        super.scale(factor);
     }
 }

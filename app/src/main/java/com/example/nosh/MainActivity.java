@@ -1,39 +1,31 @@
 package com.example.nosh;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.Menu;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.startup.AppInitializer;
 
-import com.example.nosh.database.Initializer.DBControllerFactoryInitializer;
-import com.example.nosh.database.Initializer.FirebaseStorageControllerInitializer;
 import com.example.nosh.databinding.ActivityMainBinding;
 
 
 public class MainActivity extends AppCompatActivity {
 
+    // List of permissions that will be asked for the users
+    private static final String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+    };
+
     private AppBarConfiguration mAppBarConfiguration;
-
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        AppInitializer
-                .getInstance(this)
-                .initializeComponent(DBControllerFactoryInitializer.class);
-        AppInitializer
-                .getInstance(this)
-                .initializeComponent(FirebaseStorageControllerInitializer.class);
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,5 +74,20 @@ public class MainActivity extends AppCompatActivity {
                 R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration) ||
                 super.onSupportNavigateUp();
+    }
+
+    // Verify whether if Nosh has storage read permission
+    public static void verifyStorageReadPermission(Activity activity) {
+        int permission = ActivityCompat.checkSelfPermission(activity,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so ask for user permission
+            ActivityCompat.requestPermissions(
+                    activity,
+                    PERMISSIONS_STORAGE,
+                    1
+            );
+        }
     }
 }

@@ -1,5 +1,7 @@
 package com.example.nosh.entity;
 
+import androidx.annotation.NonNull;
+
 import com.google.common.hash.Hashing;
 import com.google.firebase.Timestamp;
 
@@ -10,12 +12,12 @@ import java.util.Date;
 /**
  * Generalization ingredient (can be in ingredient storage, recipe, shopping list)
  */
-public class Ingredient implements Hashable, Serializable {
+public class Ingredient extends MealComponent implements Serializable, Cloneable {
 
     private boolean inStorage = false;
     private Date bestBeforeDate = new Date();
     private double unit;
-    private int amount;
+    private long amount;
     private String category = "";
     private String description = "";
     private String location = "";
@@ -32,13 +34,14 @@ public class Ingredient implements Hashable, Serializable {
      * For creating new Object from Firestore
      */
     public Ingredient() {
-
+        hashcode = Hashing.sha256().hashInt(new Timestamp(new Date()).getNanoseconds())
+                .toString();
     }
 
     /**
      * This constructor is for creating ingredients in the ingredient storage
      */
-    public Ingredient(Date bestBeforeDate, double unit, int amount,
+    public Ingredient(Date bestBeforeDate, double unit, long amount,
                       String category, String description, String location,
                       String name) {
         this(unit, amount, category, description, name);
@@ -47,15 +50,32 @@ public class Ingredient implements Hashable, Serializable {
         inStorage = true;
     }
 
-    public Ingredient(double unit, int amount, String category, String description,
+    public Ingredient(double unit, long amount, String category, String description,
                       String name) {
+        this();
         this.amount = amount;
         this.unit = unit;
-        this.name = name;
         this.description = description;
         this.category = category;
-        hashcode = Hashing.sha256().hashInt(new Timestamp(new Date()).getNanoseconds())
-                .toString();
+        this.name = name;
+    }
+
+    public Ingredient(Ingredient ingredient) {
+        inStorage = ingredient.isInStorage();
+        bestBeforeDate = ingredient.getBestBeforeDate();
+        unit = ingredient.getUnit();
+        amount = ingredient.getAmount();
+        category = ingredient.getCategory();
+        description = ingredient.getDescription();
+        location = ingredient.getLocation();
+        name = ingredient.getName();
+        hashcode = ingredient.getHashcode();
+    }
+
+    @NonNull
+    @Override
+    public Object clone() {
+        return new Ingredient(this);
     }
 
     public boolean isInStorage() {
@@ -67,11 +87,13 @@ public class Ingredient implements Hashable, Serializable {
     }
 
     public Date getBestBeforeDate() {
-        return bestBeforeDate;
+        return (Date) this.bestBeforeDate.clone();
     }
 
     public void setBestBeforeDate(Date bestBeforeDate) {
-        this.bestBeforeDate = bestBeforeDate;
+        if (bestBeforeDate != null) {
+            this.bestBeforeDate = (Date) bestBeforeDate.clone();
+        }
     }
 
     public double getUnit() {
@@ -82,11 +104,11 @@ public class Ingredient implements Hashable, Serializable {
         this.unit = unit;
     }
 
-    public int getAmount() {
+    public long getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(long amount) {
         this.amount = amount;
     }
 
@@ -95,7 +117,9 @@ public class Ingredient implements Hashable, Serializable {
     }
 
     public void setCategory(String category) {
-        this.category = category;
+        if (category != null) {
+            this.category = category;
+        }
     }
 
     public String getDescription() {
@@ -103,7 +127,9 @@ public class Ingredient implements Hashable, Serializable {
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        if (description != null) {
+            this.description = description;
+        }
     }
 
     public String getLocation() {
@@ -111,15 +137,9 @@ public class Ingredient implements Hashable, Serializable {
     }
 
     public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+        if (location != null) {
+            this.location = location;
+        }
     }
 
     public String getHashcode() {
@@ -127,6 +147,19 @@ public class Ingredient implements Hashable, Serializable {
     }
 
     public void setHashcode(String hashcode) {
-        this.hashcode = hashcode;
+        if (hashcode != null) {
+            this.hashcode = hashcode;
+        }
+    }
+
+    public void setName(String name) {
+        if (name != null) {
+            this.name = name;
+        }
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 }

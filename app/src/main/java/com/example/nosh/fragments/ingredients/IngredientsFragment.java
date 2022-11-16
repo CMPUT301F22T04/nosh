@@ -1,5 +1,6 @@
 package com.example.nosh.fragments.ingredients;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,24 +8,24 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.startup.AppInitializer;
 
+import com.example.nosh.Nosh;
 import com.example.nosh.R;
 import com.example.nosh.controller.IngredientSorting;
 import com.example.nosh.controller.IngredientStorageController;
-import com.example.nosh.database.Initializer.DBControllerFactoryInitializer;
-import com.example.nosh.database.controller.DBControllerFactory;
-import com.example.nosh.database.controller.IngredientDBController;
 import com.example.nosh.entity.Ingredient;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
+
+import javax.inject.Inject;
 
 /**
  * This class is the parent IngredientFragment class, it will take care of displaying the list of
@@ -36,7 +37,11 @@ import java.util.Observer;
 public class IngredientsFragment extends Fragment implements Observer {
     private ImageButton addButton;
     private IngredientAdapter adapter;
-    private IngredientStorageController controller;
+
+    // IngredientsFragment depends on controller. Use Dagger to manager dependency injection
+    @Inject
+    IngredientStorageController controller;
+
     private IngredientsFragmentListener listener;
     private ArrayList<Ingredient> ingredients;
 
@@ -132,15 +137,25 @@ public class IngredientsFragment extends Fragment implements Observer {
         }
     }
 
+
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onAttach(@NonNull Context context) {
 
-        DBControllerFactory factory =
-                AppInitializer.getInstance(requireContext()).initializeComponent(DBControllerFactoryInitializer.class);
+        // Inject an instance of IngredientStorageController into IngredientFragment
+        ((Nosh) context.getApplicationContext())
+                .getAppComponent()
+                .inject(this);
 
-        controller = new IngredientStorageController(factory.createAccessController(IngredientDBController.class.getSimpleName()), this);
+        controller.addObserver(this);
+
+        super.onAttach(context);
+
         listener = new IngredientsFragmentListener();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         ingredients = controller.retrieve();
     }
@@ -201,5 +216,12 @@ public class IngredientsFragment extends Fragment implements Observer {
 
         adapter.update(ingredients);
         adapter.notifyItemRangeChanged(0, ingredients.size());
+    }
+
+    @Override
+    public void onDestroy() {
+        controller.deleteObserver(this);
+
+        super.onDestroy();
     }
 }
