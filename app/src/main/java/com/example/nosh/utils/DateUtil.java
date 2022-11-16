@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 
 public class DateUtil {
@@ -34,5 +35,10 @@ public class DateUtil {
         }
 
         return c;
+    }
+
+    public static long dayDifferences(Date start, Date end) {
+        return TimeUnit.DAYS.convert(end.getTime() - start.getTime(),
+                TimeUnit.MICROSECONDS);
     }
 }
