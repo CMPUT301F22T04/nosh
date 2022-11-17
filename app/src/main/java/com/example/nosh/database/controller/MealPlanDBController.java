@@ -3,6 +3,7 @@ package com.example.nosh.database.controller;
 import android.util.Log;
 
 import com.example.nosh.entity.Hashable;
+import com.example.nosh.entity.Meal;
 import com.example.nosh.entity.MealPlan;
 import com.example.nosh.entity.MealPlanComponent;
 import com.example.nosh.utils.EntityUtil;
@@ -10,7 +11,10 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -31,22 +35,25 @@ public class MealPlanDBController extends DBController {
         assertType(o);
 
         MealPlan mealPlan = (MealPlan) o;
-        Map<String, Object> data = EntityUtil.mealPlanToMap(mealPlan);
-        DocumentReference doc = ref.document(o.getHashcode());
+        Map<String, Object> mealPlanData = EntityUtil.mealPlanToMap(mealPlan);
 
-        doc
-                .set(data)
-                .addOnSuccessListener(unused ->
-                        Log.i("CREATE", "DocumentSnapshot written with ID: " +
-                                o.getHashcode()))
-                .addOnFailureListener(e ->
-                        Log.w("CREATE", "Error adding document)"));
+        // Create basic information about a meal plan (start and end date, name)
+        DocumentReference mealPlanDoc = ref.document(o.getHashcode());
+        mealPlanDoc.update(mealPlanData);
 
-        for (Map.Entry<String, MealPlanComponent> pairs :
-                mealPlan) {
-            CollectionReference subRef = doc.collection(pairs.getKey());
+        // Create a sub collection to contain meal plan components for each day
+        CollectionReference mealPlanColRef = mealPlanDoc
+                .collection("mealPlanComponents");
 
+
+        Set<String> dates = mealPlan.getPlans().keySet();
+        Collection<MealPlanComponent> mealPlanComponents = mealPlan.getPlans().values();
+        ArrayList<DocumentReference> mealPlanComponentDocs = new ArrayList<>();
+
+        for (String date : dates) {
+            mealPlanComponentDocs.add(mealPlanColRef.document("date"));
         }
+
     }
 
     @Override
