@@ -13,7 +13,6 @@ import java.util.Comparator;
 
 public class RecipeSorting {
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public static void sort(ArrayList<Recipe> recipes, String sortBy,
                             boolean des) {
 

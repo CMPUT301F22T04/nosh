@@ -57,6 +57,7 @@ public class MealPlanComponent implements Hashable, Iterable<Meal> {
         this.meals.putAll(meals);
     }
 
+    // TODO: Deadline constraint -> use this for both adding and updating
     public void addMeal(Meal meal) {
         meals.put(meal.getHashcode(), new Meal(meal));
     }

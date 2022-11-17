@@ -7,10 +7,12 @@ import com.google.common.hash.Hashing;
 import com.google.firebase.Timestamp;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
@@ -19,14 +21,14 @@ import java.util.function.Consumer;
  */
 public class MealPlan implements Serializable, Hashable,
         Iterable<Map.Entry<String, MealPlanComponent>> {
+
     private Date startDate;
     private Date endDate;
-    private String name;
-    private Integer totalDays;
-
     // TODO: Should not be an integer but a string of the date corresponding to a day
     // TODO: Notice a user should be able define multiple meal per days
     private HashMap<String, MealPlanComponent> plans;
+    private long totalDays;
+    private String name;
 
     private String hashcode; // id
 
@@ -43,11 +45,24 @@ public class MealPlan implements Serializable, Hashable,
         this.startDate = startDate;
         this.endDate = endDate;
 
-        totalDays = (int) DateUtil.dayDifferences(startDate, endDate) * -1;
+        totalDays = DateUtil.dayDifferences(startDate, endDate);
+
+        Calendar start = Calendar.getInstance();
+        start.setTime(this.startDate);
+
+        // create a new day entry for every day
+        for (int i = 0; i < totalDays; i++) {
+            start.add(Calendar.DAY_OF_MONTH, i);
+            plans.put(DateUtil.formatDate(start.getTime()), new MealPlanComponent());
+        }
 
         this.name = name;
     }
 
+    // TODO: Deadline constraint -> use this for both adding and updating
+    public void addMealToDay(String date, Meal meal) {
+        Objects.requireNonNull(plans.get(date)).addMeal(meal);
+    }
 
     public Date getStartDate() {
         return (Date) startDate.clone();
@@ -89,11 +104,11 @@ public class MealPlan implements Serializable, Hashable,
         }
     }
 
-    public Integer getTotalDays() {
+    public long getTotalDays() {
         return totalDays;
     }
 
-    public void setTotalDays(Integer totalDays) {
+    public void setTotalDays(long totalDays) {
         this.totalDays = totalDays;
     }
 

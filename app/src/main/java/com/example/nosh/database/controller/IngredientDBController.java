@@ -63,7 +63,7 @@ public class IngredientDBController extends DBController {
                         int i = 0;
                         for (DocumentSnapshot doc :
                                 task.getResult()) {
-                            ingredients[i] = EntityUtil
+                            ingredients[i++] = EntityUtil
                                     .mapToIngredient(Objects.requireNonNull(doc.getData()));
                         }
 

@@ -15,9 +15,10 @@ public class EntityUtil {
 
     public static Map<String, Object> mealPlanToMap(MealPlan mealPlan) {
         Map<String, Object> data = new HashMap<>();
+        data.put("startDate", mealPlan.getStartDate());
+        data.put("endDate", mealPlan.getEndDate());
+        data.put("totalDay", mealPlan.getTotalDays());
         data.put("name", mealPlan.getName());
-        data.put("start", mealPlan.getStartDate());
-        data.put("end", mealPlan.getEndDate());
 
         return data;
     }

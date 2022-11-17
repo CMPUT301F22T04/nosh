@@ -5,6 +5,8 @@ import androidx.annotation.NonNull;
 import com.google.common.hash.Hashing;
 import com.google.firebase.Timestamp;
 
+import org.checkerframework.checker.units.qual.A;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -17,46 +19,70 @@ import java.util.function.Consumer;
  * Each Meal will have a name and a list of recipes and ingredients that make up that meal
  */
 public class Meal implements Hashable, Iterable<MealComponent> {
-    private Integer servings;
     // list of ingredients and recipes
-    private HashMap<String, MealComponent> mealComponents;
+    private ArrayList<MealComponent> mealComponents;
+    private int servings;
+    private String name;
 
     private String hashcode; // id
 
     public Meal() {
-        hashcode = Hashing.sha256().hashInt(new Timestamp(new Date()).getNanoseconds()).toString();
-        mealComponents = new HashMap<>();
+        mealComponents = new ArrayList<>();
+
+        hashcode = Hashing
+                .sha256()
+                .hashInt(new Timestamp(new Date()).getNanoseconds())
+                .toString();
+    }
+
+    public Meal(int servings, String name) {
+        this();
+
+        this.servings = servings;
+        this.name = name;
     }
 
     public Meal(Meal meal) {
-        mealComponents = new HashMap<>();
+        mealComponents = new ArrayList<>();
 
-        for (MealComponent mealComponent : meal.getMealComponents()) {
-            mealComponents.put(mealComponent.getHashcode(), mealComponent);
-        }
+        mealComponents.addAll(meal.getMealComponents());
+
+        servings = meal.getServings();
+        name = meal.getName();
+
+        hashcode = meal.getHashcode();
     }
+
     // Getters and Setters
-    public ArrayList<MealComponent> getMealComponents () {
-        return new ArrayList<>(this.mealComponents.values());
+    public ArrayList<MealComponent> getMealComponents() {
+
+        return new ArrayList<>(mealComponents);
     }
 
-    public void setMealComponents (HashMap < String, MealComponent > mealComponents){
+    public void setMealComponents(ArrayList<MealComponent> mealComponents) {
         if (mealComponents != null) {
-            this.mealComponents = new HashMap<>();
-
-            this.mealComponents.putAll(mealComponents);
+            this.mealComponents = new ArrayList<>();
+            this.mealComponents.addAll(mealComponents);
         }
     }
 
-    public Integer getServings () {
+    public int getServings() {
         return servings;
     }
 
-    public void setServings (Integer servings){
+    public void setServings(int servings) {
         this.servings = servings;
     }
 
-    public String getHashcode () {
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getHashcode() {
         return hashcode;
     }
 
