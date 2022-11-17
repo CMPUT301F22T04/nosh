@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
@@ -13,7 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
+import com.example.nosh.controller.RecipeSorting;
 import com.example.nosh.Nosh;
 import com.example.nosh.R;
 import com.example.nosh.controller.RecipeController;
@@ -31,7 +32,7 @@ import javax.inject.Inject;
 
 public class RecipesFragment extends Fragment implements Observer {
     //Initalize some needed variables
-    private ImageButton addBtn;
+    private Button addBtn;
     private RecipeAdapter adapter;
 
     @Inject
@@ -40,6 +41,7 @@ public class RecipesFragment extends Fragment implements Observer {
     private RecipesFragmentListener listener;
     private HashMap<String, StorageReference> recipeImagesRemote;
     private ArrayList<Recipe> recipes;
+    private Button sortButtonR;
 
     /**
      * A event listener class. This class listen all events such as click
@@ -53,12 +55,22 @@ public class RecipesFragment extends Fragment implements Observer {
             if (v.getId() == addBtn.getId()) {
                 openAddRecipeDialog();
             }
+            if (v.getId() == sortButtonR.getId()) {
+                openSortRecipeDialog();
+            }
+
+
         }
 
         @Override
         public void onEditClick(int pos) {
             Recipe recipe = recipes.get(pos);
 //            openEditIngredientDialog(ingredient);
+        }
+
+        private void openSortRecipeDialog() {
+            SortRecipeDialog sortRecipeDialog = new SortRecipeDialog();
+            sortRecipeDialog.show(getChildFragmentManager(),"SORT_RECIPE");
         }
 
         @Override
@@ -73,6 +85,16 @@ public class RecipesFragment extends Fragment implements Observer {
                         result.getString("name"),
                         ing
                         );
+            }
+            if(requestKey.equals("sort_recipe")){
+                RecipeSorting.sort(
+                        recipes,
+                        result.getString("type"),
+                        result.getBoolean("order")
+                );
+                adapter.update(recipes,recipeImagesRemote);
+                adapter.notifyItemRangeChanged(0, recipes.size());
+                //break;
             }
         }
 
@@ -133,7 +155,8 @@ public class RecipesFragment extends Fragment implements Observer {
         recyclerView.setAdapter(adapter);
 
         addBtn = v.findViewById(R.id.add_recipe_btn);
-
+        sortButtonR = v.findViewById(R.id.sort_buttonR);
+        sortButtonR.setOnClickListener(listener);
         addBtn.setOnClickListener(listener);
 
         requireActivity()
@@ -142,6 +165,13 @@ public class RecipesFragment extends Fragment implements Observer {
                         "add_recipe",
                         getViewLifecycleOwner(),
                         listener);
+        requireActivity()
+                .getSupportFragmentManager()
+                .setFragmentResultListener(
+                        "sort_recipe",
+                        getViewLifecycleOwner(),
+                        listener
+                );
 
         return v;
     }

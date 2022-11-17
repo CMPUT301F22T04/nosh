@@ -172,11 +172,11 @@ public class US02Test {
         // Enter recipe info
         solo.enterText((EditText) solo.getView(R.id.add_name), title);
         solo.waitForActivity("Timeout", pause);
-        solo.enterText((EditText) solo.getView(R.id.prep_input), String.valueOf(time));
+        solo.enterText((EditText) solo.getView(R.id.preparation_time_field), String.valueOf(time));
         solo.waitForActivity("Timeout", pause);
-        solo.enterText((EditText) solo.getView(R.id.serving_input), String.valueOf(servings));
+        solo.enterText((EditText) solo.getView(R.id.serving_field), String.valueOf(servings));
         solo.waitForActivity("Timeout", pause);
-        solo.enterText((EditText) solo.getView(R.id.category_input), category);
+        solo.enterText((EditText) solo.getView(R.id.recipe_category_field), category);
         solo.waitForActivity("Timeout", pause);
         solo.enterText((EditText) solo.getView(R.id.add_description), comments);
         solo.waitForActivity("Timeout", pause);

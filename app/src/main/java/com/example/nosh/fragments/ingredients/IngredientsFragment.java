@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
@@ -35,7 +36,7 @@ import javax.inject.Inject;
  * @version 1.0
  */
 public class IngredientsFragment extends Fragment implements Observer {
-    private ImageButton addButton;
+    private Button addButton;
     private IngredientAdapter adapter;
 
     // IngredientsFragment depends on controller. Use Dagger to manager dependency injection
@@ -45,7 +46,7 @@ public class IngredientsFragment extends Fragment implements Observer {
     private IngredientsFragmentListener listener;
     private ArrayList<Ingredient> ingredients;
 
-    private ImageButton sortButton;
+    private Button sortButton;
 
     /**
      * Required empty constructor

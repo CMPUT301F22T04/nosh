@@ -7,42 +7,62 @@
     android:layout_height="wrap_content"
     tools:context="com.example.nosh.fragments.ingredients.IngredientsFragment">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/recycler_view_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btn_layout"
-        app:layout_constraintTop_toTopOf="parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        >
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recipe_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintHeight="true" />
-    </LinearLayout>
+            android:layout_height="686dp"
+            android:layout_below="@+id/add_recipe_btn"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="-2dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="0dp" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/btn_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        >
 
-        <ImageButton
+
+
+        <Button
             android:id="@+id/add_recipe_btn"
-            android:layout_width="wrap_content"
+            android:layout_width="209dp"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/add_recipe"
-            android:src="@android:drawable/ic_menu_add"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="1dp"
+            android:layout_toStartOf="@+id/sort_buttonR"
+            android:background="@color/nosh"
+            android:text="Add Recipe"
+            android:textAlignment="textStart"
+            android:textAllCaps="false"
+            app:icon="@android:drawable/ic_input_add"
+            app:iconTint="#B2FFFFFF" />
+
+        <Button
+            android:id="@+id/sort_buttonR"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="0dp"
+            android:background="@color/nosh"
+            android:text="Filters"
+            android:textAlignment="textStart"
+            android:textAllCaps="false"
+            app:icon="@android:drawable/ic_menu_search"
+            app:iconTint="#FFFFFF" />
+    </RelativeLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

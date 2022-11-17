@@ -37,6 +37,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeViewHolder> {
         this.recipeImagesRemote = recipeImagesRemote;
     }
 
+
+
     interface RecyclerViewListener {
         void onEditClick(int pos);
     }

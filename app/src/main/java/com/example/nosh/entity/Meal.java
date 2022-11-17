@@ -19,7 +19,7 @@ import java.util.function.Consumer;
  * Each Meal will have a name and a list of recipes and ingredients that make up that meal
  */
 public class Meal implements Hashable, Iterable<MealComponent> {
-
+    private Integer servings;
     // list of ingredients and recipes
     private ArrayList<MealComponent> mealComponents;
     private int servings;
@@ -87,20 +87,17 @@ public class Meal implements Hashable, Iterable<MealComponent> {
         return hashcode;
     }
 
-    public void setHashcode(String hashcode) {
+    public void setHashcode (String hashcode){
         if (hashcode != null) {
             this.hashcode = hashcode;
         }
     }
 
-    @NonNull
-    @Override
-    public Iterator<MealComponent> iterator() {
+    @NonNull @Override public Iterator<MealComponent> iterator () {
         return getMealComponents().iterator();
     }
 
-    @Override
-    public void forEach(@NonNull Consumer<? super MealComponent> action) {
+    @Override public void forEach (@NonNull Consumer < ? super MealComponent > action){
         Iterable.super.forEach(action);
     }
 }

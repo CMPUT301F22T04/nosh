@@ -35,6 +35,14 @@
     <string name="by_category">by_category</string>
     <string name="by_location">by_location</string>
 
+
+    <string name="by_title">by_title</string>
+    <string name="by_prep">by_prep</string>
+    <string name="by_categoryR">by_categoryR</string>
+    <string name="by_servings">by_servings</string>
+
+    
+
     <string name="sort">Sort</string>
     <string name="cancel_operation">Cancel Operation</string>
     <string name="recipe_name_hint">Recipe Name</string>

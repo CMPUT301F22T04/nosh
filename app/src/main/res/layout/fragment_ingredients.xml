@@ -1,59 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout2"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/meal_plan_recycler_view"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:context="com.example.nosh.fragments.ingredients.IngredientsFragment">
+    android:layout_height="match_parent"
+    android:background="@color/purple_700"
+    tools:context=".fragments.plan.PlanFragment">
 
-    <LinearLayout
-        android:id="@+id/recycler_view_layout"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btn_layout"
-        app:layout_constraintTop_toTopOf="parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/ingr_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintHeight="true" />
-        </LinearLayout>
+            android:background="@color/white"
+            android:id="@+id/ingr_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="686dp"
+            android:layout_below="@+id/add_btn"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="-2dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="0dp" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/btn_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        <Button
+            android:id="@+id/add_btn"
+            android:layout_width="209dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="1dp"
+            android:layout_toStartOf="@+id/sort_button"
+            android:background="@color/nosh"
+            android:text="Add ingredient"
+            android:textAlignment="textStart"
+            android:textAllCaps="false"
+            app:icon="@android:drawable/ic_input_add"
+            app:iconTint="#B2FFFFFF" />
 
-        <ImageButton
+        <Button
             android:id="@+id/sort_button"
-            android:layout_width="53dp"
-            android:layout_height="54dp"
-            android:layout_marginEnd="4dp"
-            android:contentDescription="@string/sort_ingredient"
-            android:src="@drawable/ic_sort"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/add_btn"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="0dp"
+            android:background="@color/nosh"
+            android:text="Filters"
+            android:textAlignment="textStart"
+            android:textAllCaps="false"
+            app:icon="@android:drawable/ic_menu_search"
+            app:iconTint="#FFFFFF" />
+    </RelativeLayout>
 
-            <ImageButton
-                android:id="@+id/add_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/add_ingredient"
-                android:src="@android:drawable/ic_menu_add"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
