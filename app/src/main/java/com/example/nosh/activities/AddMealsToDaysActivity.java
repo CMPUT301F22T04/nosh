@@ -93,13 +93,13 @@ public class AddMealsToDaysActivity extends AppCompatActivity {
      * Creates a new meal with all the user input and adds it to its meal plan
      */
     void createMeal(){
-        Meal newMeal = new Meal(mealName.getText().toString(), Integer.parseInt(mealServings.getText().toString()));
+        Meal newMeal = new Meal(Integer.parseInt(mealServings.getText().toString()), mealName.getText().toString());
         for (int i = 0; i < foodStuff.getCount(); i++){
             if (foodStuff.isItemChecked(i)){
                 //newMeal.addMealComponent(foodStuff.getItemAtPosition(0));
             }
         }
-        mealPlan.addMealToDay(dayCount, newMeal);
+        mealPlan.addMealToDay(" ", newMeal);
 
         // TODO: call update on the meal in the database
     }
