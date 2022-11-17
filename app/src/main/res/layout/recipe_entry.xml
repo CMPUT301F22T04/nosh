@@ -28,14 +28,25 @@
 
         <TextView
             android:id="@+id/recipe_entry_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/sample_text"
             android:textSize="24sp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/del_btnR"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.615" />
+
+        <ImageButton
+            android:id="@+id/del_btnR"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
+            android:src="@android:drawable/ic_menu_delete"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
