@@ -19,7 +19,6 @@ import java.util.function.Consumer;
  * Each Meal will have a name and a list of recipes and ingredients that make up that meal
  */
 public class Meal implements Hashable, Iterable<MealComponent> {
-    private Integer servings;
     // list of ingredients and recipes
     private ArrayList<MealComponent> mealComponents;
     private int servings;
