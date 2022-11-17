@@ -2,6 +2,7 @@ package com.example.nosh.repository;
 
 import com.example.nosh.database.controller.DBController;
 import com.example.nosh.entity.MealPlan;
+import com.example.nosh.entity.MealPlanComponent;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,7 +34,7 @@ public class MealPlanRepository extends Repository {
         super.add(mealPlan);
     }
 
-    public void update(String name, Date startDate, Date endDate) {
+    public void update(MealPlan mealPlan) {
 
     }
 
