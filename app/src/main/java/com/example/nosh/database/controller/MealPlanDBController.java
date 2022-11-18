@@ -11,10 +11,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Map;
-import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -42,18 +39,25 @@ public class MealPlanDBController extends DBController {
         mealPlanDoc.update(mealPlanData);
 
         // Create a sub collection to contain meal plan components for each day
-        CollectionReference mealPlanColRef = mealPlanDoc
-                .collection("mealPlanComponents");
+        CollectionReference mealPlanComponentsCol = mealPlanDoc
+                .collection("meal_plan_components");
 
+        for (Map.Entry<String, MealPlanComponent> entry : mealPlan) {
+            DocumentReference mealPlanComponentDoc = mealPlanComponentsCol
+                    .document(entry.getKey());
 
-        Set<String> dates = mealPlan.getPlans().keySet();
-        Collection<MealPlanComponent> mealPlanComponents = mealPlan.getPlans().values();
-        ArrayList<DocumentReference> mealPlanComponentDocs = new ArrayList<>();
+            mealPlanComponentDoc.update("hashcode", entry.getValue().getHashcode());
 
-        for (String date : dates) {
-            mealPlanComponentDocs.add(mealPlanColRef.document("date"));
+            CollectionReference mealsCol = mealPlanComponentDoc.collection("meals");
+
+            for (Meal meal : entry.getValue()) {
+                DocumentReference mealDoc = mealsCol.document(meal.getHashcode());
+
+                Map<String, Object> mealData = EntityUtil.mealToMap(meal);
+
+                mealDoc.update(mealData);
+            }
         }
-
     }
 
     @Override
