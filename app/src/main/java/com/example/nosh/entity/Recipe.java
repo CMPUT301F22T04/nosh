@@ -41,8 +41,10 @@ public class Recipe extends MealComponent {
         this.photographRemote = photograph;
         this.title = title;
 
-        for (Ingredient ingredient: ingredients) {
-            this.ingredients.add(new Ingredient(ingredient));
+        if (ingredients != null) {
+            for (Ingredient ingredient : ingredients) {
+                this.ingredients.add(new Ingredient(ingredient));
+            }
         }
     }
 
@@ -56,6 +58,7 @@ public class Recipe extends MealComponent {
         ingredients = recipe.getIngredients();
         hashcode = recipe.getHashcode();
     }
+
 
     @NonNull
     @Override
