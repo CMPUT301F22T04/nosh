@@ -5,6 +5,7 @@
     android:id="@+id/frameLayout2"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/purple_700"
     tools:context="com.example.nosh.fragments.ingredients.IngredientsFragment">
 
     <RelativeLayout
@@ -17,6 +18,7 @@
             android:id="@+id/recipe_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="686dp"
+            android:background="@color/white"
             android:layout_below="@+id/add_recipe_btn"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
@@ -25,10 +27,6 @@
             android:layout_marginTop="-2dp"
             android:layout_marginEnd="0dp"
             android:layout_marginBottom="0dp" />
-
-        >
-
-
 
         <Button
             android:id="@+id/add_recipe_btn"
