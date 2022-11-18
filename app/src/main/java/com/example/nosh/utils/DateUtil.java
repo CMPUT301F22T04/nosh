@@ -38,7 +38,6 @@ public class DateUtil {
     }
 
     public static long dayDifferences(Date start, Date end) {
-        return TimeUnit.DAYS.convert(end.getTime() - start.getTime(),
-                TimeUnit.MICROSECONDS);
+        return TimeUnit.MILLISECONDS.toDays(end.getTime() - start.getTime());
     }
 }

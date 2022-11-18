@@ -1,6 +1,8 @@
 package com.example.nosh.utils;
 
 import com.example.nosh.entity.Ingredient;
+import com.example.nosh.entity.Meal;
+import com.example.nosh.entity.MealComponent;
 import com.example.nosh.entity.MealPlan;
 import com.example.nosh.entity.Recipe;
 import com.google.firebase.Timestamp;
@@ -13,11 +15,29 @@ import java.util.Objects;
 
 public class EntityUtil {
 
+    public static Map<String, Object> mealToMap(Meal meal) {
+        Map<String, Object> data = new HashMap<>();
+
+        data.put("servings", meal.getServings());
+        data.put("name", meal.getName());
+
+        ArrayList<String> mealComponentsHashcode = new ArrayList<>();
+
+        for (MealComponent mealComponent :
+             meal) {
+            mealComponentsHashcode.add(mealComponent.getHashcode());
+        }
+
+        data.put("mealComponents", mealComponentsHashcode);
+
+        return data;
+    }
+
     public static Map<String, Object> mealPlanToMap(MealPlan mealPlan) {
         Map<String, Object> data = new HashMap<>();
         data.put("startDate", mealPlan.getStartDate());
         data.put("endDate", mealPlan.getEndDate());
-        data.put("totalDay", mealPlan.getTotalDays());
+        data.put("totalDays", mealPlan.getTotalDays());
         data.put("name", mealPlan.getName());
 
         return data;
@@ -123,4 +143,16 @@ public class EntityUtil {
 
         return recipe;
     }
+
+    public static MealPlan mapToMealPlan(Map<String, Object> map) {
+        MealPlan mealPlan = new MealPlan();
+
+        mealPlan.setStartDate(((Timestamp) Objects.requireNonNull(map.get("startDate"))).toDate());
+        mealPlan.setEndDate(((Timestamp) Objects.requireNonNull(map.get("endDate"))).toDate());
+        mealPlan.setTotalDays((Long) Objects.requireNonNull(map.get("totalDays")));
+        mealPlan.setName((String) map.get("name"));
+
+        return mealPlan;
+    }
+
 }
