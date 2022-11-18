@@ -44,16 +44,19 @@ public class MealPlan implements Serializable, Hashable,
 
         this.startDate = startDate;
         this.endDate = endDate;
-
-        totalDays = DateUtil.dayDifferences(startDate, endDate);
+        plans = new HashMap<>();
+        totalDays = DateUtil.dayDifferences(startDate, endDate) + 1;
 
         Calendar start = Calendar.getInstance();
         start.setTime(this.startDate);
 
         // create a new day entry for every day
-        for (int i = 0; i < totalDays; i++) {
+        for (int i = 0; i <= totalDays; i++) {
             start.add(Calendar.DAY_OF_MONTH, i);
+
             plans.put(DateUtil.formatDate(start.getTime()), new MealPlanComponent());
+
+            start.add(Calendar.DAY_OF_MONTH, -i);
         }
 
         this.name = name;
