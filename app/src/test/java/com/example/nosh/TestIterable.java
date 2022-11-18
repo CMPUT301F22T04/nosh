@@ -24,8 +24,6 @@ public class TestIterable {
         mealComponents.put(ingredient.getHashcode(), ingredient);
         mealComponents.put(recipe.getHashcode(), recipe);
 
-        meal.setMealComponents(mealComponents);
-
         for (MealComponent mealComponent :
                 meal) {
             assert mealComponents.containsKey(mealComponent.getHashcode());
