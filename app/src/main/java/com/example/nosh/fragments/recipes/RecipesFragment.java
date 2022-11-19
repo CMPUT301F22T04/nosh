@@ -76,14 +76,16 @@ public class RecipesFragment extends Fragment implements Observer {
         @Override
         public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
             if (requestKey.equals("add_recipe")) {
-                ArrayList<Ingredient> ing = new ArrayList<>();
+//                ArrayList<Ingredient> ing = new ArrayList<>();
+//                Ingredient ing1 = new Ingredient(2,3,"3","peen","word");
+//                ing.add(ing1);
                controller.add(result.getDouble("prep"),
                        result.getInt("servings") ,
                         result.getString("category"),
                         result.getString("comments"),
                         result.getString("photo"),
                         result.getString("name"),
-                        ing
+                       (ArrayList<Ingredient>) result.getSerializable("ingredients")
                         );
             }
             if(requestKey.equals("sort_recipe")){

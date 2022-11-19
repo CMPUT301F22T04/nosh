@@ -22,10 +22,15 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentResultListener;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nosh.MainActivity;
 import com.example.nosh.R;
+import com.example.nosh.controller.RecipeController;
 import com.example.nosh.entity.Ingredient;
+import com.example.nosh.fragments.ingredients.IngredientAdapter;
 import com.example.nosh.utils.AndroidFileUtil;
 
 import java.util.ArrayList;
@@ -44,13 +49,19 @@ public class AddRecipeDialog extends DialogFragment {
     private EditText commentInput;
 
     private AddRecipeDialogListener listener;
+    private AddRecipeDialogListener listnerIng;
     private ActivityResultLauncher<Intent> launcher;
 
     private String recipeImagePath;
     private ArrayList<Ingredient> ingredients;
+    private RecipeIngredientAdapter adapter;
+    private RecipeController controller;
+
+
 
     private class AddRecipeDialogListener implements View.OnClickListener,
-            ActivityResultCallback<ActivityResult> {
+            ActivityResultCallback<ActivityResult>,RecipeIngredientAdapter.RecyclerViewListener,
+            FragmentResultListener {
 
         @Override
         public void onClick(View v) {
@@ -68,10 +79,27 @@ public class AddRecipeDialog extends DialogFragment {
 
                 launcher.launch(photoPicker);
             } else if (v.getId() == addRecipeIngredientBtn.getId()) {
+                AddIngredientToRecipeDialog addIngredientToRecipeDialog =
+                        AddIngredientToRecipeDialog.newInstance();
+
+                addIngredientToRecipeDialog.show(getParentFragmentManager(),
+                        "add_ingredient_to_recipe");
 
             } else if (v.getId() == backButton.getId()) {
                 dismiss();
             }
+        }
+
+        @Override
+        public void onDeleteButtonClick(int pos) {
+            if (pos >= 0) {
+                ingredients.remove(pos);
+                adapter.notifyItemRemoved(pos);
+            }
+        }
+
+        @Override
+        public void onEditClick(int pos) {
         }
 
         @Override
@@ -85,6 +113,22 @@ public class AddRecipeDialog extends DialogFragment {
                     recipeImagePath = AndroidFileUtil.resolvePath(getContext(), uri);
                     recipeImageView.setImageURI(uri);
                 }
+            }
+        }
+        @Override
+        public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+            if (requestKey.equals("add_ingredient")) {
+                Ingredient ingr = new Ingredient(result.getDouble("unit"),
+                        result.getInt("qty"),
+                        result.getString("category"),
+                        result.getString("description"),
+                        result.getString("name")
+                );
+                ingredients.add(ingr);
+                adapter.update(ingredients);
+                adapter.notifyItemRangeChanged(0, ingredients.size());
+
+                ;
             }
         }
     }
@@ -103,6 +147,8 @@ public class AddRecipeDialog extends DialogFragment {
                 new ActivityResultContracts.StartActivityForResult(),
                 listener
         );
+        ingredients = new ArrayList<Ingredient>();
+
     }
 
     @Nullable
@@ -113,6 +159,7 @@ public class AddRecipeDialog extends DialogFragment {
 
         View view = inflater.inflate(R.layout.add_recipe, container, false);
         // fields
+
 
         addRecipeBtn = view.findViewById(R.id.submit_recipe);
         addRecipeIngredientBtn = view.findViewById(R.id.add_recipe_ingredient);
@@ -132,6 +179,22 @@ public class AddRecipeDialog extends DialogFragment {
         addRecipeIngredientBtn.setOnClickListener(listener);
         backButton.setOnClickListener(listener);
         recipeImageView.setOnClickListener(listener);
+
+        requireActivity()
+                .getSupportFragmentManager()
+                .setFragmentResultListener(
+                        "add_ingredient",
+                        getViewLifecycleOwner(),
+                        listener);
+
+        RecyclerView recyclerView = view.findViewById(R.id.recipe_recycler_view);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+
+        adapter = new RecipeIngredientAdapter(listener, getContext(), ingredients);
+
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+
 
         return view;
     }
@@ -179,6 +242,8 @@ public class AddRecipeDialog extends DialogFragment {
         args.putString("category", categoryInput.getText().toString());
         args.putString("comments", commentInput.getText().toString());
         args.putString("photo", recipeImagePath);
+        args.putSerializable("ingredients",ingredients);
+
         requireActivity().getSupportFragmentManager().setFragmentResult("add_recipe", args);
 
         dismiss();
