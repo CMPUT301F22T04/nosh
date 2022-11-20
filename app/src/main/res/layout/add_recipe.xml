@@ -36,18 +36,18 @@
     <ImageView
         android:id="@+id/recipe_image_view"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="125dp"
         android:layout_below="@id/recipe_name_field"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="16dp"
         android:adjustViewBounds="true"
         android:clickable="true"
+        android:contentDescription="@string/recipe_image"
         android:focusable="true"
         android:paddingTop="6dp"
         android:scaleType="fitXY"
-        android:src="@android:drawable/ic_menu_gallery"
-        android:contentDescription="@string/recipe_image" />
+        android:src="@android:drawable/ic_menu_gallery" />
 
     <EditText
         android:id="@+id/preparation_time_field"
@@ -104,7 +104,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recipe_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="16dp"
@@ -136,6 +136,7 @@
         android:layout_below="@+id/recipe_comment_label"
         android:layout_alignParentStart="true"
         android:layout_marginTop="15dp"
+        android:autofillHints=""
         android:background="@drawable/description_border"
         android:gravity="start"
         android:hint="@string/recipe_comment_field_hint"
@@ -144,7 +145,6 @@
         android:paddingStart="6dp"
         android:paddingTop="6dp"
         android:textSize="16sp"
-        android:autofillHints=""
         tools:ignore="RtlSymmetry" />
 
     <Button
