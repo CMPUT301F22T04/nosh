@@ -3,12 +3,15 @@ package com.example.nosh.fragments.recipes;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -39,7 +42,7 @@ import java.util.ArrayList;
 public class AddRecipeDialog extends DialogFragment {
 
     private Button addRecipeBtn;
-    private Button addRecipeIngredientBtn;
+    private ImageButton addRecipeIngredientBtn;
     private ImageButton backButton;
     private ImageView recipeImageView;
     private EditText recipeName;
@@ -247,5 +250,15 @@ public class AddRecipeDialog extends DialogFragment {
         requireActivity().getSupportFragmentManager().setFragmentResult("add_recipe", args);
 
         dismiss();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Window window = getDialog().getWindow();
+        if(window == null) return;
+        WindowManager.LayoutParams params = window.getAttributes();
+        params.width = Resources.getSystem().getDisplayMetrics().widthPixels;
+        window.setAttributes(params);
     }
 }
