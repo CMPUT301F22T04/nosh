@@ -45,10 +45,10 @@
 
     <string name="sort">Sort</string>
     <string name="cancel_operation">Cancel Operation</string>
-    <string name="recipe_name_hint">Recipe Name</string>
-    <string name="preparation_time_field_hint">Enter Prep time in mins (ie \'20\')\'</string>
-    <string name="serving_field_hint">Enter Servings (ie \'2\')\'</string>
-    <string name="recipe_category_field_hint">Enter Category (ie \'Vegan\')\'</string>
+    <string name="recipe_name_hint">Recipe name</string>
+    <string name="preparation_time_field_hint">Prep time in minutes</string>
+    <string name="serving_field_hint">Number of servings</string>
+    <string name="recipe_category_field_hint">Enter recipe category</string>
     <string name="click_to_add_ingredient">Click to Add ingredient</string>
     <string name="comments">Comments</string>
     <string name="recipe_comment_field_hint">Comments…</string>
