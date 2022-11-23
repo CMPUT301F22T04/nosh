@@ -29,6 +29,7 @@ abstract public class Repository extends Observable implements Observer {
         notifyObservers();
     }
 
+
     protected void update(Hashable o) {
         dbController.update(o);
 

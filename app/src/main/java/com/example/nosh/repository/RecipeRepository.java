@@ -74,6 +74,10 @@ public class RecipeRepository extends Repository {
         return recipes;
     }
 
+    public Recipe retrieve(String hashcode) {
+        return recipes.get(hashcode);
+    }
+
     @Override
     public void update(Observable o, Object arg) {
         assert (arg instanceof Recipe[]);
