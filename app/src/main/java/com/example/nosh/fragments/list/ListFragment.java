@@ -1,8 +1,10 @@
 package com.example.nosh.fragments.list;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,23 +15,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.nosh.Nosh;
 import com.example.nosh.R;
 import com.example.nosh.controller.IngredientStorageController;
+import com.example.nosh.controller.RecipeController;
 import com.example.nosh.entity.Ingredient;
+import com.example.nosh.entity.Recipe;
 import com.example.nosh.fragments.Shopping.ShoppingAdapter;
 import com.example.nosh.fragments.Shopping.ShoppingFragment;
 import com.example.nosh.repository.IngredientRepository;
 
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.inject.Inject;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ListFragment#newInstance} factory method to
+ * Use the  factory method to
  * create an instance of this fragment.
  */
-public class ListFragment extends Fragment {
+public class ListFragment extends Fragment implements Observer {
 
     private Button addButton;
     private ShoppingAdapter adapter;
@@ -37,11 +44,12 @@ public class ListFragment extends Fragment {
     // IngredientsFragment depends on controller. Use Dagger to manager dependency injection
     
     @Inject
-    IngredientStorageController controller;
+    //IngredientStorageController controller;
+    RecipeController controller2;
 
     private ShoppingFragmentListener listener;
     private ArrayList<Ingredient> ingredients;
-
+    private ArrayList<Recipe> recipes;
     private Button sortButton;
     private Object ShoppingFragment;
 
@@ -74,7 +82,7 @@ public class ListFragment extends Fragment {
                 .getAppComponent()
                 .inject(this);
 
-        controller.addObserver(this);
+        controller2.addObserver(this);
         
         super.onAttach(context);
         
@@ -85,9 +93,12 @@ public class ListFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ingredients = controller.retrieve();
-
-        System.out.println(ingredients.get(1).getDescription());
+        //ingredients = controller.retrieve();
+        ingredients = new ArrayList<Ingredient>();
+        recipes = controller2.retrieve();
+        getIngredient();
+       // ingredients = recipes.get(0).getIngredients();
+        //System.out.println(ingredients.get(1).getDescription());
     }
     
     @Override
@@ -115,16 +126,28 @@ public class ListFragment extends Fragment {
      */
     @Override
     public void update(Observable observable, Object o) {
-        ingredients = controller.retrieve();
-
+        getIngredient();
+        //recipes = controller2.retrieve();
         adapter.update(ingredients);
         adapter.notifyItemRangeChanged(0, ingredients.size());
     }
 
     @Override
     public void onDestroy() {
-        controller.deleteObserver(this);
+        //controller.deleteObserver(this);
+        controller2.deleteObserver(this);
 
         super.onDestroy();
+    }
+
+
+    public void getIngredient(){
+        for (Recipe r : recipes){
+            ArrayList<Ingredient> ing;
+            ing = r.getIngredients();
+            for (Ingredient i : ing){
+                ingredients.add(i);
+            }
+        }
     }
 }

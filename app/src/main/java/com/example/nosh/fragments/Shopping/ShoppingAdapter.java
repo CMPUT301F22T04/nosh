@@ -30,12 +30,12 @@ public class ShoppingAdapter extends
         this.ingredients = ingredients;
     }
 
-    interface RecyclerViewListener {
+    public interface RecyclerViewListener {
         //void onDeleteButtonClick(int pos);
         //void onEditClick(int pos);
     }
 
-    void update(ArrayList<Ingredient> ingredients) {
+    public void update(ArrayList<Ingredient> ingredients) {
        this.ingredients = ingredients;
     }
 
@@ -53,8 +53,8 @@ public class ShoppingAdapter extends
     public void onBindViewHolder(@NonNull ShoppingViewHolder holder,
                                  int position) {
         holder.getNameTxtView().setText(ingredients.get(position).getName());
-        holder.getDescriptionTxtView().setText(ingredients.get(position).
-                getDescription());
+        holder.getDescriptionTxtView().setText(String.valueOf(ingredients.get(position).
+                getAmount()));
     }
 
     @Override
