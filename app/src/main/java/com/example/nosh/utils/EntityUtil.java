@@ -8,6 +8,7 @@ import com.example.nosh.entity.Recipe;
 import com.google.firebase.Timestamp;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -20,6 +21,7 @@ public class EntityUtil {
 
         data.put("servings", meal.getServings());
         data.put("name", meal.getName());
+        data.put("hashcode", meal.getHashcode());
 
         ArrayList<String> mealComponentsHashcode = new ArrayList<>();
 
@@ -39,6 +41,7 @@ public class EntityUtil {
         data.put("endDate", mealPlan.getEndDate());
         data.put("totalDays", mealPlan.getTotalDays());
         data.put("name", mealPlan.getName());
+        data.put("hashcode", mealPlan.getHashcode());
 
         return data;
     }
@@ -145,14 +148,26 @@ public class EntityUtil {
     }
 
     public static MealPlan mapToMealPlan(Map<String, Object> map) {
-        MealPlan mealPlan = new MealPlan();
+        Date startDate = ((Timestamp) Objects.requireNonNull(map.get("startDate"))).toDate();
+        Date endDate = ((Timestamp) Objects.requireNonNull(map.get("endDate"))).toDate();
+        String name = (String) map.get("name");
+        String hashcode = (String) map.get("hashcode");
 
-        mealPlan.setStartDate(((Timestamp) Objects.requireNonNull(map.get("startDate"))).toDate());
-        mealPlan.setEndDate(((Timestamp) Objects.requireNonNull(map.get("endDate"))).toDate());
-        mealPlan.setTotalDays((Long) Objects.requireNonNull(map.get("totalDays")));
-        mealPlan.setName((String) map.get("name"));
+        MealPlan mealPlan = new MealPlan(name, startDate, endDate);
+
+        mealPlan.setHashcode(hashcode);
 
         return mealPlan;
+    }
+
+    public static Meal mapToMeal(Map<String, Object> map) {
+        Meal meal = new Meal();
+
+        meal.setServings((Long) Objects.requireNonNull(map.get("servings")));
+        meal.setName((String) map.get("name"));
+        meal.setHashcode((String) map.get("hashcode"));
+
+        return meal;
     }
 
 }

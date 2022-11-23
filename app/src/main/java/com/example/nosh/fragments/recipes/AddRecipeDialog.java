@@ -80,7 +80,11 @@ public class AddRecipeDialog extends DialogFragment {
                 Intent data = result.getData();
 
                 if (data != null && data.getData() != null) {
+                    Bundle bundle = new Bundle();
+
                     Uri uri = data.getData();
+
+                    bundle.putParcelable("image_uri", uri);
 
                     recipeImagePath = AndroidFileUtil.resolvePath(getContext(), uri);
                     recipeImageView.setImageURI(uri);
