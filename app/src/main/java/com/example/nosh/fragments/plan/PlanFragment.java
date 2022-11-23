@@ -87,9 +87,7 @@ public class PlanFragment extends Fragment implements
 
         Button newMealPlanButton = v.findViewById(R.id.new_meal_plan_button);
 
-        newMealPlanButton.setOnClickListener(view -> {
-            launchNewMealPlanActivity();
-        });
+        newMealPlanButton.setOnClickListener(view -> launchNewMealPlanActivity());
 
         return v;
     }
