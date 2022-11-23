@@ -1,9 +1,12 @@
 package com.example.nosh.injection;
 
 import com.example.nosh.MainActivity;
+import com.example.nosh.activities.AddMealsToDaysActivity;
+import com.example.nosh.activities.NewMealPlanActivity;
 import com.example.nosh.auth.Login;
 import com.example.nosh.auth.Register;
 import com.example.nosh.fragments.ingredients.IngredientsFragment;
+import com.example.nosh.fragments.plan.PlanFragment;
 import com.example.nosh.fragments.recipes.RecipesFragment;
 
 import javax.inject.Singleton;
@@ -29,9 +32,15 @@ public interface ApplicationComponent {
     // ...
     void inject(MainActivity mainActivity);
 
+    void inject(NewMealPlanActivity newMealPlanActivity);
+
+    void inject(AddMealsToDaysActivity addMealsToDaysActivity);
+
     // ...
     void inject(IngredientsFragment ingredientsFragment);
 
     // ...
     void inject(RecipesFragment recipesFragment);
+
+    void inject(PlanFragment planFragment);
 }
