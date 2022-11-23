@@ -29,8 +29,8 @@ public class RecipeImageRepository extends Observable implements Observer {
         sync();
     }
 
-    public String add(String photograph) {
-       StorageReference ref = storageController.add(Uri.fromFile(new File(photograph)));
+    public String add(Uri photoUri) {
+       StorageReference ref = storageController.add(photoUri);
 
        recipeImagesRemote.put(ref.getPath(), ref);
 

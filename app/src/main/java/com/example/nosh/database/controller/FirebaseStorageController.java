@@ -44,7 +44,10 @@ public class FirebaseStorageController extends Observable {
      */
     public StorageReference add(Uri image) {
 
-        StorageReference ref = rootRef.child(image.getLastPathSegment());
+        String segment = image.getLastPathSegment();
+        String[] splits = segment.split("/");
+
+        StorageReference ref = rootRef.child(splits[splits.length-1]);
 
         UploadTask uploadTask = ref.putFile(image);
 
