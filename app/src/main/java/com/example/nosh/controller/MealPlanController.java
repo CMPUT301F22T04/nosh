@@ -31,6 +31,14 @@ public class MealPlanController {
         mealPlanRepository.add(name, startDate, endDate);
     }
 
+    public void add(MealPlan mealPlan) {
+        mealPlanRepository.add(mealPlan);
+    }
+
+    public MealPlan retrieve(String hashcode) {
+        return mealPlanRepository.retrieve(hashcode);
+    }
+
     /**
      * Return a list of copy references of MealPlan objects
      * @return

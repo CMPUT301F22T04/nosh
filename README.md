@@ -31,7 +31,7 @@ The instalation of this emulator is required to run the app as of project part 3
     - Recommend to rename the file to `firebase` since the auto run script use this name
   - If you're on Mac or Linux, just run the `install-firebase-mac.sh` in terminal and it will automatically setup for you.
 - To run emulator, just run `start-emulator.sh` (`start-emulator.ps1` for Windows) in terminal
-  - It might prompt you message to login with Firebase account if you're first time using it.
+  - It might prompt you transaction to login with Firebase account if you're first time using it.
     - Make sure to select the `nosh-45f06` project when it asks for which project in your account want to be used
 ---
 ### Database related Classes

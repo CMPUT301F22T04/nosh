@@ -50,4 +50,11 @@ abstract public class Repository extends Observable implements Observer {
 
         super.notifyObservers();
     }
+
+    @Override
+    public void notifyObservers(Object arg) {
+        setChanged();
+
+        super.notifyObservers(arg);
+    }
 }
