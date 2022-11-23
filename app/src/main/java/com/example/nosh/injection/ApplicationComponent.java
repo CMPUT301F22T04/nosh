@@ -3,7 +3,9 @@ package com.example.nosh.injection;
 import com.example.nosh.MainActivity;
 import com.example.nosh.auth.Login;
 import com.example.nosh.auth.Register;
+import com.example.nosh.fragments.Shopping.ShoppingFragment;
 import com.example.nosh.fragments.ingredients.IngredientsFragment;
+import com.example.nosh.fragments.list.ListFragment;
 import com.example.nosh.fragments.recipes.RecipesFragment;
 
 import javax.inject.Singleton;
@@ -34,4 +36,8 @@ public interface ApplicationComponent {
 
     // ...
     void inject(RecipesFragment recipesFragment);
+
+    void inject(ShoppingFragment shoppingFragment);
+
+    void inject(ListFragment listFragment);
 }
