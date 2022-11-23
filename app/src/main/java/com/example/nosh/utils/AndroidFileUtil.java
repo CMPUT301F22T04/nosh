@@ -37,7 +37,6 @@ public class AndroidFileUtil {
     }
 
     public static String resolvePath(final Context context, final Uri uri) {
-
         // Ensure Android SDK using is above 19
 
         if (DocumentsContract.isDocumentUri(context, uri)) {
@@ -49,6 +48,10 @@ public class AndroidFileUtil {
                 if ("primary".equalsIgnoreCase(type)) {
                     return Environment.getExternalStorageDirectory() + "/" + split[1];
                 }
+                // some images had "image" as their type
+                if ("image".equalsIgnoreCase(type)) {
+                    return Environment.getExternalStorageDirectory() + "/" + split[1];
+                }
             }
         }
 
@@ -56,6 +59,8 @@ public class AndroidFileUtil {
     }
 
     private static boolean isExternalStorageDocument(Uri uri) {
-        return "com.android.externalstorage.documents".equals(uri.getAuthority());
+        // what is an external storage doc vs the other?
+        return "com.android.external.storage.documents".equals(uri.getAuthority())
+                || "com.android.providers.media.documents".equals(uri.getAuthority());
     }
 }
