@@ -38,7 +38,9 @@ public abstract class DBController extends Observable {
 
     abstract public void create(Hashable o);
 
-    abstract public Object retrieve(Hashable o);
+    public void retrieve(Hashable o) {
+        throw new UnsupportedOperationException();
+    }
 
     abstract public void retrieve();
 
