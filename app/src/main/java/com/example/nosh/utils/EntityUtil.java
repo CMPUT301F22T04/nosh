@@ -163,6 +163,18 @@ public class EntityUtil {
     public static Meal mapToMeal(Map<String, Object> map) {
         Meal meal = new Meal();
 
+        if (map.containsKey("mealComponents")) {
+            for (String hashcode : (ArrayList<String>)
+                    Objects.requireNonNull(map.get("mealComponents"))) {
+
+                // Placeholder
+                Ingredient ingredient = new Ingredient();
+                ingredient.setHashcode(hashcode);
+
+                meal.addMealComponent(ingredient);
+            }
+        }
+
         meal.setServings((Long) Objects.requireNonNull(map.get("servings")));
         meal.setName((String) map.get("name"));
         meal.setHashcode((String) map.get("hashcode"));
