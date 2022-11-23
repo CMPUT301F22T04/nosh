@@ -2,13 +2,27 @@ package com.example.nosh.fragments.list;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.nosh.R;
+import com.example.nosh.controller.IngredientStorageController;
+import com.example.nosh.entity.Ingredient;
+import com.example.nosh.fragments.Shopping.ShoppingAdapter;
+import com.example.nosh.fragments.Shopping.ShoppingFragment;
+import com.example.nosh.repository.IngredientRepository;
+
+import java.util.ArrayList;
+
+import javax.inject.Inject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +30,20 @@ import com.example.nosh.R;
  * create an instance of this fragment.
  */
 public class ListFragment extends Fragment {
+
+    private Button addButton;
+    private ShoppingAdapter adapter;
+    private IngredientRepository x;
+    // IngredientsFragment depends on controller. Use Dagger to manager dependency injection
+    @Inject
+    IngredientStorageController controller;
+
+
+    private com.example.nosh.fragments.Shopping.ShoppingFragment.ShoppingFragmentListener listener;
+    private ArrayList<Ingredient> ingredients;
+
+    private Button sortButton;
+    private Object ShoppingFragment;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -28,6 +56,21 @@ public class ListFragment extends Fragment {
 
     public ListFragment() {
         // Required empty public constructor
+    }
+    private class ShoppingFragmentListener
+            implements ShoppingAdapter.RecyclerViewListener,
+            View.OnClickListener, FragmentResultListener {
+
+        @Override
+        public void onClick(View view) {
+            adapter.update(ingredients);
+
+        }
+
+        @Override
+        public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+
+        }
     }
 
     /**
@@ -60,6 +103,22 @@ public class ListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_list, container, false);
+
+        // Inflate the layout for this fragment
+        View v = inflater.inflate(R.layout.fragment_list, container, false);
+        System.out.println(ingredients.get(1).getDescription());
+        RecyclerView recyclerView = v.findViewById(R.id.list_recycler_view);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+
+
+
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new ShoppingAdapter(listener, getContext(), ingredients);
+        //adapter.update(ingredients);
+        recyclerView.setAdapter(adapter);
+
+
+
+        return v;
     }
 }

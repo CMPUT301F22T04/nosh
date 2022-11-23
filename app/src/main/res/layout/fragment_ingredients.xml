@@ -13,7 +13,6 @@
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:background="@color/white"
             android:id="@+id/ingr_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="686dp"
@@ -24,7 +23,8 @@
             android:layout_marginStart="0dp"
             android:layout_marginTop="-2dp"
             android:layout_marginEnd="0dp"
-            android:layout_marginBottom="0dp" />
+            android:layout_marginBottom="0dp"
+            android:background="@color/white" />
 
         <Button
             android:id="@+id/add_btn"
