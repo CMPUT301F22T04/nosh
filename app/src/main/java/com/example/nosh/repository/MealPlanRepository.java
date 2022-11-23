@@ -1,12 +1,19 @@
 package com.example.nosh.repository;
 
-import com.example.nosh.database.controller.MealPlanDBController;
-import com.example.nosh.entity.MealPlan;
-import com.example.nosh.entity.Transaction;
+import static com.example.nosh.controller.MealPlanController.ADD_MEAL_TO_DAY;
+import static com.example.nosh.controller.MealPlanController.CREATE_NEW_MEAL_PLAN;
+import static com.example.nosh.controller.MealPlanController.MEAL_PLAN_HASHCODE;
 
+import com.example.nosh.controller.MealPlanController;
+import com.example.nosh.database.controller.MealPlanDBController;
+import com.example.nosh.entity.Meal;
+import com.example.nosh.entity.MealPlan;
+import com.example.nosh.entity.MealPlanComponent;
+import com.example.nosh.entity.Transaction;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Observable;
 
@@ -17,24 +24,25 @@ import javax.inject.Singleton;
 @Singleton
 public class MealPlanRepository extends Repository {
 
-    public static final String CREATE_NEW_MEAL_PLAN = "create_new_meal_plan";
-    public static final String MEAL_PLAN_HASHCODE = "meal_plan_hashcode";
-
     private final HashMap<String, MealPlan> mealPlans;
+    private final IngredientRepository ingredientRepository;
+    private final RecipeRepository recipeRepository;
 
     @Inject
-    public MealPlanRepository(MealPlanDBController dbController) {
+    public MealPlanRepository(IngredientRepository ingredientRepository,
+                              RecipeRepository recipeRepository,
+                              MealPlanDBController dbController) {
         super(dbController);
+
+        this.ingredientRepository = ingredientRepository;
+        this.recipeRepository = recipeRepository;
 
         mealPlans = new HashMap<>();
 
-//        sync();
+        sync();
     }
 
     public void add(String name, Date startDate, Date endDate) {
-        // TODO: Should we call this at the very end of the creation process or at the start?
-        // At the end
-
         MealPlan mealPlan = new MealPlan(name, startDate, endDate);
         mealPlans.put(mealPlan.getHashcode(), mealPlan);
 
@@ -58,7 +66,21 @@ public class MealPlanRepository extends Repository {
     }
 
     public void update(MealPlan mealPlan) {
+        mealPlans.replace(mealPlan.getHashcode(), new MealPlan(mealPlan));
 
+        dbController.update(mealPlan);
+    }
+
+    public void updateMeal(String hashcode, String date, Meal meal) {
+        Objects.requireNonNull(mealPlans.get(hashcode)).addMealToDay(date, meal);
+
+        dbController.update(mealPlans.get(hashcode));
+
+        Transaction transaction = new Transaction(ADD_MEAL_TO_DAY);
+
+        transaction.putContents(MEAL_PLAN_HASHCODE, hashcode);
+
+        notifyObservers(transaction);
     }
 
     public void delete(MealPlan mealPlan) {
@@ -80,5 +102,22 @@ public class MealPlanRepository extends Repository {
         assert arg instanceof Transaction;
 
         Transaction transaction = (Transaction) arg;
+
+        if (transaction.getTag().compareTo(MealPlanDBController.SYNC_COMPLETE) == 0) {
+            Object content = transaction
+                    .getContents()
+                    .get(MealPlanDBController.COLLECTION_NAME);
+
+            assert content instanceof MealPlan[];
+
+
+            MealPlan[] mealPlans = (MealPlan[]) content;
+
+            for (MealPlan mealPlan : mealPlans) {
+                this.mealPlans.put(mealPlan.getHashcode(), new MealPlan(mealPlan));
+            }
+
+            super.notifyObservers();
+        }
     }
 }
