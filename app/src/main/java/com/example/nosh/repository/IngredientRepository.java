@@ -63,6 +63,10 @@ public class IngredientRepository extends Repository {
         return ingredients;
     }
 
+    public Ingredient retrieve(String hashcode) {
+        return ingredients.get(hashcode);
+    }
+
     public void update(String hashcode, Date bestBeforeDate, double unit, long amount,
                        String category, String description, String location,
                        String name) {

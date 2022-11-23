@@ -47,6 +47,10 @@ public class MealPlanRecyclerViewAdapter extends RecyclerView.Adapter<MealPlanRe
         return mealPlans.size();
     }
 
+    public void update(ArrayList<MealPlan> mealPlans) {
+        this.mealPlans = mealPlans;
+    }
+
     public static class MyViewHolder extends RecyclerView.ViewHolder{
         // grabbing the views from recycler layout
         TextView planName;
