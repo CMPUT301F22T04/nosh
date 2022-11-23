@@ -3,6 +3,7 @@ package com.example.nosh;
 import com.example.nosh.entity.Meal;
 import com.example.nosh.entity.MealComponent;
 import com.example.nosh.entity.MealPlanComponent;
+import com.example.nosh.meal.MockMeal;
 
 import org.junit.jupiter.api.Test;
 
