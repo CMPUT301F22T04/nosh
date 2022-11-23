@@ -133,7 +133,6 @@ public class EntityUtil {
             ArrayList<Ingredient> ingredients = new ArrayList<>();
 
             // TODO: Caution
-            //noinspection unchecked
             for (Map<String, Object> pairs : (ArrayList<Map<String, Object>>)
                     Objects.requireNonNull(map.get("ingredients"))) {
                 ingredients.add(mapToIngredient(pairs));
