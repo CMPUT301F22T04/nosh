@@ -5,6 +5,8 @@ import android.util.Log;
 import com.example.nosh.entity.Hashable;
 import com.example.nosh.entity.Meal;
 import com.example.nosh.entity.MealPlan;
+import com.example.nosh.entity.MealPlanComponent;
+import com.example.nosh.entity.Transaction;
 import com.example.nosh.utils.EntityUtil;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
@@ -29,15 +31,17 @@ import javax.inject.Singleton;
 public class MealPlanDBController extends DBController {
 
     static final String DOC_NAME = "meal_plan_storage";
-    static final String COLLECTION_NAME = "meal_plans";
+    public static final String COLLECTION_NAME = "meal_plans";
     static final String MEAL_PLAN_COMPONENTS = "meal_plan_components";
     static final String MEALS = "meals";
+
+    public static final String SYNC_COMPLETE = "sync_complete";
 
     private final ExecutorService executorService;
 
     private class RetrieveMealTask implements Callable<Meal[]> {
-        private String hashcode;
-        private String date;
+        private final String hashcode;
+        private final String date;
 
         public RetrieveMealTask(String hashcode, String date) {
             this.hashcode = hashcode;
@@ -57,17 +61,27 @@ public class MealPlanDBController extends DBController {
             QuerySnapshot snapshots = Tasks.await(task);
 
             if (task.isSuccessful()) {
-                if (!snapshots.isEmpty()) {
-                    Meal[] meals = new Meal[task.getResult().size()];
+                Log.d("RETRIEVE", "Successfully cache in Meal documents");
 
-                    int counter = 0;
-                    for (DocumentSnapshot doc : task.getResult()) {
+                Meal[] meals = new Meal[task.getResult().size()];
 
-                    }
+                if (task.getResult().size() == 0) {
+                    return meals;
                 }
-            }
 
-            return null;
+                int counter = 0;
+                for (DocumentSnapshot doc : snapshots) {
+                    meals[counter++] = EntityUtil.mapToMeal(
+                            Objects.requireNonNull(doc.getData())
+                    );
+                }
+
+                return meals;
+            } else {
+                Log.w("RETRIEVE_MEAL", "Failed to cache");
+
+                return null;
+            }
         }
     }
 
@@ -99,36 +113,6 @@ public class MealPlanDBController extends DBController {
                 .addOnFailureListener(
                         e -> Log.w("CREATE", "Error adding document")
                 );
-
-
-        // Create a sub collection to contain meal plan components for each day
-//        CollectionReference mealPlanComponentsCol = mealPlanDoc
-//                .collection("meal_plan_components");
-//
-//        for (Map.Entry<String, MealPlanComponent> entry : mealPlan) {
-//            DocumentReference mealPlanComponentDoc = mealPlanComponentsCol
-//                    .document(entry.getKey());
-//
-//            CollectionReference mealsCol = mealPlanComponentDoc.collection("meals");
-//
-//            for (Meal meal : entry.getValue()) {
-//                DocumentReference mealDoc = mealsCol.document(meal.getHashcode());
-//
-//                Map<String, Object> mealData = EntityUtil.mealToMap(meal);
-//
-//                mealDoc
-//                        .set(mealData)
-//                        .addOnSuccessListener(
-//                                unused -> Log.i("CREATE",
-//                                        "DocumentSnapshot written with ID: " +
-//                                                meal.getHashcode()
-//                                )
-//                        )
-//                        .addOnFailureListener(
-//                                e -> Log.w("UPDATE", "Error updating document", e)
-//                        );
-//            }
-//        }
     }
 
     @Override
@@ -140,14 +124,31 @@ public class MealPlanDBController extends DBController {
             MealPlan[] mealPlans = mealPlansFuture.get();
 
             assert mealPlans != null;
+
+            if (mealPlans.length == 0) {
+                return;
+            }
+
             for (MealPlan mealPlan : mealPlans) {
                 for (String date : mealPlan.getPlans().keySet()) {
                     Future<Meal[]> mealsFuture = executorService
                             .submit(new RetrieveMealTask(mealPlan.getHashcode(), date));
 
                     Meal[] meals = mealsFuture.get();
+
+                    for (Meal meal :
+                            meals) {
+                        mealPlan.addMealToDay(date, meal);
+                    }
                 }
             }
+
+            Transaction transaction = new Transaction(SYNC_COMPLETE);
+
+            transaction.putContents(COLLECTION_NAME, mealPlans);
+
+            setChanged();
+            notifyObservers(transaction);
         } catch (ExecutionException | InterruptedException e) {
             Log.w("RETRIEVE", e);
         }
@@ -159,8 +160,11 @@ public class MealPlanDBController extends DBController {
         QuerySnapshot snapshots = Tasks.await(task);
 
         if (task.isSuccessful()) {
-            if (!snapshots.isEmpty()) {
                 MealPlan[] mealPlans = new MealPlan[task.getResult().size()];
+
+                if (task.getResult().size() == 0) {
+                    return mealPlans;
+                }
 
                 int counter = 0;
                 for (DocumentSnapshot doc :
@@ -170,7 +174,6 @@ public class MealPlanDBController extends DBController {
                 }
 
                 return mealPlans;
-            }
         }
 
         return null;
@@ -181,15 +184,36 @@ public class MealPlanDBController extends DBController {
         assertType(o);
 
         MealPlan mealPlan = (MealPlan) o;
-        DocumentReference doc = ref.document(mealPlan.getHashcode());
 
-        doc.update("name", mealPlan.getName(), "start", mealPlan.getStartDate(),
-                        "end", mealPlan.getEndDate())
-                .addOnSuccessListener(unused ->
-                        Log.i("UPDATE", "DocumentSnapshot " +
-                                mealPlan.getHashcode() + "successfully updated"))
-                .addOnFailureListener(e ->
-                        Log.w("UPDATE", "Error updating document", e));
+        // Getting a sub collection to contain meal plan components for each day
+        CollectionReference mealPlanComponentsCol = ref
+                .document(o.getHashcode())
+                .collection(MEAL_PLAN_COMPONENTS);
+
+        for (Map.Entry<String, MealPlanComponent> entry : mealPlan) {
+            DocumentReference mealPlanComponentDoc = mealPlanComponentsCol
+                    .document(entry.getKey());
+
+            CollectionReference mealsCol = mealPlanComponentDoc.collection(MEALS);
+
+            for (Meal meal : entry.getValue()) {
+                DocumentReference mealDoc = mealsCol.document(meal.getHashcode());
+
+                Map<String, Object> mealData = EntityUtil.mealToMap(meal);
+
+                mealDoc
+                        .set(mealData)
+                        .addOnSuccessListener(
+                                unused -> Log.i("UPDATE",
+                                        "DocumentSnapshot written with ID: " +
+                                                meal.getHashcode()
+                                )
+                        )
+                        .addOnFailureListener(
+                                e -> Log.w("UPDATE", "Error updating document", e)
+                        );
+            }
+        }
     }
 
     @Override
