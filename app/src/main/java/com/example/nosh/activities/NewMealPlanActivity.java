@@ -1,5 +1,8 @@
 package com.example.nosh.activities;
 
+import static com.example.nosh.controller.MealPlanController.CREATE_NEW_MEAL_PLAN;
+import static com.example.nosh.controller.MealPlanController.MEAL_PLAN_HASHCODE;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -13,7 +16,6 @@ import com.example.nosh.Nosh;
 import com.example.nosh.R;
 import com.example.nosh.controller.MealPlanController;
 import com.example.nosh.entity.Transaction;
-import com.example.nosh.repository.MealPlanRepository;
 import com.example.nosh.utils.DateUtil;
 
 import java.util.Observable;
@@ -88,7 +90,7 @@ public class NewMealPlanActivity extends AppCompatActivity implements Observer {
     private void launchAddMealsToDaysActivity(String mealPlanHashcode) {
         Intent intent = new Intent(this, AddMealsToDaysActivity.class);
 
-        intent.putExtra(MealPlanRepository.MEAL_PLAN_HASHCODE, mealPlanHashcode);
+        intent.putExtra(MEAL_PLAN_HASHCODE, mealPlanHashcode);
 
         startActivity(intent);
     }
@@ -99,14 +101,14 @@ public class NewMealPlanActivity extends AppCompatActivity implements Observer {
             Transaction transaction = (Transaction) arg;
 
             if (transaction.getTag()
-                    .compareTo(MealPlanRepository.CREATE_NEW_MEAL_PLAN) == 0) {
+                    .compareTo(CREATE_NEW_MEAL_PLAN) == 0) {
 
                 controller.deleteObserver(this);
 
                 launchAddMealsToDaysActivity(
                         (String) transaction
                                 .getContents()
-                                .get(MealPlanRepository.MEAL_PLAN_HASHCODE)
+                                .get(MEAL_PLAN_HASHCODE)
                 );
             }
         }
