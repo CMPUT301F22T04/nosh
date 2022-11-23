@@ -83,7 +83,7 @@ public class Meal extends Hashable implements Iterable<MealComponent> {
     }
 
     public void setName(String name) {
-        assert name != null;
+//        assert name != null;
         this.name = name;
     }
 

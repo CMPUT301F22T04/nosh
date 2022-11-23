@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import com.example.nosh.entity.Hashable;
 import com.example.nosh.entity.Meal;
 import com.example.nosh.entity.MealComponent;
-import com.example.nosh.entity.MealPlanComponent;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

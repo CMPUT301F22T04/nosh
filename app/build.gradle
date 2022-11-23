@@ -48,6 +48,7 @@ dependencies {
     implementation "androidx.startup:startup-runtime:1.1.1"
 
     implementation 'com.github.bumptech.glide:glide:4.14.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
 
     implementation 'com.google.android.material:material:1.7.0'
@@ -72,15 +73,15 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage:20.1.0'
     implementation 'com.firebaseui:firebase-ui-storage:7.2.0'
 
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.2'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.2'
     testImplementation 'org.mockito:mockito-core:2.1.0'
 
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
     androidTestImplementation 'androidx.test:runner:1.5.1'
     androidTestImplementation 'androidx.test:rules:1.5.0'
 
-    testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'com.jayway.android.robotium:robotium-solo:5.3.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
+
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
 }
