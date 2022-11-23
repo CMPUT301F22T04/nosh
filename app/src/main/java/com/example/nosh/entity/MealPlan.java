@@ -3,8 +3,6 @@ package com.example.nosh.entity;
 import androidx.annotation.NonNull;
 
 import com.example.nosh.utils.DateUtil;
-import com.google.common.hash.Hashing;
-import com.google.firebase.Timestamp;
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -19,31 +17,26 @@ import java.util.function.Consumer;
  * This is the MealPlan class, each MealPlan will have a name, a start/end date and a Map
  * The Map will hold a list of Meals that belong to a specific MealPlan day
  */
-public class MealPlan implements Serializable, Hashable,
-        Iterable<Map.Entry<String, MealPlanComponent>> {
+public class MealPlan extends Hashable
+        implements Iterable<Map.Entry<String, MealPlanComponent>> {
 
     private Date startDate;
     private Date endDate;
     // TODO: Should not be an integer but a string of the date corresponding to a day
     // TODO: Notice a user should be able define multiple meal per days
-    private HashMap<String, MealPlanComponent> plans;
+    protected HashMap<String, MealPlanComponent> plans;
     private long totalDays;
     private String name;
 
-    private String hashcode; // id
-
     public MealPlan() {
-        hashcode = Hashing
-                .sha256()
-                .hashInt(new Timestamp(new Date()).getNanoseconds())
-                .toString();
+        super();
     }
 
     public MealPlan(String name, Date startDate, Date endDate) {
         this();
 
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.startDate = (Date) startDate.clone();
+        this.endDate = (Date) endDate.clone();
         plans = new HashMap<>();
         totalDays = DateUtil.dayDifferences(startDate, endDate) + 1;
 
@@ -62,9 +55,21 @@ public class MealPlan implements Serializable, Hashable,
         this.name = name;
     }
 
-    // TODO: Deadline constraint -> use this for both adding and updating
+    public MealPlan(MealPlan mealPlan) {
+        setStartDate(mealPlan.getStartDate());
+        setEndDate(mealPlan.getEndDate());
+        setPlans(mealPlan.getPlans());
+        setTotalDays(mealPlan.getTotalDays());
+        setName(mealPlan.getName());
+        setHashcode(mealPlan.getHashcode());
+    }
+
     public void addMealToDay(String date, Meal meal) {
         Objects.requireNonNull(plans.get(date)).addMeal(meal);
+    }
+
+    public void updateMealToDay(String date, Meal meal) {
+        Objects.requireNonNull(plans.get(date)).updateMeal(meal);
     }
 
     public Date getStartDate() {
@@ -99,6 +104,8 @@ public class MealPlan implements Serializable, Hashable,
     }
 
     public void setPlans(HashMap<String, MealPlanComponent> plans) {
+        assert plans != null;
+
         this.plans = new HashMap<>();
 
         for (Map.Entry<String, MealPlanComponent> pairs:
@@ -123,14 +130,6 @@ public class MealPlan implements Serializable, Hashable,
         this.name = name;
     }
 
-    public String getHashcode() {
-        return hashcode;
-    }
-
-    public void setHashcode(String hashcode) {
-        this.hashcode = hashcode;
-    }
-
     @NonNull
     @Override
     public Iterator<Map.Entry<String, MealPlanComponent>> iterator() {
@@ -141,4 +140,6 @@ public class MealPlan implements Serializable, Hashable,
     public void forEach(@NonNull Consumer<? super Map.Entry<String, MealPlanComponent>> action) {
         Iterable.super.forEach(action);
     }
+
+
 }
