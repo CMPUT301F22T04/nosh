@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,11 +15,18 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.nosh.MainActivity;
+import com.example.nosh.Nosh;
 import com.example.nosh.R;
-import com.example.nosh.entity.Meal;
+import com.example.nosh.controller.IngredientStorageController;
+import com.example.nosh.controller.MealPlanController;
+import com.example.nosh.controller.RecipeController;
+import com.example.nosh.entity.MealComponent;
 import com.example.nosh.entity.MealPlan;
+import com.example.nosh.repository.MealPlanRepository;
 
-import java.util.Date;
+import java.util.ArrayList;
+
+import javax.inject.Inject;
 
 /**
  * This activity allows the user to define a number of meals for each day of the meal plan,
@@ -29,6 +35,16 @@ import java.util.Date;
  * this activity will end.
  */
 public class AddMealsToDaysActivity extends AppCompatActivity {
+
+    @Inject
+    IngredientStorageController ingredientStorageController;
+
+    @Inject
+    RecipeController recipeController;
+
+    @Inject
+    MealPlanController mealPlanController;
+
     private TextView currentDay;
     private EditText mealName;
     private EditText mealServings;
@@ -44,11 +60,16 @@ public class AddMealsToDaysActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        ((Nosh) getApplicationContext()).getAppComponent().inject(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_meals_to_days);
 
         Bundle extras = getIntent().getExtras();
-        mealPlan = (MealPlan) extras.getSerializable("meal_plan");
+        String hashcode = extras.getString(MealPlanRepository.MEAL_PLAN_HASHCODE);
+
+        mealPlan = mealPlanController.retrieve(hashcode);
 
         currentDay = findViewById(R.id.current_plan_day);
         mealName = findViewById(R.id.new_meal_name);
@@ -58,6 +79,10 @@ public class AddMealsToDaysActivity extends AppCompatActivity {
         nextPlanDayButton  =  findViewById(R.id.finish_adding_meals_button);
 
         // TODO: this should be populated from the actual list of recipes and ingredients
+        ArrayList<MealComponent> mealComponents = new ArrayList<>();
+        mealComponents.addAll(ingredientStorageController.retrieve());
+        mealComponents.addAll(recipeController.retrieve());
+
         String[] stuff = {"Ice cream", "Hot Dogs", "Pizza", "Apple"};
         foodStuff = findViewById(R.id.foodStuff_selection_view);
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_multiple_choice, stuff);
