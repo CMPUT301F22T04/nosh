@@ -71,6 +71,11 @@ public class ShoppingFragment extends Fragment implements Observer {
         public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
 
         }
+
+        @Override
+        public void onCheckBoxClick(int pos) {
+
+        }
     }
 
 

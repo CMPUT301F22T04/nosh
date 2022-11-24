@@ -30,6 +30,7 @@ import com.example.nosh.fragments.recipes.SortRecipeDialog;
 import com.example.nosh.repository.IngredientRepository;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -76,9 +77,20 @@ public class ListFragment extends Fragment implements Observer {
 
         }
 
+        @Override
+        public void onCheckBoxClick(int pos) {
+            Ingredient selectedIngredient = ingredients.get(pos);
+            openAddRemainingDetailsDialog();
+        }
+
         private void openSortListDialog() {
             SortingListDialog sortingListDialog = new SortingListDialog();
             sortingListDialog.show(getChildFragmentManager(),"SORT_LIST");
+        }
+
+        private void openAddRemainingDetailsDialog() {
+            AddRemainingDetailsDialog addRemainingDetailsDialog = new AddRemainingDetailsDialog();
+            addRemainingDetailsDialog.show(getChildFragmentManager(),"ADD_DETAILS");
         }
 
         @Override
@@ -91,14 +103,17 @@ public class ListFragment extends Fragment implements Observer {
                 adapter.update(ingredients);
                 adapter.notifyItemRangeChanged(0, ingredients.size());
             }
+            if (requestKey.equals("add_details")){
+                // TODO: Update the ingredient with the new location and date
+                // TODO: Delete the ingredient from the shopping list and add it to the ingredient storage
+            }
         }
     }
 
     @Override
     public void onAttach(@NonNull Context context) {
 
-        // Inject an instance of IngredientStorageController into IngredientFragment
-        ;
+        // Inject an instance of IngredientStorageController into IngredientFragment;
         ((Nosh) context.getApplicationContext())
                 .getAppComponent()
                 .inject(this);
@@ -142,6 +157,13 @@ public class ListFragment extends Fragment implements Observer {
                 .getSupportFragmentManager()
                 .setFragmentResultListener(
                         "sort_list",
+                        getViewLifecycleOwner(),
+                        listener
+                );
+        requireActivity()
+                .getSupportFragmentManager()
+                .setFragmentResultListener(
+                        "add_details",
                         getViewLifecycleOwner(),
                         listener
                 );

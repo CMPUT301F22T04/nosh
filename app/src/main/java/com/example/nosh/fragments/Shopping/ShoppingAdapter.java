@@ -31,8 +31,7 @@ public class ShoppingAdapter extends
     }
 
     public interface RecyclerViewListener {
-        //void onDeleteButtonClick(int pos);
-        //void onEditClick(int pos);
+        void onCheckBoxClick(int pos);
     }
 
     public void update(ArrayList<Ingredient> ingredients) {
