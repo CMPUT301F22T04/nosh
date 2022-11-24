@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -85,19 +86,26 @@ public class AddMealsToDaysActivity extends AppCompatActivity implements Observe
                 }
 
                 String nextDayText = "Day " + dayCount;
-
                 currentDay.setText(nextDayText);
+                Toast.makeText(getApplicationContext(), "Next day",
+                        Toast.LENGTH_SHORT).show();
+
+
             } else if (v.getId() == R.id.previous_meal_button) {
                 if (dayCount - 1 > 0) {
                     dayCount -= 1;
 
                     String previousDayText = "Day " + dayCount;
                     currentDay.setText(previousDayText);
+                    Toast.makeText(getApplicationContext(), "Previous day",
+                            Toast.LENGTH_SHORT).show();
 
                     clearInput();
                 }
             } else if (v.getId() == R.id.new_meal_button) {
                 createMeal();
+                Toast.makeText(getApplicationContext(), "New Meal added to day " + dayCount,
+                        Toast.LENGTH_SHORT).show();
                 clearInput();
             }
         }

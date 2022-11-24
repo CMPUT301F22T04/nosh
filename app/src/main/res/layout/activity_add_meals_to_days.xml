@@ -6,129 +6,144 @@
     android:layout_height="match_parent"
     tools:context=".activities.AddMealsToDaysActivity">
 
+    <EditText
+        android:id="@+id/new_meal_name"
+        android:layout_width="394dp"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:hint="Meal name"
+        android:inputType="text"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.882"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView99" />
+
+    <EditText
+        android:id="@+id/new_meal_servings"
+        android:layout_width="394dp"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:hint="1,2,3..."
+        android:inputType="number"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.882"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+    <ImageButton
+        android:id="@+id/previous_meal_button"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
+        android:src="?attr/actionModeCloseDrawable"
+        android:text="Cancel"
+        app:backgroundTint="#FFFFFF"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageButton
         android:id="@+id/new_meal_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:layout_marginEnd="268dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/previous_meal_button"
-        app:layout_constraintTop_toBottomOf="@+id/foodStuff_selection_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView12"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@android:drawable/ic_input_add" />
-
-    <ImageButton
-        android:id="@+id/previous_meal_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="36dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/new_meal_button"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/foodStuff_selection_view"
-        app:layout_constraintVertical_bias="0.111"
-        app:srcCompat="@android:drawable/ic_media_rew" />
 
     <TextView
         android:id="@+id/current_plan_day"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Day 1"
+        android:text="Day 1 📅"
         android:textColor="@color/nosh"
         android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.047"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/previous_meal_button" />
 
     <ListView
         android:id="@+id/foodStuff_selection_view"
         android:layout_width="379dp"
-        android:layout_height="427dp"
+        android:layout_height="380dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/description_border"
         android:choiceMode="multipleChoice"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.375"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+        app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
     <Button
         android:id="@+id/finish_adding_meals_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="16dp"
         android:text="Next day"
         android:textAllCaps="false"
         app:backgroundTint="#22AE66"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/new_meal_button"
         app:layout_constraintTop_toBottomOf="@+id/foodStuff_selection_view"
-        app:layout_constraintVertical_bias="0.719" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/textView99"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="New meal for this day"
+        android:layout_marginTop="8dp"
+        android:text="What would you like to add? 🤔"
         android:textColor="#000000"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.058"
+        app:layout_constraintHorizontal_bias="0.08"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/current_plan_day" />
 
-    <EditText
-        android:id="@+id/new_meal_name"
-        android:layout_width="378dp"
-        android:layout_height="37dp"
-        android:layout_alignParentStart="true"
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:background="@drawable/description_border"
-        android:hint="Meal name"
-        android:inputType="text"
-        android:paddingLeft="12dp"
-        android:textSize="16sp"
+        android:text="How many servings? 🍽️"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.515"
+        app:layout_constraintHorizontal_bias="0.073"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView99" />
+        app:layout_constraintTop_toBottomOf="@+id/new_meal_name" />
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Ingredients and recipes for this meal 🍳️"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.164"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/new_meal_servings" />
 
     <TextView
         android:id="@+id/textView12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Ingredients/recipes for this meal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.097"
+        android:layout_marginStart="16dp"
+        android:text="Add another meal to this day"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/new_meal_servings" />
-
-    <EditText
-        android:id="@+id/new_meal_servings"
-        android:layout_width="378dp"
-        android:layout_height="37dp"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/description_border"
-        android:hint="Servings"
-        android:inputType="text"
-        android:paddingLeft="12dp"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.484"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/new_meal_name" />
+        app:layout_constraintTop_toBottomOf="@+id/foodStuff_selection_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

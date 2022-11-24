@@ -22,7 +22,7 @@
         android:paddingTop="6dp"
         android:text="New Ingredient"
         android:textColor="#000000"
-        android:textSize="18sp"
+        android:textSize="20sp"
         android:textStyle="bold" />
 
     <EditText
@@ -42,7 +42,7 @@
         android:layout_below="@id/add_name"
         android:layout_alignParentStart="true"
         android:paddingTop="6dp"
-        android:text="About this ingredient"
+        android:text="About this ingredient 🤔"
         android:textColor="#000000"
         android:textSize="18sp"
         android:textStyle="bold" />
@@ -57,7 +57,7 @@
         android:gravity="start"
         android:hint="Description..."
         android:inputType="textMultiLine"
-        android:maxLength="30"
+        android:maxLength="120"
         android:paddingLeft="6dp"
         android:paddingTop="6dp"
         android:textSize="16sp" />
@@ -69,7 +69,7 @@
         android:layout_below="@id/add_description"
         android:layout_alignParentStart="true"
         android:paddingTop="6dp"
-        android:text="Expiration date"
+        android:text="Expiration date 📅"
         android:textColor="#000000"
         android:textSize="18sp"
         android:textStyle="bold" />
@@ -93,7 +93,7 @@
         android:layout_below="@id/add_date"
         android:layout_alignParentStart="true"
         android:paddingTop="6dp"
-        android:text="Storage location"
+        android:text="Storage location 🧺"
         android:textColor="#000000"
         android:textSize="18dp"
         android:textStyle="bold" />
@@ -116,7 +116,7 @@
         android:layout_below="@id/add_storage_location"
         android:layout_alignParentStart="true"
         android:paddingTop="6dp"
-        android:text="Qty."
+        android:text="Qty. 🛒"
         android:textColor="#000000"
         android:textSize="18dp"
         android:textStyle="bold" />
@@ -138,7 +138,7 @@
         android:layout_below="@id/add_qty"
         android:layout_alignParentStart="true"
         android:paddingTop="6dp"
-        android:text="Unit"
+        android:text="Unit ⚖️"
         android:textColor="#000000"
         android:textSize="18dp"
         android:textStyle="bold" />
@@ -160,7 +160,7 @@
         android:layout_below="@id/add_unit"
         android:layout_alignParentStart="true"
         android:paddingTop="6dp"
-        android:text="Ingredient Category"
+        android:text="Ingredient Category 🗄️"
         android:textColor="#000000"
         android:textSize="18dp"
         android:textStyle="bold" />
@@ -182,7 +182,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/add_ingredient_category"
         android:layout_alignParentStart="true"
-        android:text="Add"
+        android:text="Confirm"
         android:textAllCaps="false"
         android:textStyle="bold"
         app:backgroundTint="#22AE66" />

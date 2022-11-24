@@ -24,25 +24,24 @@ public class ShoppingAdapter extends
     private ArrayList<Ingredient> ingredients;
 
     public ShoppingAdapter(RecyclerViewListener listener, Context context,
-                             ArrayList<Ingredient> ingredients) {
+                           ArrayList<Ingredient> ingredients) {
         this.listener = listener;
         this.context = context;
         this.ingredients = ingredients;
     }
 
     public interface RecyclerViewListener {
-        //void onDeleteButtonClick(int pos);
-        //void onEditClick(int pos);
+        void onCheckBoxClick(int pos);
     }
 
     public void update(ArrayList<Ingredient> ingredients) {
-       this.ingredients = ingredients;
+        this.ingredients = ingredients;
     }
 
     @NonNull
     @Override
     public ShoppingViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
-                                                   int viewType) {
+                                                 int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.shopping_entry, parent, false);
 
@@ -50,11 +49,16 @@ public class ShoppingAdapter extends
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ShoppingViewHolder holder,
-                                 int position) {
+    public void onBindViewHolder(@NonNull ShoppingViewHolder holder, int position) {
         holder.getNameTxtView().setText(ingredients.get(position).getName());
         holder.getDescriptionTxtView().setText(String.valueOf(ingredients.get(position).
+                getDescription()));
+        holder.getAmountTxtView().setText(String.valueOf("Amount: " + ingredients.get(position).
                 getAmount()));
+        holder.getUnitTxtView().setText(String.valueOf("Unit: " + ingredients.get(position).
+                getUnit()));
+        holder.getCategoryTxtView().setText(String.valueOf("Category: " + ingredients.get(position).
+                getCategory()));
     }
 
     @Override
