@@ -7,6 +7,7 @@ import com.example.nosh.auth.Login;
 import com.example.nosh.auth.Register;
 import com.example.nosh.fragments.ingredients.IngredientsFragment;
 import com.example.nosh.fragments.plan.PlanFragment;
+import com.example.nosh.fragments.list.ListFragment;
 import com.example.nosh.fragments.recipes.RecipesFragment;
 
 import javax.inject.Singleton;
@@ -41,6 +42,8 @@ public interface ApplicationComponent {
 
     // ...
     void inject(RecipesFragment recipesFragment);
-
+    
     void inject(PlanFragment planFragment);
+
+    void inject(ListFragment listFragment);
 }
