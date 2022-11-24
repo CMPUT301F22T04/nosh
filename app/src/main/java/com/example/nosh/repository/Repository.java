@@ -29,6 +29,7 @@ abstract public class Repository extends Observable implements Observer {
         notifyObservers();
     }
 
+
     protected void update(Hashable o) {
         dbController.update(o);
 
@@ -49,5 +50,12 @@ abstract public class Repository extends Observable implements Observer {
         setChanged();
 
         super.notifyObservers();
+    }
+
+    @Override
+    public void notifyObservers(Object arg) {
+        setChanged();
+
+        super.notifyObservers(arg);
     }
 }

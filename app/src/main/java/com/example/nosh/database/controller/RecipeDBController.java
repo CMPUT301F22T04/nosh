@@ -16,8 +16,10 @@ import java.util.Map;
 import java.util.Objects;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 
+@Singleton
 public class RecipeDBController extends DBController {
 
     static final String DOC_NAME = "recipe_storage";
@@ -52,11 +54,6 @@ public class RecipeDBController extends DBController {
                     .update("ingredients", FieldValue
                             .arrayUnion(EntityUtil.ingredientToMap(ingredient)));
         }
-    }
-
-    @Override
-    public Object retrieve(Hashable o) {
-        return null;
     }
 
     @Override

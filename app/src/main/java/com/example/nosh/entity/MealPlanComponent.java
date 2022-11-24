@@ -2,35 +2,43 @@ package com.example.nosh.entity;
 
 import androidx.annotation.NonNull;
 
-import com.google.common.hash.Hashing;
-import com.google.firebase.Timestamp;
-
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.function.Consumer;
 
 
-public class MealPlanComponent implements Hashable, Iterable<Meal> {
+public class MealPlanComponent extends Hashable implements Iterable<Meal> {
 
-    private HashMap<String, Meal> meals;
-
-    private String hashcode;
+    protected HashMap<String, Meal> meals;
 
     public MealPlanComponent() {
-        meals = new HashMap<>();
+        super();
 
-        hashcode = Hashing
-                .sha256()
-                .hashInt(new Timestamp(new Date()).getNanoseconds())
-                .toString();
+        meals = new HashMap<>();
     }
 
     public MealPlanComponent(MealPlanComponent mealPlanComponent) {
         setMeals(mealPlanComponent.getMeals());
 
         hashcode = mealPlanComponent.getHashcode();
+    }
+
+    public void addMeal(Meal meal) {
+        assert meal != null;
+
+        meals.put(meal.getHashcode(), new Meal(meal));
+    }
+
+    public void updateMeal(Meal meal) {
+        assert meal != null;
+        meals.replace(meal.getHashcode(), meal);
+    }
+
+    public void removeMeal(Meal meal) {
+        assert meal != null;
+        meals.remove(meal.getHashcode());
     }
 
     public ArrayList<Meal> getMeals() {
@@ -45,6 +53,8 @@ public class MealPlanComponent implements Hashable, Iterable<Meal> {
     }
 
     public void setMeals(ArrayList<Meal> meals) {
+        assert meals != null;
+
         this.meals = new HashMap<>();
         for (Meal meal:
                 meals) {
@@ -54,25 +64,10 @@ public class MealPlanComponent implements Hashable, Iterable<Meal> {
 
     public void setMeals(HashMap<String, Meal> meals) {
         this.meals = new HashMap<>();
-        this.meals.putAll(meals);
-    }
 
-    // TODO: Deadline constraint -> use this for both adding and updating
-    public void addMeal(Meal meal) {
-        meals.put(meal.getHashcode(), new Meal(meal));
-    }
-
-    public void removeMeal(Meal meal) {
-        meals.remove(meal.getHashcode());
-    }
-
-    @Override
-    public String getHashcode() {
-        return hashcode;
-    }
-
-    public void setHashcode(String hashcode) {
-        this.hashcode = hashcode;
+        for (Map.Entry<String, Meal> entry : meals.entrySet()) {
+            this.meals.put(entry.getKey(), new Meal(entry.getValue()));
+        }
     }
 
     @NonNull

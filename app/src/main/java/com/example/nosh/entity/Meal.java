@@ -2,15 +2,10 @@ package com.example.nosh.entity;
 
 import androidx.annotation.NonNull;
 
-import com.google.common.hash.Hashing;
-import com.google.firebase.Timestamp;
-
-import org.checkerframework.checker.units.qual.A;
-
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.function.Consumer;
 
 
@@ -18,24 +13,19 @@ import java.util.function.Consumer;
  * This is the Meal class, each meals belong to a specific MealPlan day
  * Each Meal will have a name and a list of recipes and ingredients that make up that meal
  */
-public class Meal implements Hashable, Iterable<MealComponent> {
+public class Meal extends Hashable implements Iterable<MealComponent> {
     // list of ingredients and recipes
-    private ArrayList<MealComponent> mealComponents;
-    private int servings;
+    protected HashMap<String, MealComponent> mealComponents;
+    private long servings;
     private String name;
 
-    private String hashcode; // id
-
     public Meal() {
-        mealComponents = new ArrayList<>();
+        super();
 
-        hashcode = Hashing
-                .sha256()
-                .hashInt(new Timestamp(new Date()).getNanoseconds())
-                .toString();
+        mealComponents = new HashMap<>();
     }
 
-    public Meal(int servings, String name) {
+    public Meal(long servings, String name) {
         this();
 
         this.servings = servings;
@@ -43,34 +33,48 @@ public class Meal implements Hashable, Iterable<MealComponent> {
     }
 
     public Meal(Meal meal) {
-        mealComponents = new ArrayList<>();
+        this.setMealComponents(meal.getMealComponents());
+        this.setServings(meal.getServings());
+        this.setName(meal.getName());
+        this.setHashcode(meal.getHashcode());
+    }
 
-        mealComponents.addAll(meal.getMealComponents());
+    public void addMealComponent(MealComponent mealComponent) {
+        assert mealComponent != null;
+        mealComponents.put(mealComponent.getHashcode(), mealComponent);
+    }
 
-        servings = meal.getServings();
-        name = meal.getName();
-
-        hashcode = meal.getHashcode();
+    public void removeMealComponent(MealComponent mealComponent) {
+        assert mealComponent != null;
+        mealComponents.remove(mealComponent.getHashcode());
     }
 
     // Getters and Setters
     public ArrayList<MealComponent> getMealComponents() {
-
-        return new ArrayList<>(mealComponents);
+        assert mealComponents != null;
+        return new ArrayList<>(mealComponents.values());
     }
 
     public void setMealComponents(ArrayList<MealComponent> mealComponents) {
-        if (mealComponents != null) {
-            this.mealComponents = new ArrayList<>();
-            this.mealComponents.addAll(mealComponents);
+        assert mealComponents != null;
+
+        this.mealComponents = new HashMap<>();
+        for (MealComponent mealComponent : mealComponents) {
+            this.mealComponents.put(mealComponent.getHashcode(), mealComponent);
         }
     }
 
-    public int getServings() {
+    public void setMealComponents(Map<String, MealComponent> mealComponents) {
+        assert mealComponents != null;
+        this.mealComponents = new HashMap<>();
+        this.mealComponents.putAll(mealComponents);
+    }
+
+    public long getServings() {
         return servings;
     }
 
-    public void setServings(int servings) {
+    public void setServings(long servings) {
         this.servings = servings;
     }
 
@@ -79,17 +83,8 @@ public class Meal implements Hashable, Iterable<MealComponent> {
     }
 
     public void setName(String name) {
+//        assert name != null;
         this.name = name;
-    }
-
-    public String getHashcode() {
-        return hashcode;
-    }
-
-    public void setHashcode (String hashcode){
-        if (hashcode != null) {
-            this.hashcode = hashcode;
-        }
     }
 
     @NonNull @Override public Iterator<MealComponent> iterator () {

@@ -3,6 +3,7 @@ package com.example.nosh;
 import com.example.nosh.entity.Meal;
 import com.example.nosh.entity.MealComponent;
 import com.example.nosh.entity.MealPlanComponent;
+import com.example.nosh.meal.MockMeal;
 
 import org.junit.jupiter.api.Test;
 
@@ -23,9 +24,6 @@ public class TestIterable {
 
         mealComponents.put(ingredient.getHashcode(), ingredient);
         mealComponents.put(recipe.getHashcode(), recipe);
-
-        // broken like should be fixed with future PR
-        //meal.setMealComponents(mealComponents);
 
         for (MealComponent mealComponent :
                 meal) {

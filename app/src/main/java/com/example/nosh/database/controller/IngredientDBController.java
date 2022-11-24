@@ -45,13 +45,6 @@ public class IngredientDBController extends DBController {
     }
 
     @Override
-    public Object retrieve(Hashable o) {
-        assertType(o);
-
-        return null;
-    }
-
-    @Override
     public void retrieve() {
         ref
                 .get()

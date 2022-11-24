@@ -37,6 +37,7 @@ import com.example.nosh.fragments.ingredients.IngredientAdapter;
 import com.example.nosh.utils.AndroidFileUtil;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class AddRecipeDialog extends DialogFragment {
@@ -55,7 +56,7 @@ public class AddRecipeDialog extends DialogFragment {
     private AddRecipeDialogListener listnerIng;
     private ActivityResultLauncher<Intent> launcher;
 
-    private String recipeImagePath;
+    private Uri recipeImageUri;
     private ArrayList<Ingredient> ingredients;
     private RecipeIngredientAdapter adapter;
     private RecipeController controller;
@@ -111,10 +112,10 @@ public class AddRecipeDialog extends DialogFragment {
                 Intent data = result.getData();
 
                 if (data != null && data.getData() != null) {
-                    Uri uri = data.getData();
+                    Bundle bundle = new Bundle();
 
-                    recipeImagePath = AndroidFileUtil.resolvePath(getContext(), uri);
-                    recipeImageView.setImageURI(uri);
+                    recipeImageUri = data.getData();
+                    recipeImageView.setImageURI(recipeImageUri);
                 }
             }
         }
@@ -130,8 +131,6 @@ public class AddRecipeDialog extends DialogFragment {
                 ingredients.add(ingr);
                 adapter.update(ingredients);
                 adapter.notifyItemRangeChanged(0, ingredients.size());
-
-                ;
             }
         }
     }
@@ -150,7 +149,7 @@ public class AddRecipeDialog extends DialogFragment {
                 new ActivityResultContracts.StartActivityForResult(),
                 listener
         );
-        ingredients = new ArrayList<Ingredient>();
+        ingredients = new ArrayList<>();
 
     }
 
@@ -244,7 +243,7 @@ public class AddRecipeDialog extends DialogFragment {
         args.putInt("servings", Integer.parseInt(servingInput.getText().toString()));
         args.putString("category", categoryInput.getText().toString());
         args.putString("comments", commentInput.getText().toString());
-        args.putString("photo", recipeImagePath);
+        args.putParcelable("photoUri", recipeImageUri);
         args.putSerializable("ingredients",ingredients);
 
         requireActivity().getSupportFragmentManager().setFragmentResult("add_recipe", args);
@@ -255,7 +254,7 @@ public class AddRecipeDialog extends DialogFragment {
     @Override
     public void onResume() {
         super.onResume();
-        Window window = getDialog().getWindow();
+        Window window = Objects.requireNonNull(getDialog()).getWindow();
         if(window == null) return;
         WindowManager.LayoutParams params = window.getAttributes();
         params.width = Resources.getSystem().getDisplayMetrics().widthPixels;

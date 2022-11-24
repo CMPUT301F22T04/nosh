@@ -1,4 +1,4 @@
-package com.example.nosh;
+package com.example.nosh.meal;
 
 import com.example.nosh.entity.Ingredient;
 import com.example.nosh.entity.MealComponent;

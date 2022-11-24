@@ -1,11 +1,14 @@
 package com.example.nosh.utils;
 
 import com.example.nosh.entity.Ingredient;
+import com.example.nosh.entity.Meal;
+import com.example.nosh.entity.MealComponent;
 import com.example.nosh.entity.MealPlan;
 import com.example.nosh.entity.Recipe;
 import com.google.firebase.Timestamp;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -13,12 +16,32 @@ import java.util.Objects;
 
 public class EntityUtil {
 
+    public static Map<String, Object> mealToMap(Meal meal) {
+        Map<String, Object> data = new HashMap<>();
+
+        data.put("servings", meal.getServings());
+        data.put("name", meal.getName());
+        data.put("hashcode", meal.getHashcode());
+
+        ArrayList<String> mealComponentsHashcode = new ArrayList<>();
+
+        for (MealComponent mealComponent :
+             meal) {
+            mealComponentsHashcode.add(mealComponent.getHashcode());
+        }
+
+        data.put("mealComponents", mealComponentsHashcode);
+
+        return data;
+    }
+
     public static Map<String, Object> mealPlanToMap(MealPlan mealPlan) {
         Map<String, Object> data = new HashMap<>();
         data.put("startDate", mealPlan.getStartDate());
         data.put("endDate", mealPlan.getEndDate());
-        data.put("totalDay", mealPlan.getTotalDays());
+        data.put("totalDays", mealPlan.getTotalDays());
         data.put("name", mealPlan.getName());
+        data.put("hashcode", mealPlan.getHashcode());
 
         return data;
     }
@@ -110,7 +133,6 @@ public class EntityUtil {
             ArrayList<Ingredient> ingredients = new ArrayList<>();
 
             // TODO: Caution
-            //noinspection unchecked
             for (Map<String, Object> pairs : (ArrayList<Map<String, Object>>)
                     Objects.requireNonNull(map.get("ingredients"))) {
                 ingredients.add(mapToIngredient(pairs));
@@ -123,4 +145,40 @@ public class EntityUtil {
 
         return recipe;
     }
+
+    public static MealPlan mapToMealPlan(Map<String, Object> map) {
+        Date startDate = ((Timestamp) Objects.requireNonNull(map.get("startDate"))).toDate();
+        Date endDate = ((Timestamp) Objects.requireNonNull(map.get("endDate"))).toDate();
+        String name = (String) map.get("name");
+        String hashcode = (String) map.get("hashcode");
+
+        MealPlan mealPlan = new MealPlan(name, startDate, endDate);
+
+        mealPlan.setHashcode(hashcode);
+
+        return mealPlan;
+    }
+
+    public static Meal mapToMeal(Map<String, Object> map) {
+        Meal meal = new Meal();
+
+        if (map.containsKey("mealComponents")) {
+            for (String hashcode : (ArrayList<String>)
+                    Objects.requireNonNull(map.get("mealComponents"))) {
+
+                // Placeholder
+                Ingredient ingredient = new Ingredient();
+                ingredient.setHashcode(hashcode);
+
+                meal.addMealComponent(ingredient);
+            }
+        }
+
+        meal.setServings((Long) Objects.requireNonNull(map.get("servings")));
+        meal.setName((String) map.get("name"));
+        meal.setHashcode((String) map.get("hashcode"));
+
+        return meal;
+    }
+
 }

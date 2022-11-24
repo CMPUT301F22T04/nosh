@@ -2,11 +2,7 @@ package com.example.nosh.entity;
 
 import androidx.annotation.NonNull;
 
-import com.google.common.hash.Hashing;
-import com.google.firebase.Timestamp;
-
 import java.util.ArrayList;
-import java.util.Date;
 
 
 public class Recipe extends MealComponent {
@@ -21,18 +17,14 @@ public class Recipe extends MealComponent {
     // TODO : Set this to Map for faster and easier access
     private ArrayList<Ingredient> ingredients = new ArrayList<>();
 
-    String hashcode;
-
     public Recipe() {
-        hashcode = Hashing
-                .sha256()
-                .hashInt(new Timestamp(new Date()).getNanoseconds())
-                .toString();
+        super();
     }
 
     public Recipe(double preparationTime, long servings, String category,
                   String comments, String photograph, String title,
                   ArrayList<Ingredient> ingredients) {
+
         this();
         this.preparationTime = preparationTime;
         this.servings = servings;
@@ -41,8 +33,10 @@ public class Recipe extends MealComponent {
         this.photographRemote = photograph;
         this.title = title;
 
-        for (Ingredient ingredient: ingredients) {
-            this.ingredients.add(new Ingredient(ingredient));
+        if (ingredients != null) {
+            for (Ingredient ingredient : ingredients) {
+                this.ingredients.add(new Ingredient(ingredient));
+            }
         }
     }
 
@@ -56,6 +50,7 @@ public class Recipe extends MealComponent {
         ingredients = recipe.getIngredients();
         hashcode = recipe.getHashcode();
     }
+
 
     @NonNull
     @Override
@@ -140,16 +135,6 @@ public class Recipe extends MealComponent {
                     ingredients) {
                 this.ingredients.add(new Ingredient(ingredient));
             }
-        }
-    }
-
-    public String getHashcode() {
-        return hashcode;
-    }
-
-    public void setHashcode(String hashcode) {
-        if (hashcode != null) {
-            this.hashcode = hashcode;
         }
     }
 

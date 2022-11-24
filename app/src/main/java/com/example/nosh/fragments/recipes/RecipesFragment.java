@@ -1,6 +1,7 @@
 package com.example.nosh.fragments.recipes;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -81,10 +82,10 @@ public class RecipesFragment extends Fragment implements Observer {
 //                ing.add(ing1);
                controller.add(result.getDouble("prep"),
                        result.getInt("servings") ,
-                        result.getString("category"),
-                        result.getString("comments"),
-                        result.getString("photo"),
-                        result.getString("name"),
+                       result.getString("category"),
+                       result.getString("comments"),
+                       result.getParcelable("photoUri"),
+                       result.getString("name"),
                        (ArrayList<Ingredient>) result.getSerializable("ingredients")
                         );
             }

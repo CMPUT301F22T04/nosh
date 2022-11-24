@@ -1,6 +1,8 @@
 package com.example.nosh.controller;
 
 
+import android.net.Uri;
+
 import com.example.nosh.entity.Ingredient;
 import com.example.nosh.entity.Recipe;
 import com.example.nosh.repository.RecipeImageRepository;
@@ -37,9 +39,9 @@ public class RecipeController {
      * Pass all necessary information from users to create a a new recipe
      */
     public void add(double preparationTime, long servings, String category, String comments,
-                    String photographLocal, String title, ArrayList<Ingredient> ingredients) {
+                    Uri localPhotoUri, String title, ArrayList<Ingredient> ingredients) {
 
-        String photographRemote = recipeImageRepository.add(photographLocal);
+        String photographRemote = recipeImageRepository.add(localPhotoUri);
 
         recipeRepository.add(preparationTime, servings, category, comments,
                 photographRemote, title, ingredients);
@@ -53,9 +55,9 @@ public class RecipeController {
     }
 
     public void update(String hashcode, double preparationTime, long servings,
-                       String category, String comments, String photographLocal,
+                       String category, String comments, Uri localPhotoUri,
                        String title, ArrayList<Ingredient> ingredients) {
-        String photographRemote = recipeImageRepository.add(photographLocal);
+        String photographRemote = recipeImageRepository.add(localPhotoUri);
 
         recipeRepository.update(hashcode, preparationTime, servings, category,
                 comments, photographRemote, title, ingredients);
