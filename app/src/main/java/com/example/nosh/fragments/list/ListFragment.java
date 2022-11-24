@@ -17,12 +17,16 @@ import android.widget.Button;
 
 import com.example.nosh.Nosh;
 import com.example.nosh.R;
+import com.example.nosh.controller.IngredientSorting;
 import com.example.nosh.controller.IngredientStorageController;
 import com.example.nosh.controller.RecipeController;
+import com.example.nosh.controller.RecipeSorting;
+import com.example.nosh.controller.ShoppingListSorting;
 import com.example.nosh.entity.Ingredient;
 import com.example.nosh.entity.Recipe;
 import com.example.nosh.fragments.Shopping.ShoppingAdapter;
 import com.example.nosh.fragments.Shopping.ShoppingFragment;
+import com.example.nosh.fragments.recipes.SortRecipeDialog;
 import com.example.nosh.repository.IngredientRepository;
 
 import java.util.ArrayList;
@@ -38,7 +42,8 @@ import javax.inject.Inject;
  */
 public class ListFragment extends Fragment implements Observer {
 
-    private Button addButton;
+    private Button sortButtonL;
+
     private ShoppingAdapter adapter;
     private IngredientRepository x;
     // IngredientsFragment depends on controller. Use Dagger to manager dependency injection
@@ -62,14 +67,30 @@ public class ListFragment extends Fragment implements Observer {
             View.OnClickListener, FragmentResultListener {
 
         @Override
-        public void onClick(View view) {
+        public void onClick(View v) {
             adapter.update(ingredients);
 
+            if (v.getId() == sortButtonL.getId()) {
+                openSortListDialog();
+            }
+
+        }
+
+        private void openSortListDialog() {
+            SortingListDialog sortingListDialog = new SortingListDialog();
+            sortingListDialog.show(getChildFragmentManager(),"SORT_LIST");
         }
 
         @Override
         public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-
+            if(requestKey.equals("sort_list")){
+                ShoppingListSorting.sort(
+                        ingredients,
+                        result.getString("type")
+                );
+                adapter.update(ingredients);
+                adapter.notifyItemRangeChanged(0, ingredients.size());
+            }
         }
     }
 
@@ -105,7 +126,10 @@ public class ListFragment extends Fragment implements Observer {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_list, container, false);
-        
+
+        sortButtonL = v.findViewById(R.id.sort_list_button);
+        sortButtonL.setOnClickListener(listener);
+
         RecyclerView recyclerView = v.findViewById(R.id.list_recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         
@@ -113,6 +137,14 @@ public class ListFragment extends Fragment implements Observer {
         
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+
+        requireActivity()
+                .getSupportFragmentManager()
+                .setFragmentResultListener(
+                        "sort_list",
+                        getViewLifecycleOwner(),
+                        listener
+                );
 
         return v;
     }
