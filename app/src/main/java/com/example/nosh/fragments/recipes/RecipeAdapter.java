@@ -64,6 +64,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeViewHolder> {
         Glide.with(context)
                 .load(recipeImagesRemote.get(recipes.get(position).getPhotographRemote()))
                 .into(holder.getImageView());
+        holder.getDescriptionTxtView().setText("\uD83D\uDCDD " + recipes.get(position).getComments());
     }
 
     @Override

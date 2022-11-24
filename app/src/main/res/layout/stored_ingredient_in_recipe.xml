@@ -18,7 +18,7 @@
         app:cardCornerRadius="5dp">
 
         <FrameLayout
-            android:background="@color/nosh"
+            android:background="@color/grey"
             android:layout_width="4dp"
             android:layout_height="match_parent"/>
 
@@ -34,8 +34,7 @@
                 android:layout_marginStart="16dp"
                 android:text="Meal name"
                 android:textColor="#000000"
-                android:textSize="20sp"
-                android:textStyle="bold"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

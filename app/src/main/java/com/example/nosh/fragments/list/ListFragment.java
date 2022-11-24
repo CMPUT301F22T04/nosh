@@ -17,16 +17,11 @@ import android.widget.Button;
 
 import com.example.nosh.Nosh;
 import com.example.nosh.R;
-import com.example.nosh.controller.IngredientSorting;
-import com.example.nosh.controller.IngredientStorageController;
 import com.example.nosh.controller.RecipeController;
-import com.example.nosh.controller.RecipeSorting;
 import com.example.nosh.controller.ShoppingListSorting;
 import com.example.nosh.entity.Ingredient;
 import com.example.nosh.entity.Recipe;
 import com.example.nosh.fragments.Shopping.ShoppingAdapter;
-import com.example.nosh.fragments.Shopping.ShoppingFragment;
-import com.example.nosh.fragments.recipes.SortRecipeDialog;
 import com.example.nosh.repository.IngredientRepository;
 
 import java.util.ArrayList;
@@ -91,6 +86,11 @@ public class ListFragment extends Fragment implements Observer {
                 adapter.update(ingredients);
                 adapter.notifyItemRangeChanged(0, ingredients.size());
             }
+        }
+
+        @Override
+        public void onCheckBoxClick(int pos) {
+
         }
     }
 

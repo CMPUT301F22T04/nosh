@@ -3,11 +3,15 @@ package com.example.nosh.activities;
 import static com.example.nosh.controller.MealPlanController.CREATE_NEW_MEAL_PLAN;
 import static com.example.nosh.controller.MealPlanController.MEAL_PLAN_HASHCODE;
 
+import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,6 +22,7 @@ import com.example.nosh.controller.MealPlanController;
 import com.example.nosh.entity.Transaction;
 import com.example.nosh.utils.DateUtil;
 
+import java.util.Calendar;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -28,14 +33,17 @@ import javax.inject.Inject;
  * This activity handles the creation of a new meal plan, it will register the new meal plan in
  * firebase and pass it to the next activity where meals will be defined
  */
-public class NewMealPlanActivity extends AppCompatActivity implements Observer {
+public class NewMealPlanActivity extends AppCompatActivity implements Observer, DatePickerDialog.OnDateSetListener {
 
     @Inject
     MealPlanController controller;
 
     private EditText planName;
-    private EditText planStart;
-    private EditText planEnd;
+    private Button planStart;
+    private Button planEnd;
+    DatePickerDialog datePickerDialog;
+    private Boolean selectingStartDate = false;
+    private Boolean selectingEndDate = false;
 
     private class EventListener implements View.OnClickListener {
 
@@ -61,6 +69,14 @@ public class NewMealPlanActivity extends AppCompatActivity implements Observer {
                         MainActivity.class);
 
                 startActivity(intent);
+            } else if (v.getId() == R.id.new_meal_plan_start){
+                selectingStartDate = true;
+                selectingEndDate = false;
+                datePickerDialog.show();
+            } else if (v.getId() == R.id.new_meal_plan_end){
+                selectingStartDate = false;
+                selectingEndDate = true;
+                datePickerDialog.show();
             }
         }
     }
@@ -76,13 +92,23 @@ public class NewMealPlanActivity extends AppCompatActivity implements Observer {
 
         EventListener listener = new EventListener();
 
+        // DatePickerDialog initialization
+        Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        datePickerDialog = new DatePickerDialog(this, this, year,
+                month, day);
+
         planName = findViewById(R.id.new_meal_plan_name);
         planStart = findViewById(R.id.new_meal_plan_start);
         planEnd = findViewById(R.id.new_meal_plan_end);
 
         Button nextStepButton = findViewById(R.id.finish_new_meal_step1_button);
-        Button cancelButton = findViewById(R.id.cancel_new_meal_plan_button);
+        ImageButton cancelButton = findViewById(R.id.cancel_new_meal_plan_button);
 
+        planStart.setOnClickListener(listener);
+        planEnd.setOnClickListener(listener);
         nextStepButton.setOnClickListener(listener);
         cancelButton.setOnClickListener(listener);
     }
@@ -111,6 +137,40 @@ public class NewMealPlanActivity extends AppCompatActivity implements Observer {
                                 .get(MEAL_PLAN_HASHCODE)
                 );
             }
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    @Override
+    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+        if (Integer.toString(month).length() == 1 && Integer.toString(day).length() == 1) {
+            if (selectingStartDate){
+                planStart.setText(year + "-" + "0" + month + "-" + "0" + day);
+            } else {
+                planEnd.setText(year + "-" + "0" + month + "-" + "0" + day);
+            }
+            return;
+        }
+        if (Integer.toString(month).length() == 1) {
+            if (selectingStartDate){
+                planStart.setText(year + "-" + "0" + month + "-" + day);
+            } else {
+                planEnd.setText(year + "-" + "0" + month + "-" + day);
+            }
+            return;
+        }
+        if (Integer.toString(day).length() == 1) {
+            if (selectingStartDate) {
+                planStart.setText(year + "-" + month + "-" + "0" + day);
+            } else {
+                planEnd.setText(year + "-" + month + "-" + "0" + day);
+            }
+            return;
+        }
+        if (selectingStartDate) {
+            planStart.setText(year + "-" + month + "-" + day);
+        } else {
+            planEnd.setText(year + "-" + month + "-" + day);
         }
     }
 }
