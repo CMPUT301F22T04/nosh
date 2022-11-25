@@ -15,6 +15,7 @@ import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.nosh.MainActivity;
 import com.example.nosh.Nosh;
 import com.example.nosh.R;
 import com.example.nosh.controller.MealPlanController;
@@ -32,7 +33,8 @@ import javax.inject.Inject;
  * This activity handles the creation of a new meal plan, it will register the new meal plan in
  * firebase and pass it to the next activity where meals will be defined
  */
-public class NewMealPlanActivity extends AppCompatActivity implements Observer, DatePickerDialog.OnDateSetListener {
+public class NewMealPlanActivity extends AppCompatActivity implements Observer,
+        DatePickerDialog.OnDateSetListener {
 
     @Inject
     MealPlanController controller;
