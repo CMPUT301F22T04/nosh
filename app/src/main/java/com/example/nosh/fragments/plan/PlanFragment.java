@@ -138,7 +138,6 @@ public class PlanFragment extends Fragment implements
 
     @Override
     public void onItemClick(int position) {
-        // TODO: put a fragment container in this xml file instead of replacing the main one???
         openMealsOfDayDialog(position);
     }
 
