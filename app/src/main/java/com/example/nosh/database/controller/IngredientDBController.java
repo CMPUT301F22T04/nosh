@@ -5,16 +5,24 @@ import android.util.Log;
 import com.example.nosh.entity.Hashable;
 import com.example.nosh.entity.Ingredient;
 import com.example.nosh.utils.EntityUtil;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 
+@Singleton
 public class IngredientDBController extends DBController {
 
     static final String DOC_NAME = "ingredient_storage";
@@ -37,36 +45,70 @@ public class IngredientDBController extends DBController {
 
         doc
                 .set(data)
-                .addOnSuccessListener(unused ->
-                        Log.i("CREATE", "DocumentSnapshot written with ID: " +
-                                o.getHashcode()))
+                .addOnSuccessListener(
+                        unused ->
+                                Log.i(
+                                        CREATE,
+                                        "Ingredient document snapshot written with ID: " +
+                                                doc.get()
+                                )
+                )
                 .addOnFailureListener(e ->
-                        Log.w("CREATE", "Error adding document)"));
+                        Log.e(
+                                CREATE,
+                                e.toString()
+                        )
+                );
     }
 
     @Override
     public void retrieve() {
-        ref
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Ingredient[] ingredients =
-                                new Ingredient[task.getResult().size()];
+        try {
+            Future<Ingredient[]> future = Executors.newSingleThreadExecutor()
+                    .submit(this::retrieveIngredients);
 
-                        int i = 0;
-                        for (DocumentSnapshot doc :
-                                task.getResult()) {
-                            ingredients[i++] = EntityUtil
-                                    .mapToIngredient(Objects.requireNonNull(doc.getData()));
-                        }
+            Ingredient[] ingredients = future.get();
 
-                        setChanged();
-                        notifyObservers(ingredients);
-                    } else {
-                        Log.w("RETRIEVE", "Cached get failed: ",
-                                task.getException());
-                    }
-                });
+            if (ingredients == null) {
+                Log.e(
+                        RETRIEVE,
+                        "Failed to cache"
+                );
+            } else {
+                setChanged();
+                notifyObservers(ingredients);
+            }
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Ingredient[] retrieveIngredients() throws ExecutionException, InterruptedException {
+        Task<QuerySnapshot> task = ref.get();
+
+        QuerySnapshot snapshots = Tasks.await(task);
+
+        if (task.isSuccessful()) {
+            Ingredient[] ingredients = new Ingredient[snapshots.size()];
+            if (task.getResult().size() == 0) {
+                return ingredients;
+            }
+
+            int i = 0;
+            for (DocumentSnapshot doc : snapshots) {
+                Log.i(
+                        RETRIEVE,
+                        "Ingredient document snapshot returned with ID: " + doc.getId()
+                );
+
+                ingredients[i++] = EntityUtil
+                        .mapToIngredient(Objects.requireNonNull(doc.getData()));
+            }
+
+            return ingredients;
+        }
+
+        return null;
     }
 
     @Override
@@ -88,11 +130,16 @@ public class IngredientDBController extends DBController {
                         "location", ingredient.getLocation(),
                         "name", ingredient.getName()
                 )
-                .addOnSuccessListener(unused ->
-                        Log.i("UPDATE", "DocumentSnapshot " +
-                                ingredient.getHashcode() + "successfully updated"))
-                .addOnFailureListener(e
-                        -> Log.w("UPDATE", "Error updating document", e));
+                .addOnSuccessListener(
+                        unused -> Log.i(
+                                UPDATE,
+                                "Ingredient document snapshot updated with ID: " + doc.getId()
+                        )
+                )
+                .addOnFailureListener(e -> Log.e(
+                        UPDATE,
+                        e.toString()
+                ));
     }
 
     @Override
@@ -101,10 +148,10 @@ public class IngredientDBController extends DBController {
 
         ref.document(o.getHashcode())
                 .delete()
-                .addOnSuccessListener(unused ->
-                        Log.i("REMOVE", "DocumentSnapshot successfully deleted!"))
-                .addOnFailureListener(e ->
-                        Log.w("REMOVE", "Error deleting document", e));
+                .addOnSuccessListener(unused -> Log.i(
+                        DELETE,
+                        "Ingredient document snapshot removed with ID" + o.getHashcode()))
+                .addOnFailureListener(e -> Log.e(DELETE, e.toString()));
     }
 
     private void assertType(Object o) {

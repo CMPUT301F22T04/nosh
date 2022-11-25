@@ -33,7 +33,8 @@ import javax.inject.Inject;
  * This activity handles the creation of a new meal plan, it will register the new meal plan in
  * firebase and pass it to the next activity where meals will be defined
  */
-public class NewMealPlanActivity extends AppCompatActivity implements Observer, DatePickerDialog.OnDateSetListener {
+public class NewMealPlanActivity extends AppCompatActivity implements Observer,
+        DatePickerDialog.OnDateSetListener {
 
     @Inject
     MealPlanController controller;
@@ -62,8 +63,7 @@ public class NewMealPlanActivity extends AppCompatActivity implements Observer, 
                 );
 
             } else if (v.getId() == R.id.cancel_new_meal_plan_button) {
-
-                controller.deleteObserver(NewMealPlanActivity.this);
+                cancelOperation();
 
                 Intent intent = new Intent(NewMealPlanActivity.this,
                         MainActivity.class);
@@ -82,6 +82,13 @@ public class NewMealPlanActivity extends AppCompatActivity implements Observer, 
     }
 
     @Override
+    public void onBackPressed() {
+        cancelOperation();
+
+        super.onBackPressed();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         ((Nosh) getApplicationContext()).getAppComponent().inject(this);
 
@@ -90,7 +97,8 @@ public class NewMealPlanActivity extends AppCompatActivity implements Observer, 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_meal_plan);
 
-        EventListener listener = new EventListener();
+        EventListener eventListener = new EventListener();
+
 
         // DatePickerDialog initialization
         Calendar c = Calendar.getInstance();
@@ -107,18 +115,17 @@ public class NewMealPlanActivity extends AppCompatActivity implements Observer, 
         Button nextStepButton = findViewById(R.id.finish_new_meal_step1_button);
         ImageButton cancelButton = findViewById(R.id.cancel_new_meal_plan_button);
 
-        planStart.setOnClickListener(listener);
-        planEnd.setOnClickListener(listener);
-        nextStepButton.setOnClickListener(listener);
-        cancelButton.setOnClickListener(listener);
+        nextStepButton.setOnClickListener(eventListener);
+        cancelButton.setOnClickListener(eventListener);
+        planStart.setOnClickListener(eventListener);
+        planEnd.setOnClickListener(eventListener);
     }
 
-    private void launchAddMealsToDaysActivity(String mealPlanHashcode) {
-        Intent intent = new Intent(this, AddMealsToDaysActivity.class);
+    @Override
+    protected void onDestroy() {
+        controller.deleteObserver(this);
 
-        intent.putExtra(MEAL_PLAN_HASHCODE, mealPlanHashcode);
-
-        startActivity(intent);
+        super.onDestroy();
     }
 
     @Override
@@ -129,8 +136,6 @@ public class NewMealPlanActivity extends AppCompatActivity implements Observer, 
             if (transaction.getTag()
                     .compareTo(CREATE_NEW_MEAL_PLAN) == 0) {
 
-                controller.deleteObserver(this);
-
                 launchAddMealsToDaysActivity(
                         (String) transaction
                                 .getContents()
@@ -138,6 +143,22 @@ public class NewMealPlanActivity extends AppCompatActivity implements Observer, 
                 );
             }
         }
+    }
+
+    private void cancelOperation() {
+        setResult(RESULT_CANCELED);
+        finish();
+    }
+
+    private void launchAddMealsToDaysActivity(String mealPlanHashcode) {
+        controller.deleteObserver(this);
+
+        Intent intent = new Intent(this, AddMealsToDaysActivity.class);
+
+        intent.putExtra(MEAL_PLAN_HASHCODE, mealPlanHashcode);
+
+        startActivity(intent);
+        finish();
     }
 
     @SuppressLint("SetTextI18n")
@@ -151,6 +172,7 @@ public class NewMealPlanActivity extends AppCompatActivity implements Observer, 
             }
             return;
         }
+        
         if (Integer.toString(month).length() == 1) {
             if (selectingStartDate){
                 planStart.setText(year + "-" + "0" + month + "-" + day);
@@ -159,6 +181,7 @@ public class NewMealPlanActivity extends AppCompatActivity implements Observer, 
             }
             return;
         }
+        
         if (Integer.toString(day).length() == 1) {
             if (selectingStartDate) {
                 planStart.setText(year + "-" + month + "-" + "0" + day);
@@ -167,6 +190,7 @@ public class NewMealPlanActivity extends AppCompatActivity implements Observer, 
             }
             return;
         }
+
         if (selectingStartDate) {
             planStart.setText(year + "-" + month + "-" + day);
         } else {

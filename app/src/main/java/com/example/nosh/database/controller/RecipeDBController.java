@@ -7,13 +7,19 @@ import com.example.nosh.entity.Hashable;
 import com.example.nosh.entity.Ingredient;
 import com.example.nosh.entity.Recipe;
 import com.example.nosh.utils.EntityUtil;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -43,10 +49,10 @@ public class RecipeDBController extends DBController {
         doc
                 .set(data)
                 .addOnSuccessListener(unused ->
-                        Log.i("CREATE", "DocumentSnapshot written with ID: " +
-                                o.getHashcode()))
-                .addOnFailureListener(e ->
-                        Log.w("CREATE", "Error adding document)"));
+                        Log.i(
+                                CREATE,
+                                "Recipe document snapshot written with ID: " + doc.getId()))
+                .addOnFailureListener(e -> Log.e(CREATE, e.toString()));
 
         for (Ingredient ingredient :
                 recipe.getIngredients()) {
@@ -58,27 +64,50 @@ public class RecipeDBController extends DBController {
 
     @Override
     public void retrieve() {
-        ref
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Recipe[] recipes =
-                                new Recipe[task.getResult().size()];
+        try {
+            Future<Recipe[]> future = Executors.newSingleThreadExecutor()
+                    .submit(this::retrieveRecipe);
 
-                        int i = 0;
-                        for (DocumentSnapshot doc :
-                                task.getResult()) {
-                            recipes[i++] = EntityUtil
-                                    .mapToRecipe(Objects.requireNonNull(doc.getData()));
-                        }
+            Recipe[] recipes = future.get();
 
-                        setChanged();
-                        notifyObservers(recipes);
-                    } else {
-                        Log.w("RETRIEVE", "Cached get failed: ",
-                                task.getException());
-                    }
-                });
+            if (recipes == null) {
+               Log.e(RETRIEVE, "Failed to cache in Recipe document snapshot");
+            } else {
+                setChanged();
+                notifyObservers(recipes);
+            }
+
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Recipe[] retrieveRecipe() throws ExecutionException, InterruptedException {
+        Task<QuerySnapshot> task = ref.get();
+
+        QuerySnapshot snapshots = Tasks.await(task);
+
+        if (task.isSuccessful()) {
+            Recipe[] recipes = new Recipe[snapshots.size()];
+            if (task.getResult().size() == 0) {
+                return recipes;
+            }
+
+            int i = 0;
+            for (DocumentSnapshot doc : snapshots) {
+                Log.i(
+                        RETRIEVE,
+                        "Recipe DocumentSnapshot returned with ID: " + doc.getId()
+                );
+
+                recipes[i++] = EntityUtil
+                        .mapToRecipe(Objects.requireNonNull(doc.getData()));
+            }
+
+            return recipes;
+        }
+
+        return null;
     }
 
     @Override
@@ -98,12 +127,11 @@ public class RecipeDBController extends DBController {
                         "photograph", recipe.getPhotographRemote(),
                         "title", recipe.getName()
                 )
-                .addOnSuccessListener(unused ->
-                        Log.i("UPDATE", "DocumentSnapshot " +
-                                recipe.getHashcode() + "successfully updated"))
-                .addOnFailureListener(e ->
-                        Log.w("UPDATE", "Error updating document", e));
-
+                .addOnSuccessListener(unused -> Log.i(
+                        UPDATE,
+                        "Recipe document snapshot updated with ID: " + doc.getId()
+                ))
+                .addOnFailureListener(e -> Log.e(CREATE, e.toString()));
 
         // TODO : a better way to update ingredients instead of replace
         //  all of entirely ?
@@ -122,10 +150,12 @@ public class RecipeDBController extends DBController {
         ref.document(o.getHashcode())
                 .delete()
                 .addOnSuccessListener(unused ->
-                        Log.i("REMOVE", "DocumentSnapshot " + o.getHashcode() +
-                                "successfully deleted!"))
-                .addOnFailureListener(e ->
-                        Log.w("REMOVE", "Error deleting document", e));
+                        Log.i(
+                                DELETE,
+                                "Recipe document snapshot deleted with ID: "
+                                        + o.getHashcode())
+                )
+                .addOnFailureListener(e -> Log.w(DELETE, e.toString()));
     }
 
     private void assertType(Object o) {

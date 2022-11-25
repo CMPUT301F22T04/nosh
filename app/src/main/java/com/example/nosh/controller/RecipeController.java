@@ -22,7 +22,8 @@ import javax.inject.Singleton;
  * RecipeRepository and RecipeImageRepository.
  * @author Dekr0
  */
-@Singleton
+
+
 public class RecipeController {
 
     private final RecipeRepository recipeRepository;
@@ -54,6 +55,10 @@ public class RecipeController {
         return recipeRepository.retrieve();
     }
 
+    public void scaleSevering(String hashcode, long servings) {
+        recipeRepository.scaleServings(hashcode, servings);
+    }
+
     public void update(String hashcode, double preparationTime, long servings,
                        String category, String comments, Uri localPhotoUri,
                        String title, ArrayList<Ingredient> ingredients) {
@@ -68,7 +73,6 @@ public class RecipeController {
      */
     public HashMap<String, StorageReference> getRecipeImagesRemote() {
         return recipeImageRepository.getRecipeImagesRemote();
-
     }
 
     /**

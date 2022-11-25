@@ -11,6 +11,7 @@ import java.util.Objects;
 import java.util.Observable;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 
 /**
@@ -27,6 +28,9 @@ import javax.inject.Inject;
  * Object, and it's a observer because there's latency when fetching data from 
  * database. This class do not wait for data return after making a request.
  */
+
+
+@Singleton
 public class IngredientRepository extends Repository {
 
     private final HashMap<String, Ingredient> ingredients;
@@ -63,7 +67,7 @@ public class IngredientRepository extends Repository {
         return ingredients;
     }
 
-    public Ingredient retrieve(String hashcode) {
+    Ingredient retrieve(String hashcode) {
         return ingredients.get(hashcode);
     }
 

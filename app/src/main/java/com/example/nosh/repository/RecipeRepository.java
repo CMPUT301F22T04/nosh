@@ -10,8 +10,10 @@ import java.util.Objects;
 import java.util.Observable;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 
+@Singleton
 public class RecipeRepository extends Repository {
 
     private final HashMap<String, Recipe> recipes;
@@ -35,6 +37,18 @@ public class RecipeRepository extends Repository {
         recipes.put(recipe.getHashcode(), recipe);
 
         super.add(recipe);
+    }
+
+    public void scaleServings(String hashcode, long servings) {
+        long baseServing = Objects
+                .requireNonNull(recipes.get(hashcode))
+                .getServings();
+
+        Objects
+                .requireNonNull(recipes.get(hashcode))
+                .setServings(baseServing * servings);
+
+        super.update(recipes.get(hashcode));
     }
 
     public void update(String hashcode, double preparationTime, long servings,
@@ -74,7 +88,7 @@ public class RecipeRepository extends Repository {
         return recipes;
     }
 
-    public Recipe retrieve(String hashcode) {
+    Recipe retrieve(String hashcode) {
         return recipes.get(hashcode);
     }
 

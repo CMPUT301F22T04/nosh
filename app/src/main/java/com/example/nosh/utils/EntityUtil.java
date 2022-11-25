@@ -21,6 +21,8 @@ public class EntityUtil {
 
         data.put("servings", meal.getServings());
         data.put("name", meal.getName());
+        data.put("usedDate", meal.getUsedDate());
+        data.put("usedPlanHash", meal.getUsedPlanHash());
         data.put("hashcode", meal.getHashcode());
 
         ArrayList<String> mealComponentsHashcode = new ArrayList<>();
@@ -176,6 +178,8 @@ public class EntityUtil {
 
         meal.setServings((Long) Objects.requireNonNull(map.get("servings")));
         meal.setName((String) map.get("name"));
+        meal.setUsedDate((String) map.get("usedDate"));
+        meal.setUsedPlanHash((String) map.get("usedPlanHash"));
         meal.setHashcode((String) map.get("hashcode"));
 
         return meal;

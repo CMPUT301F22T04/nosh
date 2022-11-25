@@ -24,7 +24,8 @@ import javax.inject.Singleton;
  * @author Dekr0
  * @version 1.0
  */
-@Singleton
+
+
 public class IngredientStorageController {
 
     final IngredientRepository ingredientRepository;
