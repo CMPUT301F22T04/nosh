@@ -48,6 +48,10 @@ public class RecipeImageRepository extends Observable implements Observer {
         return recipeImagesRemote;
     }
 
+    public StorageReference getRecipeImageRemote(String remoteLocation) {
+        return recipeImagesRemote.get(remoteLocation);
+    }
+
     @Override
     public void update(Observable o, Object arg) {
         if (arg instanceof StorageReference[]) {
