@@ -52,6 +52,16 @@ public class RecipesFragment extends Fragment implements Observer {
             FragmentResultListener {
 
         @Override
+        public void onDeleteButtonClick(int pos) {
+            if (pos >= 0) {
+                controller.delete(recipes.get(pos));
+
+                adapter.notifyItemRemoved(pos);
+            }
+        }
+
+
+        @Override
         public void onClick(View v) {
             if (v.getId() == addBtn.getId()) {
                 openAddRecipeDialog();
@@ -68,6 +78,7 @@ public class RecipesFragment extends Fragment implements Observer {
             Recipe recipe = recipes.get(pos);
 //            openEditIngredientDialog(ingredient);
         }
+
 
         private void openSortRecipeDialog() {
             SortRecipeDialog sortRecipeDialog = new SortRecipeDialog();
