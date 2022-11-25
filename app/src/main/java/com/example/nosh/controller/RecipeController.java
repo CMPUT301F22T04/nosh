@@ -22,7 +22,8 @@ import javax.inject.Singleton;
  * RecipeRepository and RecipeImageRepository.
  * @author Dekr0
  */
-@Singleton
+
+
 public class RecipeController {
 
     private final RecipeRepository recipeRepository;

@@ -30,6 +30,12 @@ public abstract class DBController extends Observable {
     // Example:
     // IngredientDBController -> ingredients sub-collection
     // RecipeDBController -> recipes sub-collection
+
+    static final String CREATE = "CREATE";
+    static final String RETRIEVE = "RETRIEVE";
+    static final String UPDATE = "UPDATE";
+    static final String DELETE = "DELETE";
+
     final protected CollectionReference ref;
 
     DBController(CollectionReference ref) {

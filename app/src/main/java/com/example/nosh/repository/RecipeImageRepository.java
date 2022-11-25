@@ -1,19 +1,19 @@
 package com.example.nosh.repository;
 
-import android.content.Context;
 import android.net.Uri;
 
 import com.example.nosh.database.controller.FirebaseStorageController;
 import com.google.firebase.storage.StorageReference;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 
+@Singleton
 public class RecipeImageRepository extends Observable implements Observer {
 
     private final FirebaseStorageController storageController;

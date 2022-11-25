@@ -14,7 +14,8 @@ import com.example.nosh.entity.MealPlan;
 
 import java.util.ArrayList;
 
-public class MealPlanRecyclerViewAdapter extends RecyclerView.Adapter<MealPlanRecyclerViewAdapter.MyViewHolder> {
+public class MealPlanRecyclerViewAdapter
+        extends RecyclerView.Adapter<MealPlanRecyclerViewAdapter.MyViewHolder> {
     private MealPlanRecyclerViewInterface mealPlanRecyclerViewInterface;
 
     private Context context;

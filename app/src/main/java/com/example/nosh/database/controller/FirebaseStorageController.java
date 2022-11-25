@@ -1,6 +1,5 @@
 package com.example.nosh.database.controller;
 
-import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
@@ -10,6 +9,7 @@ import com.google.firebase.storage.UploadTask;
 import java.util.Observable;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 
 /**
@@ -27,6 +27,8 @@ import javax.inject.Inject;
  * @authors Dekr0
  * @version 1.0
  */
+
+@Singleton
 public class FirebaseStorageController extends Observable {
 
     // StorageReference of a user folder

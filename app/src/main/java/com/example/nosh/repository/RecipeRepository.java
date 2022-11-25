@@ -10,8 +10,10 @@ import java.util.Objects;
 import java.util.Observable;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 
+@Singleton
 public class RecipeRepository extends Repository {
 
     private final HashMap<String, Recipe> recipes;
@@ -74,7 +76,7 @@ public class RecipeRepository extends Repository {
         return recipes;
     }
 
-    public Recipe retrieve(String hashcode) {
+    Recipe retrieve(String hashcode) {
         return recipes.get(hashcode);
     }
 

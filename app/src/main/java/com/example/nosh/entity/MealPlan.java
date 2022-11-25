@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 
 import com.example.nosh.utils.DateUtil;
 
-import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
