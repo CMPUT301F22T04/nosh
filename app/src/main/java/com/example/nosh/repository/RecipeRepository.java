@@ -39,6 +39,18 @@ public class RecipeRepository extends Repository {
         super.add(recipe);
     }
 
+    public void scaleServings(String hashcode, long servings) {
+        long baseServing = Objects
+                .requireNonNull(recipes.get(hashcode))
+                .getServings();
+
+        Objects
+                .requireNonNull(recipes.get(hashcode))
+                .setServings(baseServing * servings);
+
+        super.update(recipes.get(hashcode));
+    }
+
     public void update(String hashcode, double preparationTime, long servings,
                        String category, String comments, String photographRemote,
                        String title, ArrayList<Ingredient> ingredients) {
