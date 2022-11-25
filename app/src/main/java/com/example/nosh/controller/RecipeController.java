@@ -75,6 +75,10 @@ public class RecipeController {
         return recipeImageRepository.getRecipeImagesRemote();
     }
 
+    public StorageReference getRecipeImageRemote(String remoteLocation) {
+        return recipeImageRepository.getRecipeImageRemote(remoteLocation);
+    }
+
     /**
      * Delete a recipe
      */
