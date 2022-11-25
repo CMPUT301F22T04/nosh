@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nosh.R;
 import com.example.nosh.entity.MealPlan;
+import com.example.nosh.utils.DateUtil;
 
 import java.util.ArrayList;
 
@@ -41,6 +42,7 @@ public class MealPlanRecyclerViewAdapter
     public void onBindViewHolder(@NonNull MealPlanRecyclerViewAdapter.MyViewHolder holder, int position) {
         // assign value to views
         holder.planName.setText(mealPlans.get(position).getName());
+        holder.planSpan.setText("\uD83D\uDCC5 from " + DateUtil.formatDate(mealPlans.get(position).getStartDate()) + " to " + DateUtil.formatDate(mealPlans.get(position).getEndDate()));
     }
 
     @Override
@@ -55,11 +57,13 @@ public class MealPlanRecyclerViewAdapter
     public static class MyViewHolder extends RecyclerView.ViewHolder{
         // grabbing the views from recycler layout
         TextView planName;
+        TextView planSpan;
 
         public MyViewHolder(@NonNull View itemView, MealPlanRecyclerViewInterface mealPlanRecyclerViewInterface) {
             super(itemView);
 
             planName = itemView.findViewById(R.id.plan_name);
+            planSpan = itemView.findViewById(R.id.plan_span);
 
             itemView.setOnClickListener(view -> {
                 if(mealPlanRecyclerViewInterface != null){

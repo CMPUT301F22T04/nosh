@@ -53,7 +53,7 @@ public class IngredientAdapter extends
     public void onBindViewHolder(@NonNull IngredientViewHolder holder,
                                  int position) {
         holder.getNameTxtView().setText(ingredients.get(position).getName());
-        holder.getDescriptionTxtView().setText(ingredients.get(position).
+        holder.getDescriptionTxtView().setText("\uD83D\uDCDD " + ingredients.get(position).
                 getDescription());
     }
 

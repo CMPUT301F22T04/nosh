@@ -41,7 +41,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/ingredient_entry_description"
+                android:id="@+id/recipe_entry_description"
                 android:layout_width="254dp"
                 android:layout_height="20dp"
                 android:text="Recipe, Ingredient, Recipe..."
@@ -72,6 +72,8 @@
                 android:layout_width="82dp"
                 android:layout_height="60dp"
                 android:layout_marginStart="16dp"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"
                 android:background="@drawable/description_border"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

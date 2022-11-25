@@ -14,6 +14,7 @@ public class RecipeViewHolder extends RecyclerView.ViewHolder {
 
     private final ImageView imageView;
     private final TextView nameTextView;
+    private  final TextView descriptionTxtView;
 
 
     private final class ViewHolderListener implements View.OnClickListener {
@@ -36,6 +37,7 @@ public class RecipeViewHolder extends RecyclerView.ViewHolder {
 
         imageView = itemView.findViewById(R.id.recipe_entry_img);
         nameTextView = itemView.findViewById(R.id.recipe_entry_name);
+        descriptionTxtView = itemView.findViewById(R.id.recipe_entry_description);
 
         ViewHolderListener viewHolderListener = new ViewHolderListener(listener);
 
@@ -49,4 +51,6 @@ public class RecipeViewHolder extends RecyclerView.ViewHolder {
     public TextView getNameTextView() {
         return nameTextView;
     }
+
+    public TextView getDescriptionTxtView() {return descriptionTxtView;}
 }
