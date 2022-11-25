@@ -33,8 +33,6 @@ import com.example.nosh.MainActivity;
 import com.example.nosh.R;
 import com.example.nosh.controller.RecipeController;
 import com.example.nosh.entity.Ingredient;
-import com.example.nosh.fragments.ingredients.IngredientAdapter;
-import com.example.nosh.utils.AndroidFileUtil;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -150,7 +148,6 @@ public class AddRecipeDialog extends DialogFragment {
                 listener
         );
         ingredients = new ArrayList<>();
-
     }
 
     @Nullable
