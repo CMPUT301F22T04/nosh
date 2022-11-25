@@ -4,7 +4,7 @@ import android.app.Application;
 
 import androidx.startup.AppInitializer;
 
-import com.example.nosh.database.Initializer.FirebaseAuthInitializer;
+import com.example.nosh.injection.Initializer.FirebaseAuthInitializer;
 import com.example.nosh.injection.ApplicationComponent;
 import com.example.nosh.injection.DaggerApplicationComponent;
 
