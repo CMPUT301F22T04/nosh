@@ -3,6 +3,7 @@ package com.example.nosh.controller;
 import android.util.Pair;
 
 import com.example.nosh.entity.Meal;
+import com.example.nosh.entity.MealComponent;
 import com.example.nosh.entity.MealPlan;
 import com.example.nosh.entity.MealPlanComponent;
 import com.example.nosh.repository.MealPlanRepository;
@@ -56,6 +57,10 @@ public class MealPlanController {
      */
     public ArrayList<MealPlan> retrieve() {
         return mealPlanRepository.retrieve();
+    }
+
+    public ArrayList<MealComponent> retrieveUsedMealComponents() {
+        return mealPlanRepository.retrieveUsedMealComponents();
     }
 
     public ArrayList<Pair<String, MealPlanComponent>> sortMealPlanComponent(MealPlan mealPlan) {
