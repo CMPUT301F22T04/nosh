@@ -8,6 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -36,12 +40,39 @@ import javax.inject.Inject;
 public class PlanFragment extends Fragment implements
         MealPlanRecyclerViewInterface, Observer {
 
-    MealPlanRecyclerViewAdapter adapter;
+    private MealPlanRecyclerViewAdapter adapter;
 
-    ArrayList<MealPlan> mealPlans = new ArrayList<>();
+    private ArrayList<MealPlan> mealPlans = new ArrayList<>();
 
     @Inject
     MealPlanController controller;
+
+    private ActivityResultLauncher<Intent> activityResultLauncher;
+    private FragmentListener fragmentListener;
+
+    private class FragmentListener implements View.OnClickListener,
+            ActivityResultCallback<ActivityResult> {
+
+        @Override
+        public void onClick(View v) {
+            if (v.getId() == R.id.new_meal_plan_button) {
+                controller.deleteObserver(PlanFragment.this);
+
+                Intent intent = new Intent(
+                        getActivity(),
+                        NewMealPlanActivity.class
+                );
+
+                activityResultLauncher.launch(intent);
+            }
+        }
+
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            controller.addObserver(PlanFragment.this);
+            refreshAdapter();
+        }
+    }
 
     public PlanFragment() {
         // Required empty public constructor
@@ -67,6 +98,12 @@ public class PlanFragment extends Fragment implements
         super.onCreate(savedInstanceState);
 
         mealPlans = controller.retrieve();
+
+        fragmentListener = new FragmentListener();
+        activityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                fragmentListener
+        );
     }
 
     @Override
@@ -87,7 +124,7 @@ public class PlanFragment extends Fragment implements
 
         Button newMealPlanButton = v.findViewById(R.id.new_meal_plan_button);
 
-        newMealPlanButton.setOnClickListener(view -> launchNewMealPlanActivity());
+        newMealPlanButton.setOnClickListener(fragmentListener);
 
         return v;
     }
@@ -102,24 +139,25 @@ public class PlanFragment extends Fragment implements
     @Override
     public void onItemClick(int position) {
         // TODO: put a fragment container in this xml file instead of replacing the main one???
-        openMealsOfDayDialog();
+        openMealsOfDayDialog(position);
     }
 
-    private void openMealsOfDayDialog() {
-        MealsOfDayDialog mealsOfDayDialog = MealsOfDayDialog.newInstance();
+    private void openMealsOfDayDialog(int position) {
+        MealsOfDayDialog mealsOfDayDialog = MealsOfDayDialog.newInstance(
+                mealPlans.get(position).getHashcode()
+        );
         mealsOfDayDialog.show(getParentFragmentManager(), "MEALS_OF_DAY");
-    }
-
-    private void launchNewMealPlanActivity() {
-        Intent intent = new Intent(getContext(), NewMealPlanActivity.class);
-        startActivity(intent);
     }
 
     @Override
     public void update(Observable o, Object arg) {
+        refreshAdapter();
+    }
+
+    private void refreshAdapter() {
         mealPlans = controller.retrieve();
 
         adapter.update(mealPlans);
-        adapter.notifyItemChanged(0, mealPlans.size());
+        adapter.notifyItemRangeChanged(0, mealPlans.size());
     }
 }
