@@ -16,8 +16,11 @@ import java.util.function.Consumer;
 public class Meal extends Hashable implements Iterable<MealComponent> {
     // list of ingredients and recipes
     protected HashMap<String, MealComponent> mealComponents;
+
     private long servings;
     private String name;
+    private String usedDate;
+    private String usedPlanHash;
 
     public Meal() {
         super();
@@ -25,10 +28,12 @@ public class Meal extends Hashable implements Iterable<MealComponent> {
         mealComponents = new HashMap<>();
     }
 
-    public Meal(long servings, String name) {
+    public Meal(long servings, String usedDate, String usedPlanHash, String name) {
         this();
 
         this.servings = servings;
+        this.usedDate = usedDate;
+        this.usedPlanHash = usedPlanHash;
         this.name = name;
     }
 
@@ -36,12 +41,18 @@ public class Meal extends Hashable implements Iterable<MealComponent> {
         this.setMealComponents(meal.getMealComponents());
         this.setServings(meal.getServings());
         this.setName(meal.getName());
+        this.setUsedDate(meal.getUsedDate());
+        this.setUsedPlanHash(meal.getUsedPlanHash());
         this.setHashcode(meal.getHashcode());
     }
 
     public void addMealComponent(MealComponent mealComponent) {
         assert mealComponent != null;
-        mealComponents.put(mealComponent.getHashcode(), mealComponent);
+        if (!mealComponents.containsKey(mealComponent.getHashcode())) {
+            mealComponents.put(mealComponent.getHashcode(), mealComponent);
+        } else {
+            mealComponents.replace(mealComponent.getHashcode(), mealComponent);
+        }
     }
 
     public void removeMealComponent(MealComponent mealComponent) {
@@ -82,8 +93,23 @@ public class Meal extends Hashable implements Iterable<MealComponent> {
         return name;
     }
 
+    public String getUsedDate() {
+        return usedDate;
+    }
+
+    public void setUsedDate(String usedDate) {
+        this.usedDate = usedDate;
+    }
+
+    public String getUsedPlanHash() {
+        return usedPlanHash;
+    }
+
+    public void setUsedPlanHash(String usedPlanHash) {
+        this.usedPlanHash = usedPlanHash;
+    }
+
     public void setName(String name) {
-//        assert name != null;
         this.name = name;
     }
 
