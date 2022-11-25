@@ -63,12 +63,11 @@ public class AddMealsToDaysActivity extends AppCompatActivity implements Observe
     private final ArrayList<MealComponent> mealComponents = new ArrayList<>();
     private final ArrayList<String> mealComponentsName = new ArrayList<>();
 
-    private ClickListener listener;
+    private EventListener listener;
 
     private Integer dayCount = 1;
-    private String currentDayKey = "Day 1";
 
-    private class ClickListener implements View.OnClickListener {
+    private class EventListener implements View.OnClickListener {
 
         @Override
         public void onClick(View v) {
@@ -76,12 +75,7 @@ public class AddMealsToDaysActivity extends AppCompatActivity implements Observe
                 dayCount += 1;
 
                 if (dayCount > mealPlan.getTotalDays()){
-                    Intent intent = new Intent(
-                            AddMealsToDaysActivity.this,
-                            MainActivity.class
-                    );
-
-                    startActivity(intent);
+                    finishOperation();
                 }
 
                 String nextDayText = "Day " + dayCount;
@@ -116,7 +110,7 @@ public class AddMealsToDaysActivity extends AppCompatActivity implements Observe
         Bundle extras = getIntent().getExtras();
         String hashcode = extras.getString(MEAL_PLAN_HASHCODE);
 
-        listener = new ClickListener();
+        listener = new EventListener();
 
         mealPlan = mealPlanController.retrieve(hashcode);
 
@@ -131,61 +125,9 @@ public class AddMealsToDaysActivity extends AppCompatActivity implements Observe
         initializeView();
     }
 
-    /**
-     * Creates a new meal with all the user input and adds it to its meal plan
-     */
-    void createMeal(){
-        // TODO: call update on the meal in the database
-
-        // TODO: input verification
-        Meal meal = new Meal(
-                Long.parseLong(mealServings.getText().toString()),
-                mealName.getText().toString()
-        );
-
-        for (int i = 0; i < mealComponentListView.getCount(); i++){
-            if (mealComponentListView.isItemChecked(i)){
-                meal.addMealComponent(mealComponents.get(i));
-            }
-        }
-
-        mealPlanController.updateMealToDay(
-                mealPlan.getStartDate(),
-                dayCount,
-                meal,
-                mealPlan.getHashcode());
-    }
-
-    void clearInput(){
-        mealName.setText("");
-        mealServings.setText("");
-        mealComponentListView.setAdapter(adapter);
-    }
-
-    private void initializeView() {
-        currentDay = findViewById(R.id.current_plan_day);
-        mealName = findViewById(R.id.new_meal_name);
-        mealServings = findViewById(R.id.new_meal_servings);
-        ImageButton newMealButton = findViewById(R.id.new_meal_button);
-        ImageButton previousMealButton = findViewById(R.id.previous_meal_button);
-        Button nextPlanDayButton = findViewById(R.id.finish_adding_meals_button);
-
-        mealComponentListView = findViewById(R.id.foodStuff_selection_view);
-        adapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_list_item_multiple_choice,
-                mealComponentsName);
-
-        mealComponentListView.setAdapter(adapter);
-
-        // the day displayed at the top
-        String dayText = "Day " + dayCount;
-        currentDay.setText(dayText);
-
-        // button listener
-        previousMealButton.setOnClickListener(listener);
-        newMealButton.setOnClickListener(listener);
-        nextPlanDayButton.setOnClickListener(listener);
+    @Override
+    public void onBackPressed() {
+        finishOperation();
     }
 
     @Override
@@ -218,5 +160,75 @@ public class AddMealsToDaysActivity extends AppCompatActivity implements Observe
 
             mealPlan = mealPlanController.retrieve(hashcode);
         }
+    }
+
+    /**
+     * Creates a new meal with all the user input and adds it to its meal plan
+     */
+    void createMeal(){
+        // TODO: call update on the meal in the database
+
+        // TODO: input verification
+        Meal meal = new Meal(
+                Long.parseLong(mealServings.getText().toString()),
+                "",
+                mealPlan.getHashcode(),
+                mealName.getText().toString()
+        );
+
+        for (int i = 0; i < mealComponentListView.getCount(); i++){
+            if (mealComponentListView.isItemChecked(i)){
+                meal.addMealComponent(mealComponents.get(i));
+            }
+        }
+
+        mealPlanController.addMealToDay(
+                mealPlan.getStartDate(),
+                dayCount,
+                meal,
+                mealPlan.getHashcode());
+    }
+
+    void clearInput(){
+        mealName.setText("");
+        mealServings.setText("");
+        mealComponentListView.setAdapter(adapter);
+    }
+
+    private void finishOperation() {
+        setResult(RESULT_OK);
+
+        Intent intent = new Intent(this, MainActivity.class);
+
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+
+        startActivity(intent);
+        finish();
+    }
+
+    private void initializeView() {
+        currentDay = findViewById(R.id.current_plan_day);
+        mealName = findViewById(R.id.new_meal_name);
+        mealServings = findViewById(R.id.new_meal_servings);
+        ImageButton newMealButton = findViewById(R.id.new_meal_button);
+        ImageButton previousMealButton = findViewById(R.id.previous_meal_button);
+        Button nextPlanDayButton = findViewById(R.id.finish_adding_meals_button);
+
+        mealComponentListView = findViewById(R.id.foodStuff_selection_view);
+        adapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_list_item_multiple_choice,
+                mealComponentsName);
+
+        mealComponentListView.setAdapter(adapter);
+
+        // the day displayed at the top
+        String dayText = "Day " + dayCount;
+        currentDay.setText(dayText);
+
+        // button listener
+        previousMealButton.setOnClickListener(listener);
+        newMealButton.setOnClickListener(listener);
+        nextPlanDayButton.setOnClickListener(listener);
     }
 }

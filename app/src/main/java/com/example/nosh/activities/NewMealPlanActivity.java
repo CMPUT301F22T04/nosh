@@ -11,7 +11,6 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.nosh.MainActivity;
 import com.example.nosh.Nosh;
 import com.example.nosh.R;
 import com.example.nosh.controller.MealPlanController;
@@ -54,15 +53,16 @@ public class NewMealPlanActivity extends AppCompatActivity implements Observer {
                 );
 
             } else if (v.getId() == R.id.cancel_new_meal_plan_button) {
-
-                controller.deleteObserver(NewMealPlanActivity.this);
-
-                Intent intent = new Intent(NewMealPlanActivity.this,
-                        MainActivity.class);
-
-                startActivity(intent);
+                cancelOperation();
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        cancelOperation();
+
+        super.onBackPressed();
     }
 
     @Override
@@ -74,7 +74,8 @@ public class NewMealPlanActivity extends AppCompatActivity implements Observer {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_meal_plan);
 
-        EventListener listener = new EventListener();
+        EventListener eventListener = new EventListener();
+
 
         planName = findViewById(R.id.new_meal_plan_name);
         planStart = findViewById(R.id.new_meal_plan_start);
@@ -83,16 +84,15 @@ public class NewMealPlanActivity extends AppCompatActivity implements Observer {
         Button nextStepButton = findViewById(R.id.finish_new_meal_step1_button);
         Button cancelButton = findViewById(R.id.cancel_new_meal_plan_button);
 
-        nextStepButton.setOnClickListener(listener);
-        cancelButton.setOnClickListener(listener);
+        nextStepButton.setOnClickListener(eventListener);
+        cancelButton.setOnClickListener(eventListener);
     }
 
-    private void launchAddMealsToDaysActivity(String mealPlanHashcode) {
-        Intent intent = new Intent(this, AddMealsToDaysActivity.class);
+    @Override
+    protected void onDestroy() {
+        controller.deleteObserver(this);
 
-        intent.putExtra(MEAL_PLAN_HASHCODE, mealPlanHashcode);
-
-        startActivity(intent);
+        super.onDestroy();
     }
 
     @Override
@@ -103,8 +103,6 @@ public class NewMealPlanActivity extends AppCompatActivity implements Observer {
             if (transaction.getTag()
                     .compareTo(CREATE_NEW_MEAL_PLAN) == 0) {
 
-                controller.deleteObserver(this);
-
                 launchAddMealsToDaysActivity(
                         (String) transaction
                                 .getContents()
@@ -112,5 +110,21 @@ public class NewMealPlanActivity extends AppCompatActivity implements Observer {
                 );
             }
         }
+    }
+
+    private void cancelOperation() {
+        setResult(RESULT_CANCELED);
+        finish();
+    }
+
+    private void launchAddMealsToDaysActivity(String mealPlanHashcode) {
+        controller.deleteObserver(this);
+
+        Intent intent = new Intent(this, AddMealsToDaysActivity.class);
+
+        intent.putExtra(MEAL_PLAN_HASHCODE, mealPlanHashcode);
+
+        startActivity(intent);
+        finish();
     }
 }
