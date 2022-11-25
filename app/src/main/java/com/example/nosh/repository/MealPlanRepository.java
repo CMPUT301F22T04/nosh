@@ -27,6 +27,7 @@ import javax.inject.Singleton;
 public class MealPlanRepository extends Repository {
 
     private final HashMap<String, MealPlan> mealPlans;
+    private final ArrayList<MealComponent> mealComponents;
     private final IngredientRepository ingredientRepository;
     private final RecipeRepository recipeRepository;
 
@@ -36,6 +37,7 @@ public class MealPlanRepository extends Repository {
                               MealPlanDBController dbController) {
         super(dbController);
 
+        this.mealComponents = new ArrayList<>();
         this.ingredientRepository = ingredientRepository;
         this.recipeRepository = recipeRepository;
 
@@ -67,6 +69,20 @@ public class MealPlanRepository extends Repository {
         return new MealPlan(Objects.requireNonNull(mealPlans.get(hashcode)));
     }
 
+    public ArrayList<MealComponent> retrieveUsedMealComponents() {
+        ArrayList<MealComponent> usedMealComponents = new ArrayList<>();
+
+        for (MealComponent mealComponent : mealComponents) {
+            try {
+                usedMealComponents.add((MealComponent) mealComponent.clone());
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return usedMealComponents;
+    }
+
     public void update(MealPlan mealPlan) {
         mealPlans.replace(mealPlan.getHashcode(), new MealPlan(mealPlan));
 
@@ -74,6 +90,10 @@ public class MealPlanRepository extends Repository {
     }
 
     public void addMealToDay(String hashcode, String date, Meal meal) {
+        for (MealComponent mealComponent : meal) {
+            mealComponents.add(mealComponent);
+        }
+
         Objects.requireNonNull(mealPlans.get(hashcode)).addMealToDay(date, meal);
 
         dbController.update(mealPlans.get(hashcode));
@@ -130,8 +150,10 @@ public class MealPlanRepository extends Repository {
 
                     if (ingredientRepository.retrieve(hash) != null) {
                         meal.addMealComponent(ingredientRepository.retrieve(hash));
+                        mealComponents.add(ingredientRepository.retrieve(hash));
                     } else if (recipeRepository.retrieve(hash) != null) {
                         meal.addMealComponent(recipeRepository.retrieve(hash));
+                        mealComponents.add(recipeRepository.retrieve(hash));
                     }
                 }
 
