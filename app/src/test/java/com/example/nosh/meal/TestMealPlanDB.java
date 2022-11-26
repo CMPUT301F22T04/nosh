@@ -18,10 +18,10 @@ public class TestMealPlanDB {
 
         mealPlan.setHashcode("1");
 
-        Meal mealA = new Meal(5, "breakfast");
+        Meal mealA = new Meal(5, "2022-11-26", "hash","breakfast");
         mealA.setHashcode("2");
 
-        Meal mealB = new Meal(10, "lunch");
+        Meal mealB = new Meal(10, "2022-11-26", "hash","lunch");
         mealB.setHashcode("3");
 
         MealComponent ingredientA = new Ingredient();

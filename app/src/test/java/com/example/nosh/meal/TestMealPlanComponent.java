@@ -29,8 +29,8 @@ public class TestMealPlanComponent {
 
     @Test
     void testAddMeal() {
-        Meal breakfast = new MockMeal(2, "breakfast");
-        Meal lunch = new MockMeal(4, "lunch");
+        Meal breakfast = new MockMeal(2, "2022-11-26", "hash","breakfast");
+        Meal lunch = new MockMeal(4, "2022-11-26", "hash","lunch");
 
         lunch.setHashcode(Hashable.doubleHashing(lunch.getHashcode()));
 
@@ -64,8 +64,8 @@ public class TestMealPlanComponent {
 
     @Test
     void testRemoveMeal() {
-        Meal breakfast = new MockMeal(2, "breakfast");
-        Meal lunch = new MockMeal(4, "lunch");
+        Meal breakfast = new MockMeal(2, "2022-11-26", "hash","breakfast");
+        Meal lunch = new MockMeal(4, "2022-11-26", "hash","lunch");
 
         lunch.setHashcode(Hashable.doubleHashing(lunch.getHashcode()));
 
@@ -86,8 +86,8 @@ public class TestMealPlanComponent {
 
     @Test
     void testCopyConstructor() {
-        Meal breakfast = new MockMeal(2, "breakfast");
-        Meal lunch = new MockMeal(4, "lunch");
+        Meal breakfast = new MockMeal(2, "2022-11-26", "hash","breakfast");
+        Meal lunch = new MockMeal(4, "2022-11-26", "hash","lunch");
 
         lunch.setHashcode(Hashable.doubleHashing(lunch.getHashcode()));
 
@@ -123,8 +123,8 @@ public class TestMealPlanComponent {
 
     @Test
     void testGetMeals() {
-        Meal breakfast = new MockMeal(2, "breakfast");
-        Meal lunch = new MockMeal(4, "lunch");
+        Meal breakfast = new MockMeal(2, "2022-11-26", "hash","breakfast");
+        Meal lunch = new MockMeal(4, "2022-11-26", "hash","lunch");
 
         ArrayList<Meal> meals = new ArrayList<>();
         meals.add(breakfast);
@@ -150,8 +150,8 @@ public class TestMealPlanComponent {
 
     @Test
     void testSetMeals() {
-        Meal breakfast = new MockMeal(2, "breakfast");
-        Meal lunch = new MockMeal(4, "lunch");
+        Meal breakfast = new MockMeal(2, "2022-11-26", "hash","breakfast");
+        Meal lunch = new MockMeal(4, "2022-11-26", "hash","lunch");
 
         ArrayList<Meal> meals = new ArrayList<>();
         HashMap<String, Meal> mealHashMap = new HashMap<>();

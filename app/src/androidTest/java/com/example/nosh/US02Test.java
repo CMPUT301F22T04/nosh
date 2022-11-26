@@ -182,9 +182,13 @@ public class US02Test {
         solo.waitForActivity("Timeout", pause);
         solo.enterText((EditText) solo.getView(R.id.recipe_comment_field), comments);
         solo.waitForActivity("Timeout", pause);
-        solo.clickOnView(solo.getView("submit_recipe"));
+
+        solo.clickOnButton("Add");
+
         solo.waitForActivity("Timeout", pause * 20);
     }
+
+
 
     @After
     public void tearDown(){

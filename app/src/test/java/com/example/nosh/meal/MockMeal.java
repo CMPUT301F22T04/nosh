@@ -9,8 +9,8 @@ public class MockMeal extends Meal {
         super();
     }
 
-    public MockMeal(int servings, String name) {
-        super(servings, name);
+    public MockMeal(int servings, String usedDate, String usedPlanHash, String name) {
+        super(servings, usedDate, usedPlanHash, name);
     }
 
     public MockMeal(MockMeal mockMeal) {

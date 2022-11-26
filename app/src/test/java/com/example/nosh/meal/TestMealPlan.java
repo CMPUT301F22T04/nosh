@@ -29,8 +29,8 @@ public class TestMealPlan {
 
         meals = new ArrayList<>();
 
-        Meal mealA = new Meal(5, "breakfast");
-        Meal mealB = new Meal(10, "lunch");
+        Meal mealA = new Meal(5, "2022-11-26", "hash","breakfast");
+        Meal mealB = new Meal(10, "2022-11-26", "hash","lunch");
 
         mealA.setMealComponents(testMeal.mockMealComponentsA);
         mealB.setMealComponents(testMeal.mockMealComponentsB);
