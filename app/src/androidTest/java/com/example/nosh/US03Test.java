@@ -86,4 +86,9 @@ public class US03Test {
 
 
     }
+
+    @After
+    public void tearDown(){
+        solo.finishOpenedActivities();
+    }
 }
