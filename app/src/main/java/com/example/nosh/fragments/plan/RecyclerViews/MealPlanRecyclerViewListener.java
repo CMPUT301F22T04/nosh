@@ -1,5 +1,8 @@
 package com.example.nosh.fragments.plan.RecyclerViews;
 
-public interface MealPlanRecyclerViewInterface {
+public interface MealPlanRecyclerViewListener {
+
     void onItemClick(int position);
+
+    void onDeleteItemClick(int position);
 }

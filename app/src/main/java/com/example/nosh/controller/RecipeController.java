@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.Observer;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 
 /**
@@ -55,10 +54,6 @@ public class RecipeController {
         return recipeRepository.retrieve();
     }
 
-    public void scaleSevering(String hashcode, long servings) {
-        recipeRepository.scaleServings(hashcode, servings);
-    }
-
     public void updateNewImage(String hashcode, double preparationTime, long servings,
                        String category, String comments, Uri localPhotoUri,
                        String title, ArrayList<Ingredient> ingredients) {
@@ -73,6 +68,10 @@ public class RecipeController {
                        String title, ArrayList<Ingredient> ingredients) {
         recipeRepository.update(hashcode, preparationTime, servings, category,
                 comments, photographRemote, title, ingredients);
+    }
+
+    public void updateIngredientInRecipe(Ingredient ingredient) {
+        recipeRepository.updateIngredientInRecipe(ingredient);
     }
 
     /**

@@ -260,6 +260,8 @@ public class MealPlanDBController extends DBController {
                         )
                 )
                 .addOnFailureListener(e -> Log.e(DELETE, e.toString()));
+
+        // TODO : Out of scope, a schedule function (not in this app) should clean up the nesting
     }
 
     private void assertType(Object o) {

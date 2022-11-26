@@ -1,6 +1,5 @@
 package com.example.nosh.repository;
 
-import com.example.nosh.database.controller.DBController;
 import com.example.nosh.database.controller.IngredientDBController;
 import com.example.nosh.entity.Ingredient;
 
