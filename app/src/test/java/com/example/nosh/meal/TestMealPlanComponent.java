@@ -16,7 +16,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-
+/**
+ * This class is responsible for unit testing meal plan component.
+ * @version 1.0
+ */
 public class TestMealPlanComponent {
     TestMeal testMeal;
 

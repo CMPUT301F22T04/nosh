@@ -15,7 +15,10 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-
+/**
+ * This class is a responsible for unit testing Meal entity class.
+ * @version 1.0
+ */
 public class TestMeal {
 
     ArrayList<MealComponent> mockMealComponentsA;

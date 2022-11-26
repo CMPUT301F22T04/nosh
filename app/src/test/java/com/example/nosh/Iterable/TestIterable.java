@@ -1,4 +1,4 @@
-package com.example.nosh;
+package com.example.nosh.Iterable;
 
 import com.example.nosh.entity.Meal;
 import com.example.nosh.entity.MealComponent;

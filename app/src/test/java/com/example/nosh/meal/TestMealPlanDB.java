@@ -7,6 +7,11 @@ import com.example.nosh.entity.MealPlan;
 import com.example.nosh.entity.Recipe;
 import com.example.nosh.utils.DateUtil;
 
+/**
+ * This class is a responsible for generating meal plan test cases for unit tests.
+ * @version 1.0
+ */
+
 public class TestMealPlanDB {
 
     public static MealPlan generateTestCase() {

@@ -15,7 +15,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-
+/**
+ * This class is a responsible for unit testing Meal Plan entity class.
+ * @version 1.0
+ */
 public class TestMealPlan {
 
     ArrayList<Meal> meals;

@@ -3,6 +3,10 @@ package com.example.nosh.meal;
 import com.example.nosh.entity.Meal;
 import com.example.nosh.entity.MealComponent;
 
+/**
+ * This class is a Mock Meal class for unit tests.
+ * @version 1.0
+ */
 public class MockMeal extends Meal {
 
     public MockMeal() {

@@ -3,6 +3,10 @@ package com.example.nosh.meal;
 import com.example.nosh.entity.MealComponent;
 import com.example.nosh.utils.DateUtil;
 
+/**
+ * This class is a Mock Meal Component class for unit tests.
+ * @version 1.0
+ */
 class MockMealComponent extends MealComponent {
 
     private String name;

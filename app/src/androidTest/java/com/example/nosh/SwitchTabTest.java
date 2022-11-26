@@ -18,6 +18,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
+/**
+ * This class is responsible for intent testing of switching tabs.
+ * @author Lok Him Isaac Cheng
+ * @version 1.0.1
+ */
 @RunWith(AndroidJUnit4.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class SwitchTabTest {

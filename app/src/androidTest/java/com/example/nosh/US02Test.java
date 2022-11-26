@@ -23,6 +23,11 @@ import org.junit.runners.MethodSorters;
 
 import java.util.ArrayList;
 
+/**
+ * This class is responsible for intent tests of all US 02.
+ * @author Lok Him Isaac Cheng
+ * @version 1.1
+ */
 @RunWith(AndroidJUnit4.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class US02Test {

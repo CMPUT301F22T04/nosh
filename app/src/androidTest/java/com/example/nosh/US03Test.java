@@ -19,6 +19,11 @@ import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.junit.Assert;
 
+/**
+ * This class is responsible for intent tests of all US 03.
+ * @author Lok Him Isaac Cheng
+ * @version 1.0
+ */
 @RunWith(AndroidJUnit4.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class US03Test {
