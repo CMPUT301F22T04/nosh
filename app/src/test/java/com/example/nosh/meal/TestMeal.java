@@ -146,4 +146,30 @@ public class TestMeal {
             assert mealHashmap.containsKey(mealComponent.getHashcode());
         }
     }
+
+    // Setters and getters tests
+
+    @Test
+    void testSetGetServings(){
+        Meal testMeal = new Meal();
+        long serving = 1;
+        testMeal.setServings(serving);
+        assertEquals(testMeal.getServings(), serving);
+    }
+
+    @Test
+    void testSetGetName(){
+        Meal testMeal = new Meal();
+        String name = "Healthy Meal";
+        testMeal.setName(name);
+        assertEquals(testMeal.getName(), name);
+    }
+
+    @Test
+    void testSetGetUsedDate(){
+        Meal testMeal = new Meal();
+        String date = "2022-11-26";
+        testMeal.setUsedDate(date);
+        assertEquals(testMeal.getUsedDate(), date);
+    }
 }
