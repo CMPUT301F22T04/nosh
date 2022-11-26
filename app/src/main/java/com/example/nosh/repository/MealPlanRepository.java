@@ -106,7 +106,9 @@ public class MealPlanRepository extends Repository {
     }
 
     public void delete(MealPlan mealPlan) {
+        mealPlans.remove(mealPlan.getHashcode());
 
+        super.delete(mealPlan);
     }
 
     public ArrayList<MealPlan> retrieve() {

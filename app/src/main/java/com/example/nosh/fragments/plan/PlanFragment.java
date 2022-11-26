@@ -23,7 +23,7 @@ import com.example.nosh.activities.NewMealPlanActivity;
 import com.example.nosh.controller.MealPlanController;
 import com.example.nosh.entity.MealPlan;
 import com.example.nosh.fragments.plan.RecyclerViews.MealPlanRecyclerViewAdapter;
-import com.example.nosh.fragments.plan.RecyclerViews.MealPlanRecyclerViewInterface;
+import com.example.nosh.fragments.plan.RecyclerViews.MealPlanRecyclerViewListener;
 
 import java.util.ArrayList;
 import java.util.Observable;
@@ -37,8 +37,7 @@ import javax.inject.Inject;
  * Use the {@link PlanFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PlanFragment extends Fragment implements
-        MealPlanRecyclerViewInterface, Observer {
+public class PlanFragment extends Fragment implements Observer {
 
     private MealPlanRecyclerViewAdapter adapter;
 
@@ -51,7 +50,7 @@ public class PlanFragment extends Fragment implements
     private FragmentListener fragmentListener;
 
     private class FragmentListener implements View.OnClickListener,
-            ActivityResultCallback<ActivityResult> {
+            ActivityResultCallback<ActivityResult>, MealPlanRecyclerViewListener {
 
         @Override
         public void onClick(View v) {
@@ -64,6 +63,8 @@ public class PlanFragment extends Fragment implements
                 );
 
                 activityResultLauncher.launch(intent);
+            } else if (v.getId() == R.id.scale_recipes_button) {
+
             }
         }
 
@@ -72,13 +73,30 @@ public class PlanFragment extends Fragment implements
             controller.addObserver(PlanFragment.this);
             refreshAdapter();
         }
+
+        @Override
+        public void onItemClick(int position) {
+            // TODO: put a fragment container in this xml file instead of replacing the main one???
+            if (position >= 0) {
+                openMealsOfDayDialog(position);
+            }
+        }
+
+        @Override
+        public void onDeleteItemClick(int position) {
+            if (position >= 0) {
+                controller.delete(mealPlans.get(0));
+
+                adapter.notifyItemChanged(position);
+            }
+        }
     }
 
     public PlanFragment() {
         // Required empty public constructor
     }
 
-    public static PlanFragment newInstance(String param1, String param2) {
+    public static PlanFragment newInstance() {
         return new PlanFragment();
     }
 
@@ -116,7 +134,7 @@ public class PlanFragment extends Fragment implements
         adapter = new MealPlanRecyclerViewAdapter(
                 getContext(),
                 mealPlans,
-                this
+                fragmentListener
         );
 
         recyclerView.setAdapter(adapter);
@@ -134,12 +152,6 @@ public class PlanFragment extends Fragment implements
         controller.deleteObserver(this);
 
         super.onDestroy();
-    }
-
-    @Override
-    public void onItemClick(int position) {
-        // TODO: put a fragment container in this xml file instead of replacing the main one???
-        openMealsOfDayDialog(position);
     }
 
     private void openMealsOfDayDialog(int position) {

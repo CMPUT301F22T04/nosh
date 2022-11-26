@@ -101,7 +101,6 @@ public class MealPlanController {
      * @param mealPlan
      */
     public void delete(MealPlan mealPlan) {
-        //TODO: Should we even implement this?
         mealPlanRepository.delete(mealPlan);
     }
 
