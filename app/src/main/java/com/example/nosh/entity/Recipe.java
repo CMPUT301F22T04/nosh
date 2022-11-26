@@ -3,9 +3,12 @@ package com.example.nosh.entity;
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.function.Consumer;
 
 
-public class Recipe extends MealComponent {
+public class Recipe extends MealComponent implements Iterable<Ingredient> {
 
     private double preparationTime;
     private long servings;
@@ -15,7 +18,7 @@ public class Recipe extends MealComponent {
     private String title = "";
 
     // TODO : Set this to Map for faster and easier access
-    private ArrayList<Ingredient> ingredients = new ArrayList<>();
+    private HashMap<String, Ingredient> ingredients = new HashMap<>();
 
     public Recipe() {
         super();
@@ -35,7 +38,7 @@ public class Recipe extends MealComponent {
 
         if (ingredients != null) {
             for (Ingredient ingredient : ingredients) {
-                this.ingredients.add(new Ingredient(ingredient));
+                this.ingredients.put(ingredient.hashcode, ingredient);
             }
         }
     }
@@ -47,7 +50,7 @@ public class Recipe extends MealComponent {
         comments = recipe.getComments();
         photographRemote = recipe.getPhotographRemote();
         title = recipe.getTitle();
-        ingredients = recipe.getIngredients();
+        setIngredients(recipe.getIngredients());
         hashcode = recipe.getHashcode();
     }
 
@@ -119,21 +122,29 @@ public class Recipe extends MealComponent {
     public ArrayList<Ingredient> getIngredients() {
         ArrayList<Ingredient> ingredients = new ArrayList<>();
 
-        for (Ingredient ingredient : this.ingredients) {
+        for (Ingredient ingredient : this.ingredients.values()) {
             ingredients.add(new Ingredient(ingredient));
         }
 
         return ingredients;
     }
 
+    public boolean hasIngredient(String hashcode) {
+        return ingredients.containsKey(hashcode);
+    }
+
+    public void updateIngredient(Ingredient ingredient) {
+        ingredients.replace(ingredient.hashcode, new Ingredient(ingredient));
+    }
+
     // TODO : a better way to update ingredients instead of replace them entirely
     public void setIngredients(ArrayList<Ingredient> ingredients) {
         if (ingredients != null) {
-            this.ingredients = new ArrayList<>();
+            this.ingredients = new HashMap<>();
 
             for (Ingredient ingredient :
                     ingredients) {
-                this.ingredients.add(new Ingredient(ingredient));
+                this.ingredients.put(ingredient.hashcode, ingredient);
             }
         }
     }
@@ -143,8 +154,14 @@ public class Recipe extends MealComponent {
         return title;
     }
 
+    @NonNull
     @Override
-    public void scale(int factor) {
-        super.scale(factor);
+    public Iterator<Ingredient> iterator() {
+        return getIngredients().iterator();
+    }
+
+    @Override
+    public void forEach(@NonNull Consumer<? super Ingredient> action) {
+        Iterable.super.forEach(action);
     }
 }

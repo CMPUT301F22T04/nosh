@@ -39,21 +39,10 @@ public class RecipeRepository extends Repository {
         super.add(recipe);
     }
 
-    public void scaleServings(String hashcode, long servings) {
-        long baseServing = Objects
-                .requireNonNull(recipes.get(hashcode))
-                .getServings();
-
-        Objects
-                .requireNonNull(recipes.get(hashcode))
-                .setServings(baseServing * servings);
-
-        super.update(recipes.get(hashcode));
-    }
-
     public void update(String hashcode, double preparationTime, long servings,
                        String category, String comments, String photographRemote,
                        String title, ArrayList<Ingredient> ingredients) {
+
         Recipe recipe = Objects.requireNonNull(recipes.get(hashcode));
 
         recipe.setPreparationTime(preparationTime);
@@ -69,6 +58,19 @@ public class RecipeRepository extends Repository {
         recipes.put(hashcode, recipe);
 
         super.update(recipe);
+    }
+
+    public void updateIngredientInRecipe(Ingredient ingredient) {
+        String hashcode = ingredient.getHashcode();
+        for (Recipe recipe : recipes.values()) {
+            if (recipe.hasIngredient(hashcode)) {
+                recipe.updateIngredient(ingredient);
+
+                super.update(recipe);
+
+                break;
+            }
+        }
     }
 
     public void delete(Recipe recipe) {
@@ -101,6 +103,7 @@ public class RecipeRepository extends Repository {
         for (Recipe recipe : recipes) {
             this.recipes.put(recipe.getHashcode(), recipe);
         }
+
 
         notifyObservers();
     }
