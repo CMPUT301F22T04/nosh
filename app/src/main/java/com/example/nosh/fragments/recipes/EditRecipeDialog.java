@@ -280,7 +280,7 @@ public class EditRecipeDialog extends DialogFragment implements Observer {
         args.putString("hashcode",hash);
         args.putString("name", recipeName.getText().toString());
         args.putDouble("prep", Double.parseDouble(prepInput.getText().toString()));
-        args.putInt("servings", Integer.parseInt(servingInput.getText().toString()));
+        args.putLong("servings", Long.parseLong(servingInput.getText().toString()));
         args.putString("category", categoryInput.getText().toString());
         args.putString("comments", commentInput.getText().toString());
         if (recipeImageUri != null){
