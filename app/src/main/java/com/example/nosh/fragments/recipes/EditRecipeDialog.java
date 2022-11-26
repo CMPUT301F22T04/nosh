@@ -176,7 +176,7 @@ public class EditRecipeDialog extends DialogFragment {
         Recipe recipe = (Recipe) getArguments().getSerializable("Recipe");
         View view = inflater.inflate(R.layout.add_recipe, container, false);
         // fields
-        populateFields(view,recipe);
+       // populateFields(view,recipe);
 
 
 
@@ -199,6 +199,19 @@ public class EditRecipeDialog extends DialogFragment {
         backButton.setOnClickListener(listener);
         recipeImageView.setOnClickListener(listener);
 
+
+
+
+        recipeName.setText(recipe.getTitle());
+        prepInput.setText(Double.toString(recipe.getPreparationTime()));
+        servingInput.setText(Long.toString(recipe.getServings()));
+        categoryInput.setText(recipe.getCategory());
+        commentInput.setText(recipe.getComments());
+
+
+
+
+
         requireActivity()
                 .getSupportFragmentManager()
                 .setFragmentResultListener(
@@ -214,35 +227,20 @@ public class EditRecipeDialog extends DialogFragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
-
-        return view;
-    }
-    private void populateFields(View view, Recipe recipe){
-        recipeImageView = view.findViewById(R.id.recipe_image_view);
-        recipeName = view.findViewById(R.id.recipe_name_field);
-        prepInput = view.findViewById(R.id.preparation_time_field);
-        servingInput = view.findViewById(R.id.serving_field);
-        categoryInput = view.findViewById(R.id.recipe_category_field);
-        commentInput = view.findViewById(R.id.recipe_comment_field);
-
-//        recipeImageView.setImageURI(recipe.getPhotographRemote()g);
-        String loc = recipe.getPhotographRemote();
-        //controller.getRecipeImageRemote(loc);
-        Glide.with(getContext()).load(controller.getRecipeImageRemote(loc)).into(recipeImageView);
-
-        recipeName.setText(recipe.getTitle());
-        prepInput.setText(Double.toString(recipe.getPreparationTime()));
-        servingInput.setText(Long.toString(recipe.getServings()));
-        categoryInput.setText(recipe.getCategory());
-        commentInput.setText(recipe.getComments());
-
         for (int i = 0;i<recipe.getIngredients().size();i++){
             ingredients.add(recipe.getIngredients().get(i));
             adapter.update(ingredients);
             adapter.notifyItemRangeChanged(0, ingredients.size());
         }
+        //        recipeImageView.setImageURI(recipe.getPhotographRemote()g);
+        String loc = recipe.getPhotographRemote();
+        //controller.getRecipeImageRemote(loc);
+        Glide.with(getContext()).load(controller.getRecipeImageRemote(loc)).into(recipeImageView);
 
+
+        return view;
     }
+
     private boolean validInput() {
         boolean invalidInput = true;
 
