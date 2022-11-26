@@ -28,7 +28,6 @@ import com.example.nosh.controller.RecipeController;
 import com.example.nosh.entity.Meal;
 import com.example.nosh.entity.MealComponent;
 import com.example.nosh.entity.MealPlan;
-import com.example.nosh.entity.Recipe;
 import com.example.nosh.entity.Transaction;
 
 import java.util.ArrayList;
@@ -189,18 +188,6 @@ public class AddMealsToDaysActivity extends AppCompatActivity implements Observe
 
         for (int i = 0; i < mealComponentListView.getCount(); i++){
             if (mealComponentListView.isItemChecked(i)) {
-
-                if (serving >= 1) {
-                    MealComponent mealComponent = mealComponents.get(i);
-
-                    if (mealComponent instanceof Recipe) {
-                       recipeController.scaleSevering(
-                               mealComponent.getHashcode(),
-                               serving
-                       );
-                    }
-                }
-
                 meal.addMealComponent(mealComponents.get(i));
             }
         }
