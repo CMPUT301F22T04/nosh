@@ -31,6 +31,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.nosh.MainActivity;
+import com.example.nosh.Nosh;
 import com.example.nosh.R;
 import com.example.nosh.controller.RecipeController;
 import com.example.nosh.entity.Ingredient;
@@ -40,11 +41,13 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.inject.Inject;
 
 
-public class EditRecipeDialog extends DialogFragment {
+public class EditRecipeDialog extends DialogFragment implements Observer {
 
     private Button addRecipeBtn;
     private ImageButton addRecipeIngredientBtn;
@@ -119,7 +122,6 @@ public class EditRecipeDialog extends DialogFragment {
 
                 if (data != null && data.getData() != null) {
                     Bundle bundle = new Bundle();
-
                     recipeImageUri = data.getData();
                     recipeImageView.setImageURI(recipeImageUri);
                 }
@@ -151,7 +153,19 @@ public class EditRecipeDialog extends DialogFragment {
         return frag;
 
     }
+    @Override
+    public void onAttach(@NonNull Context context) {
+        ((Nosh) context.getApplicationContext())
+                .getAppComponent()
+                .inject(this);
 
+        controller.addObserver(this);
+
+        super.onAttach(context);
+
+        listener = new EditRecipeDialogListener();
+
+    }
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -175,17 +189,12 @@ public class EditRecipeDialog extends DialogFragment {
         assert getArguments() != null;
         Recipe recipe = (Recipe) getArguments().getSerializable("Recipe");
         View view = inflater.inflate(R.layout.add_recipe, container, false);
-        // fields
-       // populateFields(view,recipe);
-
-
 
         addRecipeBtn = view.findViewById(R.id.submit_recipe);
         addRecipeIngredientBtn = view.findViewById(R.id.add_recipe_ingredient);
         backButton = view.findViewById(R.id.add_recipe_back_btn);
 
         recipeImageView = view.findViewById(R.id.recipe_image_view);
-
         recipeName = view.findViewById(R.id.recipe_name_field);
         prepInput = view.findViewById(R.id.preparation_time_field);
         servingInput = view.findViewById(R.id.serving_field);
@@ -199,9 +208,6 @@ public class EditRecipeDialog extends DialogFragment {
         backButton.setOnClickListener(listener);
         recipeImageView.setOnClickListener(listener);
 
-
-
-
         recipeName.setText(recipe.getTitle());
         prepInput.setText(Double.toString(recipe.getPreparationTime()));
         servingInput.setText(Long.toString(recipe.getServings()));
@@ -209,13 +215,10 @@ public class EditRecipeDialog extends DialogFragment {
         commentInput.setText(recipe.getComments());
 
 
-
-
-
         requireActivity()
                 .getSupportFragmentManager()
                 .setFragmentResultListener(
-                        "edit_ingredient",
+                        "add_ingredient",
                         getViewLifecycleOwner(),
                         listener);
 
@@ -235,6 +238,7 @@ public class EditRecipeDialog extends DialogFragment {
         //        recipeImageView.setImageURI(recipe.getPhotographRemote()g);
         String loc = recipe.getPhotographRemote();
         //controller.getRecipeImageRemote(loc);
+        controller.getRecipeImageRemote(loc);
         Glide.with(getContext()).load(controller.getRecipeImageRemote(loc)).into(recipeImageView);
 
 
@@ -264,26 +268,29 @@ public class EditRecipeDialog extends DialogFragment {
             commentInput.setError("Cannot be empty");
             invalidInput = false;
         }
-        if (recipeImageView.getDrawable()==null){
-            Context context = getActivity().getApplicationContext();
-            CharSequence text = "Image cannot be empty!";
-            int duration = Toast.LENGTH_SHORT;
-
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
-        }
 
         return invalidInput;
     }
 
     private void addRecipeAction(){
         Bundle args = new Bundle();
+        Recipe rec = (Recipe) getArguments().getSerializable("Recipe");
+        String hash = rec.getHashcode();
+
+        args.putString("hashcode",hash);
         args.putString("name", recipeName.getText().toString());
         args.putDouble("prep", Double.parseDouble(prepInput.getText().toString()));
         args.putInt("servings", Integer.parseInt(servingInput.getText().toString()));
         args.putString("category", categoryInput.getText().toString());
         args.putString("comments", commentInput.getText().toString());
-        args.putParcelable("photoUri", recipeImageUri);
+        if (recipeImageUri != null){
+            args.putParcelable("photoUri", recipeImageUri);
+            args.putString("Code","updateImage");
+        }
+        else{
+            args.putString("Code","noUpdate");
+        }
+
         args.putSerializable("ingredients",ingredients);
 
         requireActivity().getSupportFragmentManager().setFragmentResult("edit_recipe", args);
@@ -299,5 +306,9 @@ public class EditRecipeDialog extends DialogFragment {
         WindowManager.LayoutParams params = window.getAttributes();
         params.width = Resources.getSystem().getDisplayMetrics().widthPixels;
         window.setAttributes(params);
+    }
+    @Override
+    public void update(Observable o, Object arg) {
+
     }
 }

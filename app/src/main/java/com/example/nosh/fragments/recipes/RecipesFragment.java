@@ -114,7 +114,16 @@ public class RecipesFragment extends Fragment implements Observer {
                 //break;
             }
             if(requestKey.equals("edit_recipe")){
-
+                controller.update(
+                        result.getString("hashcode"),
+                        result.getDouble("prep"),
+                        result.getLong("servings"),
+                        result.getString("category"),
+                        result.getString("comments"),
+                        result.getParcelable("photoUri"),
+                        result.getString("name"),
+                        (ArrayList<Ingredient>) result.getSerializable("ingredients")
+                );
             }
         }
 
@@ -189,6 +198,13 @@ public class RecipesFragment extends Fragment implements Observer {
                 .getSupportFragmentManager()
                 .setFragmentResultListener(
                         "sort_recipe",
+                        getViewLifecycleOwner(),
+                        listener
+                );
+        requireActivity()
+                .getSupportFragmentManager()
+                .setFragmentResultListener(
+                        "edit_recipe",
                         getViewLifecycleOwner(),
                         listener
                 );
