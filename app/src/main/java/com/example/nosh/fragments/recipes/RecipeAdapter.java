@@ -41,6 +41,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeViewHolder> {
 
     interface RecyclerViewListener {
         void onEditClick(int pos);
+
+        void onDeleteButtonClick(int pos);
     }
 
     void update(ArrayList<Recipe> recipes, HashMap<String, StorageReference> recipeImagesRemote) {

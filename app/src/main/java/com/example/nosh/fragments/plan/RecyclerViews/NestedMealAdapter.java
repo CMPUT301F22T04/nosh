@@ -24,14 +24,20 @@ public class NestedMealAdapter extends
 
     protected static class NestedViewHolder extends RecyclerView.ViewHolder{
         private final TextView textView;
+        private final TextView servingsTextView;
 
         public NestedViewHolder(@NonNull View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.meal_name);
+            servingsTextView = itemView.findViewById(R.id.textView11);
         }
 
         public TextView getTextView() {
             return textView;
+        }
+
+        public TextView getServingsTextView() {
+            return servingsTextView;
         }
     }
 
@@ -48,6 +54,7 @@ public class NestedMealAdapter extends
     @Override
     public void onBindViewHolder(@NonNull NestedViewHolder holder, int position) {
         holder.getTextView().setText(meals.get(position).getName());
+        holder.getServingsTextView().setText(Integer.toString((int) meals.get(position).getServings()));
     }
 
     @Override

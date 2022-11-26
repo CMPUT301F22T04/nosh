@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -77,11 +78,15 @@ public class MealsOfDayDialog extends DialogFragment {
         ArrayList<Pair<String, MealPlanComponent>> sortedMealPlanComponent =
                 mealPlanController.sortMealPlanComponent(mealPlan);
 
+        sortedMealPlanComponent.remove(sortedMealPlanComponent.size() - 1);
         PlanDayRecyclerViewAdapter adapter = new PlanDayRecyclerViewAdapter(
                 sortedMealPlanComponent
         );
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        ImageButton backButton = view.findViewById(R.id.cancel_days);
+        backButton.setOnClickListener(v -> dismiss());
 
         return view;
     }

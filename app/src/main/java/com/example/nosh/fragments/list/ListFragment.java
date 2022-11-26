@@ -14,17 +14,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.nosh.Nosh;
 import com.example.nosh.R;
+import com.example.nosh.controller.IngredientStorageController;
+import com.example.nosh.controller.MealPlanController;
 import com.example.nosh.controller.RecipeController;
 import com.example.nosh.controller.ShoppingListSorting;
 import com.example.nosh.entity.Ingredient;
+import com.example.nosh.entity.MealComponent;
 import com.example.nosh.entity.Recipe;
-import com.example.nosh.fragments.Shopping.ShoppingAdapter;
+import com.example.nosh.fragments.list.ShoppingViewHolder;
 import com.example.nosh.repository.IngredientRepository;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -42,16 +47,27 @@ public class ListFragment extends Fragment implements Observer {
     private ShoppingAdapter adapter;
     private IngredientRepository x;
     // IngredientsFragment depends on controller. Use Dagger to manager dependency injection
-    
+
+    @Inject
+    IngredientStorageController controller;
+
     @Inject
     //IngredientStorageController controller;
     RecipeController controller2;
+
+    @Inject
+    MealPlanController controller3;
+
+
 
     private ShoppingFragmentListener listener;
     private ArrayList<Ingredient> ingredients;
     private ArrayList<Recipe> recipes;
     private Button sortButton;
     private Object ShoppingFragment;
+    private ArrayList<MealComponent> components;
+    private ShoppingViewHolder test ;
+    public Ingredient ingredient1;
 
     public ListFragment() {
         // Required empty public constructor
@@ -70,12 +86,28 @@ public class ListFragment extends Fragment implements Observer {
             }
 
         }
+        @Override
+        public void onCheckBoxClick(int pos) {
+            Ingredient selectedIngredient = ingredients.get(pos);
+            ingredient1 = selectedIngredient;
+            openAddRemainingDetailsDialog();
+
+
+
+
+
+        }
 
         private void openSortListDialog() {
             SortingListDialog sortingListDialog = new SortingListDialog();
             sortingListDialog.show(getChildFragmentManager(),"SORT_LIST");
         }
 
+        private void openAddRemainingDetailsDialog() {
+            AddRemainingDetailsDialog addRemainingDetailsDialog = new AddRemainingDetailsDialog();
+            addRemainingDetailsDialog.show(getChildFragmentManager(),"ADD_DETAILS");
+            Toast.makeText(getContext(), "ss", Toast.LENGTH_SHORT).show();
+        }
         @Override
         public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
             if(requestKey.equals("sort_list")){
@@ -86,12 +118,22 @@ public class ListFragment extends Fragment implements Observer {
                 adapter.update(ingredients);
                 adapter.notifyItemRangeChanged(0, ingredients.size());
             }
+            if (requestKey.equals("add_details")){
+                ingredients.remove(ingredient1);
+                adapter.update(ingredients);
+                adapter.notifyDataSetChanged();
+                Date date =(Date) result.getSerializable("date");
+                String location = result.getString("location");
+                System.out.println(3);
+                controller.add(date,ingredient1.getAmount(),ingredient1.getUnit(),ingredient1.getName(),ingredient1.getDescription(),ingredient1.getCategory(),location);
+
+
+                // TODO: Update the ingredient with the new location and date
+                // TODO: Delete the ingredient from the shopping list and add it to the ingredient storage
+            }
         }
 
-        @Override
-        public void onCheckBoxClick(int pos) {
 
-        }
     }
 
     @Override
@@ -116,8 +158,13 @@ public class ListFragment extends Fragment implements Observer {
 
         //ingredients = controller.retrieve();
         ingredients = new ArrayList<Ingredient>();
-        recipes = controller2.retrieve();
-        getIngredient();
+        components = new ArrayList<MealComponent>();
+        recipes = new ArrayList<Recipe>();
+        components = controller3.retrieveUsedMealComponents();
+        AddtoShoppingList();
+        System.out.println(3);
+       // recipes = controller2.retrieve();
+        //getIngredient();
        // ingredients = recipes.get(0).getIngredients();
         //System.out.println(ingredients.get(1).getDescription());
     }
@@ -146,6 +193,14 @@ public class ListFragment extends Fragment implements Observer {
                         listener
                 );
 
+        requireActivity()
+                .getSupportFragmentManager()
+                .setFragmentResultListener(
+                        "add_details",
+                        getViewLifecycleOwner(),
+                        listener
+                );
+
         return v;
     }
 
@@ -158,9 +213,10 @@ public class ListFragment extends Fragment implements Observer {
      */
     @Override
     public void update(Observable observable, Object o) {
-        getIngredient();
+        //AddtoShoppingList();
         //recipes = controller2.retrieve();
         adapter.update(ingredients);
+
         adapter.notifyItemRangeChanged(0, ingredients.size());
     }
 
@@ -173,6 +229,22 @@ public class ListFragment extends Fragment implements Observer {
     }
 
 
+    public void AddtoShoppingList(){
+        for (MealComponent m : components){
+
+
+            if(m instanceof  Recipe){
+                if(ingredients.contains((Recipe) m)== false){
+                    recipes.add((Recipe) m);
+
+                }
+
+            }
+
+        }
+        getIngredient();
+
+    }
     public void getIngredient(){
         for (Recipe r : recipes){
             ArrayList<Ingredient> ing;

@@ -1,8 +1,11 @@
-package com.example.nosh.fragments.Shopping;
+package com.example.nosh.fragments.list;
+
+
 
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +21,7 @@ class ShoppingViewHolder extends RecyclerView.ViewHolder {
     private final TextView unitTxtView;
     private final TextView amountTxtView;
     private final CheckBox pickUp;
+    public int pos;
 
     private final class ViewHolderListener implements View.OnClickListener {
 
@@ -30,7 +34,10 @@ class ShoppingViewHolder extends RecyclerView.ViewHolder {
         @Override
         public void onClick(View v) {
             if (v.getId() == pickUp.getId()) {
+
+                //Toast.makeText(v.getContext(), pos, Toast.LENGTH_SHORT).show();
                 listener.onCheckBoxClick(getAdapterPosition());
+
             }
         }
     }

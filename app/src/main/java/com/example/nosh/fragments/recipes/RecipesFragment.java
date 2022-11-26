@@ -52,6 +52,16 @@ public class RecipesFragment extends Fragment implements Observer {
             FragmentResultListener {
 
         @Override
+        public void onDeleteButtonClick(int pos) {
+            if (pos >= 0) {
+                controller.delete(recipes.get(pos));
+
+                adapter.notifyItemRemoved(pos);
+            }
+        }
+
+
+        @Override
         public void onClick(View v) {
             if (v.getId() == addBtn.getId()) {
                 openAddRecipeDialog();
@@ -60,15 +70,19 @@ public class RecipesFragment extends Fragment implements Observer {
                 openSortRecipeDialog();
             }
 
-
         }
 
         @Override
         public void onEditClick(int pos) {
             Recipe recipe = recipes.get(pos);
-//            openEditIngredientDialog(ingredient);
+            openEditRecipeDialog(recipe,pos);
         }
 
+        private void openEditRecipeDialog(Recipe recipe,int pos){
+            EditRecipeDialog editRecipeDialog  =  EditRecipeDialog.newInstance(recipe,pos);
+            editRecipeDialog.show(getChildFragmentManager(),"EDIT_RECIPE");
+
+        }
         private void openSortRecipeDialog() {
             SortRecipeDialog sortRecipeDialog = new SortRecipeDialog();
             sortRecipeDialog.show(getChildFragmentManager(),"SORT_RECIPE");
@@ -98,6 +112,33 @@ public class RecipesFragment extends Fragment implements Observer {
                 adapter.update(recipes,recipeImagesRemote);
                 adapter.notifyItemRangeChanged(0, recipes.size());
                 //break;
+            }
+            if(requestKey.equals("edit_recipe")){
+                String res = result.getString("Code");
+                if (res.equalsIgnoreCase("updateImage")) {
+                    controller.updateNewImage(
+                            result.getString("hashcode"),
+                            result.getDouble("prep"),
+                            result.getLong("servings"),
+                            result.getString("category"),
+                            result.getString("comments"),
+                            result.getParcelable("photoUri"),
+                            result.getString("name"),
+                            (ArrayList<Ingredient>) result.getSerializable("ingredients")
+                    );
+                }
+                else{
+                    controller.update(
+                            result.getString("hashcode"),
+                            result.getDouble("prep"),
+                            result.getLong("servings"),
+                            result.getString("category"),
+                            result.getString("comments"),
+                            result.getString("photoUri"),
+                            result.getString("name"),
+                            (ArrayList<Ingredient>) result.getSerializable("ingredients")
+                    );
+                }
             }
         }
 
@@ -172,6 +213,13 @@ public class RecipesFragment extends Fragment implements Observer {
                 .getSupportFragmentManager()
                 .setFragmentResultListener(
                         "sort_recipe",
+                        getViewLifecycleOwner(),
+                        listener
+                );
+        requireActivity()
+                .getSupportFragmentManager()
+                .setFragmentResultListener(
+                        "edit_recipe",
                         getViewLifecycleOwner(),
                         listener
                 );
