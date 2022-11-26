@@ -70,16 +70,19 @@ public class RecipesFragment extends Fragment implements Observer {
                 openSortRecipeDialog();
             }
 
-
         }
 
         @Override
         public void onEditClick(int pos) {
             Recipe recipe = recipes.get(pos);
-//            openEditIngredientDialog(ingredient);
+            openEditRecipeDialog(recipe,pos);
         }
 
+        private void openEditRecipeDialog(Recipe recipe,int pos){
+            EditRecipeDialog editRecipeDialog  =  EditRecipeDialog.newInstance(recipe,pos);
+            editRecipeDialog.show(getChildFragmentManager(),"EDIT_RECIPE");
 
+        }
         private void openSortRecipeDialog() {
             SortRecipeDialog sortRecipeDialog = new SortRecipeDialog();
             sortRecipeDialog.show(getChildFragmentManager(),"SORT_RECIPE");
@@ -109,6 +112,9 @@ public class RecipesFragment extends Fragment implements Observer {
                 adapter.update(recipes,recipeImagesRemote);
                 adapter.notifyItemRangeChanged(0, recipes.size());
                 //break;
+            }
+            if(requestKey.equals("edit_recipe")){
+
             }
         }
 
