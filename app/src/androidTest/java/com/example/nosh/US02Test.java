@@ -74,7 +74,6 @@ public class US02Test {
         // Login
         String loginEmail = "testing@gmail.com";
         String loginPassword = "password12345";
-        solo.enterText((EditText) solo.getView(R.id.login_email), loginEmail);
         solo.enterText((EditText) solo.getView(R.id.login_password), loginPassword);
         solo.clickOnButton("Login");
         solo.waitForActivity("Timeout", pause);
@@ -102,6 +101,7 @@ public class US02Test {
      */
     //@Test
     public void US020201Test(){
+
     }
 
     /**

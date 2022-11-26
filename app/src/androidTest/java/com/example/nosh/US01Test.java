@@ -171,7 +171,7 @@ public class US01Test {
      */
     @Test
     public void US010401Test(){
-        solo.clickOnView(solo.getView("del_btn"));
+        solo.clickOnView(solo.getView("delete_ingredient_button"));
 
         // Checks if the item is no longer in the list
         Assert.assertFalse("Search for \"Spaghetti\"", solo.searchText(name1));
@@ -252,7 +252,7 @@ public class US01Test {
         solo.waitForActivity("Timeout", pause);
         solo.enterText((EditText) solo.getView(R.id.add_ingredient_category), category);
         solo.waitForActivity("Timeout", pause);
-        solo.clickOnButton("Add");
+        solo.clickOnButton("Confirm");
         solo.waitForActivity("Timeout", pause * 2);
     }
 
