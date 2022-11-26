@@ -1,4 +1,4 @@
-package com.example.nosh.fragments.Shopping;
+package com.example.nosh.fragments.list;
 
 import android.content.Context;
 import android.view.LayoutInflater;

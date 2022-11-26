@@ -71,10 +71,15 @@ public class MealPlanRepository extends Repository {
 
     public ArrayList<MealComponent> retrieveUsedMealComponents() {
         ArrayList<MealComponent> usedMealComponents = new ArrayList<>();
+        ArrayList<String> codes = new ArrayList<>();
 
         for (MealComponent mealComponent : mealComponents) {
             try {
-                usedMealComponents.add((MealComponent) mealComponent.clone());
+                if(codes.contains(mealComponent.getHashcode())== false){
+                    usedMealComponents.add((MealComponent) mealComponent.clone());
+                    codes.add(mealComponent.getHashcode());
+                }
+
             } catch (CloneNotSupportedException e) {
                 e.printStackTrace();
             }
