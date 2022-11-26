@@ -1,5 +1,6 @@
 package com.example.nosh;
 
+import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -22,6 +23,11 @@ import org.junit.runners.MethodSorters;
 
 import java.util.ArrayList;
 
+/**
+ * This class is responsible for intent tests of all US 02.
+ * @author Lok Him Isaac Cheng
+ * @version 1.1
+ */
 @RunWith(AndroidJUnit4.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class US02Test {
@@ -102,6 +108,13 @@ public class US02Test {
      */
     //@Test
     public void US020201Test(){
+        // add ingredient button: add_recipe_ingredient
+        // ingredient name text: add_name_recipe_ingredient
+        // ingredient description text: add_description_recipe_ingredient
+        // ingredient quantity text: add_qty_recipe_ingredient
+        // ingredient unit text: add_unit_recipe_ingredient
+        // ingredient category text: add_ingredient_recipe_category
+        // submit button: submit_add_recipe_ingredient OR Confirm
     }
 
     /**
@@ -110,6 +123,8 @@ public class US02Test {
      */
     //@Test
     public void US020301Test(){
+        // delete ingredient button: del_btn_recipe_ingredient
+        // edit ingredient button: edit_btn_recipe_ingredient
     }
 
 
@@ -119,6 +134,7 @@ public class US02Test {
      */
     //@Test
     public void US020401Test(){
+        //
     }
 
     /**
@@ -127,6 +143,7 @@ public class US02Test {
      */
     //@Test
     public void US020501Test(){
+        // view id check 2.1.1
     }
 
 
@@ -136,7 +153,7 @@ public class US02Test {
      */
     //@Test
     public void US020601Test(){
-
+        // delete button del_btnR
     }
 
     /**
@@ -170,19 +187,23 @@ public class US02Test {
         solo.waitForActivity("Timeout", pause);
 
         // Enter recipe info
-        solo.enterText((EditText) solo.getView(R.id.add_name), title);
-        solo.waitForActivity("Timeout", pause);
-        solo.enterText((EditText) solo.getView(R.id.preparation_time_field), String.valueOf(time));
-        solo.waitForActivity("Timeout", pause);
-        solo.enterText((EditText) solo.getView(R.id.serving_field), String.valueOf(servings));
+        solo.enterText((EditText) solo.getView(R.id.recipe_name_field), title);
         solo.waitForActivity("Timeout", pause);
         solo.enterText((EditText) solo.getView(R.id.recipe_category_field), category);
         solo.waitForActivity("Timeout", pause);
-        solo.enterText((EditText) solo.getView(R.id.add_description), comments);
+        solo.enterText((EditText) solo.getView(R.id.serving_field), String.valueOf(servings));
         solo.waitForActivity("Timeout", pause);
-        solo.clickOnButton("Add");
+        solo.enterText((EditText) solo.getView(R.id.preparation_time_field), String.valueOf(time));
+        solo.waitForActivity("Timeout", pause);
+        solo.enterText((EditText) solo.getView(R.id.recipe_comment_field), comments);
+        solo.waitForActivity("Timeout", pause);
+
+        solo.clickOnScreen(198,2007);
+
         solo.waitForActivity("Timeout", pause * 20);
     }
+
+
 
     @After
     public void tearDown(){

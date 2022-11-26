@@ -120,7 +120,7 @@ public class AddRecipeDialog extends DialogFragment {
         @Override
         public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
             if (requestKey.equals("add_ingredient")) {
-                Ingredient ingr = new Ingredient(result.getDouble("unit"),
+                Ingredient ingr = new Ingredient(result.getString("unit"),
                         result.getInt("qty"),
                         result.getString("category"),
                         result.getString("description"),

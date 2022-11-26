@@ -18,7 +18,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
-
+/**
+ * This class is responsible for intent tests of registration and login.
+ * @author Lok Him Isaac Cheng
+ * @version 1.1.1
+ */
 @RunWith(AndroidJUnit4.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class RegisterLoginTest {

@@ -107,7 +107,7 @@ public class IngredientsFragment extends Fragment implements Observer {
                     controller.add(
                             (Date) result.getSerializable("date"),
                             result.getInt("qty"),
-                            result.getDouble("unit"),
+                            result.getString("unit"),
                             result.getString("name"),
                             result.getString("description"),
                             result.getString("category"),
@@ -118,7 +118,7 @@ public class IngredientsFragment extends Fragment implements Observer {
                             result.getString("hashcode"),
                             (Date) result.getSerializable("date"),
                             result.getLong("qty"),
-                            result.getDouble("unit"),
+                            result.getString("unit"),
                             result.getString("name"),
                             result.getString("description"),
                             result.getString("category"),

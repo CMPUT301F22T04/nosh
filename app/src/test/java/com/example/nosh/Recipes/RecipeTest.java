@@ -8,6 +8,11 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
+/**
+ * This class is a responsible for unit testing recipe entity class.
+ * @version 1.0
+ */
+
 public class RecipeTest {
 
     private Recipe mockRecipe() {

@@ -127,7 +127,7 @@ public class AddIngredientDialog extends DialogFragment implements DatePickerDia
         args.putSerializable("date", date);
         args.putString("location", ingStorageLocation.getText().toString());
         args.putInt("qty", Integer.parseInt(ingQuantity.getText().toString()));
-        args.putDouble("unit", Double.parseDouble(ingUnit.getText().toString()));
+        args.putString("unit", ingUnit.getText().toString());
         args.putString("category", ingCategory.getText().toString());
 
         requireActivity().getSupportFragmentManager().setFragmentResult("add_ingredient", args);
@@ -141,19 +141,21 @@ public class AddIngredientDialog extends DialogFragment implements DatePickerDia
     @SuppressLint("SetTextI18n")
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+        int displayMonth = month + 1;
+
         if (Integer.toString(month).length() == 1 && Integer.toString(day).length() == 1) {
-            ingExpirationDate.setText(year + "-" + "0" + month + "-" + "0" + day);
+            ingExpirationDate.setText(year + "-" + "0" + displayMonth + "-" + "0" + day);
             return;
         }
         if (Integer.toString(month).length() == 1) {
-            ingExpirationDate.setText(year + "-" + "0" + month + "-" + day);
+            ingExpirationDate.setText(year + "-" + "0" + displayMonth + "-" + day);
             return;
         }
         if (Integer.toString(day).length() == 1) {
-            ingExpirationDate.setText(year + "-" + month + "-" + "0" + day);
+            ingExpirationDate.setText(year + "-" + displayMonth + "-" + "0" + day);
             return;
         }
-        ingExpirationDate.setText(year + "-" + month + "-" + day);
+        ingExpirationDate.setText(year + "-" + displayMonth + "-" + day);
     }
 
     /**

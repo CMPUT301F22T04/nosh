@@ -17,23 +17,27 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
+import org.junit.Assert;
 
 /**
- * This class is responsible for intent testing of switching tabs.
+ * This class is responsible for intent tests of all US 03.
  * @author Lok Him Isaac Cheng
- * @version 1.0.1
+ * @version 1.0
  */
 @RunWith(AndroidJUnit4.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class SwitchTabTest {
+public class US03Test {
+    // Testing variables declaration
     private Solo solo;
-    private final int pause = 200;
+    private final int pause = 100;
+
+    // Establishes test rules
     @Rule
     public ActivityTestRule<Register> rule =
             new ActivityTestRule<>(Register.class, true, true);
 
     /**
-     * Runs before all tests and creates solo instance.
+     * Goes to the login page and login with credentials
      */
     @Before
     public void setUp(){
@@ -55,18 +59,37 @@ public class SwitchTabTest {
         solo.enterText((EditText) solo.getView(R.id.login_password), loginPassword);
         solo.clickOnButton("Login");
         solo.waitForActivity("Timeout", pause);
+
+        // Switch to Meal Plan tab
+        solo.clickOnText("Meal Plan");
+        solo.assertCurrentActivity("Wrong activity", MainActivity.class);
+        solo.waitForActivity("Timeout", pause * 2);
     }
 
+    /**
+     * US 03.01.01 Test
+     * This test if the app can make a meal plan with current recipe or ingredient storage.
+     */
     @Test
-    public void test1SwitchTabs(){
-        solo.clickOnText("Recipe");
-        solo.waitForActivity("Timeout", pause * 2);
-        solo.clickOnText("Meal Plan");
-        solo.waitForActivity("Timeout", pause * 2);
-        solo.clickOnText("Shopping List");
-        solo.waitForActivity("Timeout", pause * 2);
-        solo.clickOnText("Ingredients");
-        solo.waitForActivity("Timeout", pause * 10);
+    public void US030101Test(){
+        /* Create meal plan
+        String planName = "Healthy Plan";
+        solo.clickOnText("New Meal Plan");
+        solo.enterText((EditText) solo.getView(R.id.new_meal_plan_name), planName);
+         */
+
+
+    }
+
+    /**
+     * US 03.01.01 Test
+     * This test if the app can make a meal plan with current recipe or ingredient storage.
+     */
+    @Test
+    public void US030201Test(){
+        // Check if current activity is MainActivity
+
+
     }
 
     @After

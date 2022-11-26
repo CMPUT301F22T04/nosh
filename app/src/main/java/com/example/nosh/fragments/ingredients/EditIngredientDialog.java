@@ -113,7 +113,7 @@ public class EditIngredientDialog extends DialogFragment implements DatePickerDi
         ingExpirationDate.setText(DateUtil.formatDate(ingredient.getBestBeforeDate()));
         ingStorageLocation.setText(ingredient.getLocation());
         ingQuantity.setHint(Long.toString(ingredient.getAmount()));
-        ingUnit.setHint(Double.toString(ingredient.getUnit()));
+        ingUnit.setHint(ingredient.getUnit());
         ingCategory.setHint(ingredient.getCategory());
 
     }
@@ -143,9 +143,9 @@ public class EditIngredientDialog extends DialogFragment implements DatePickerDi
                 ingredient.getAmount() :
                 Long.parseLong(ingQuantity.getText().toString()));
 
-        double unit = ((ingUnit.getText().toString().isEmpty()) ?
+        String unit = ((ingUnit.getText().toString().isEmpty()) ?
                 ingredient.getUnit() :
-                Double.parseDouble(ingUnit.getText().toString()));
+                ingUnit.getText().toString());
 
         String category = ((ingCategory.getText().toString().isEmpty()) ?
                ingredient.getCategory() :
@@ -157,7 +157,7 @@ public class EditIngredientDialog extends DialogFragment implements DatePickerDi
         args.putSerializable("date", date);
         args.putString("location", storageLocation);
         args.putLong("qty", qty);
-        args.putDouble("unit", unit);
+        args.putString("unit", unit);
         args.putString("category", category);
 
         requireActivity().getSupportFragmentManager().setFragmentResult("edit_ingredient", args);
@@ -172,19 +172,20 @@ public class EditIngredientDialog extends DialogFragment implements DatePickerDi
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
         // Format Date String to be in the yyyy-mm-dd format
+        int displayMonth = month + 1;
         if (Integer.toString(month).length() == 1 && Integer.toString(day).length() == 1) {
-            ingExpirationDate.setText(year + "-" + "0" + month + "-" + "0" + day);
+            ingExpirationDate.setText(year + "-" + "0" + displayMonth + "-" + "0" + day);
             return;
         }
         if (Integer.toString(month).length() == 1) {
-            ingExpirationDate.setText(year + "-" + "0" + month + "-" + day);
+            ingExpirationDate.setText(year + "-" + "0" + displayMonth + "-" + day);
             return;
         }
         if (Integer.toString(day).length() == 1) {
-            ingExpirationDate.setText(year + "-" + month + "-" + "0" + day);
+            ingExpirationDate.setText(year + "-" + displayMonth + "-" + "0" + day);
             return;
         }
-        ingExpirationDate.setText(year + "-" + month + "-" + day);
+        ingExpirationDate.setText(year + "-" + displayMonth + "-" + day);
     }
 
     /**

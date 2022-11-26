@@ -7,6 +7,11 @@ import com.example.nosh.entity.MealPlan;
 import com.example.nosh.entity.Recipe;
 import com.example.nosh.utils.DateUtil;
 
+/**
+ * This class is a responsible for generating meal plan test cases for unit tests.
+ * @version 1.0
+ */
+
 public class TestMealPlanDB {
 
     public static MealPlan generateTestCase() {
@@ -18,10 +23,10 @@ public class TestMealPlanDB {
 
         mealPlan.setHashcode("1");
 
-        Meal mealA = new Meal(5, "breakfast");
+        Meal mealA = new Meal(5, "2022-11-26", "hash","breakfast");
         mealA.setHashcode("2");
 
-        Meal mealB = new Meal(10, "lunch");
+        Meal mealB = new Meal(10, "2022-11-26", "hash","lunch");
         mealB.setHashcode("3");
 
         MealComponent ingredientA = new Ingredient();
