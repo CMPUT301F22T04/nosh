@@ -103,7 +103,13 @@ public class US02Test {
      */
     //@Test
     public void US020201Test(){
-
+        // add ingredient button: add_recipe_ingredient
+        // ingredient name text: add_name_recipe_ingredient
+        // ingredient description text: add_description_recipe_ingredient
+        // ingredient quantity text: add_qty_recipe_ingredient
+        // ingredient unit text: add_unit_recipe_ingredient
+        // ingredient category text: add_ingredient_recipe_category
+        // submit button: submit_add_recipe_ingredient OR Confirm
     }
 
     /**
@@ -112,6 +118,8 @@ public class US02Test {
      */
     //@Test
     public void US020301Test(){
+        // delete ingredient button: del_btn_recipe_ingredient
+        // edit ingredient button: edit_btn_recipe_ingredient
     }
 
 
@@ -121,6 +129,7 @@ public class US02Test {
      */
     //@Test
     public void US020401Test(){
+        //
     }
 
     /**
@@ -129,6 +138,7 @@ public class US02Test {
      */
     //@Test
     public void US020501Test(){
+        // view id check 2.1.1
     }
 
 
@@ -138,7 +148,7 @@ public class US02Test {
      */
     //@Test
     public void US020601Test(){
-
+        // delete button del_btnR
     }
 
     /**
@@ -183,7 +193,7 @@ public class US02Test {
         solo.enterText((EditText) solo.getView(R.id.recipe_comment_field), comments);
         solo.waitForActivity("Timeout", pause);
 
-        solo.clickOnButton("Add");
+        solo.clickOnScreen(198,2007);
 
         solo.waitForActivity("Timeout", pause * 20);
     }
