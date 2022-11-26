@@ -68,6 +68,13 @@ public class RecipeController {
                 comments, photographRemote, title, ingredients);
     }
 
+    public void update(String hashcode, double preparationTime, long servings,
+                       String category, String comments, String photographRemote,
+                       String title, ArrayList<Ingredient> ingredients) {
+        recipeRepository.update(hashcode, preparationTime, servings, category,
+                comments, photographRemote, title, ingredients);
+    }
+
     /**
      * Return a list of StorageReference of recipe images in Firebase Storage
      */
