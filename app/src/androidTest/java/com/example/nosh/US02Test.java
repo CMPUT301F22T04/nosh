@@ -1,5 +1,6 @@
 package com.example.nosh;
 
+import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -74,6 +75,7 @@ public class US02Test {
         // Login
         String loginEmail = "testing@gmail.com";
         String loginPassword = "password12345";
+        solo.enterText((EditText) solo.getView(R.id.login_email), loginEmail);
         solo.enterText((EditText) solo.getView(R.id.login_password), loginPassword);
         solo.clickOnButton("Login");
         solo.waitForActivity("Timeout", pause);
@@ -170,17 +172,17 @@ public class US02Test {
         solo.waitForActivity("Timeout", pause);
 
         // Enter recipe info
-        solo.enterText((EditText) solo.getView(R.id.add_name), title);
-        solo.waitForActivity("Timeout", pause);
-        solo.enterText((EditText) solo.getView(R.id.preparation_time_field), String.valueOf(time));
-        solo.waitForActivity("Timeout", pause);
-        solo.enterText((EditText) solo.getView(R.id.serving_field), String.valueOf(servings));
+        solo.enterText((EditText) solo.getView(R.id.recipe_name_field), title);
         solo.waitForActivity("Timeout", pause);
         solo.enterText((EditText) solo.getView(R.id.recipe_category_field), category);
         solo.waitForActivity("Timeout", pause);
-        solo.enterText((EditText) solo.getView(R.id.add_description), comments);
+        solo.enterText((EditText) solo.getView(R.id.serving_field), String.valueOf(servings));
         solo.waitForActivity("Timeout", pause);
-        solo.clickOnButton("Add");
+        solo.enterText((EditText) solo.getView(R.id.preparation_time_field), String.valueOf(time));
+        solo.waitForActivity("Timeout", pause);
+        solo.enterText((EditText) solo.getView(R.id.recipe_comment_field), comments);
+        solo.waitForActivity("Timeout", pause);
+        solo.clickOnView(solo.getView("submit_recipe"));
         solo.waitForActivity("Timeout", pause * 20);
     }
 
