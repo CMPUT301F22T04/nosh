@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nosh.R;
@@ -25,11 +26,13 @@ public class NestedMealAdapter extends
     protected static class NestedViewHolder extends RecyclerView.ViewHolder{
         private final TextView textView;
         private final TextView servingsTextView;
+        private final CardView cardView;
 
         public NestedViewHolder(@NonNull View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.meal_name);
             servingsTextView = itemView.findViewById(R.id.textView11);
+            cardView = itemView.findViewById(R.id.meal_cardView);
         }
 
         public TextView getTextView() {
@@ -39,6 +42,8 @@ public class NestedMealAdapter extends
         public TextView getServingsTextView() {
             return servingsTextView;
         }
+
+        public CardView getCardView() { return cardView; }
     }
 
     @NonNull
@@ -55,6 +60,9 @@ public class NestedMealAdapter extends
     public void onBindViewHolder(@NonNull NestedViewHolder holder, int position) {
         holder.getTextView().setText(meals.get(position).getName());
         holder.getServingsTextView().setText(Integer.toString((int) meals.get(position).getServings()));
+        holder.cardView.setOnClickListener(v -> {
+            Integer i = position;
+        });
     }
 
     @Override
