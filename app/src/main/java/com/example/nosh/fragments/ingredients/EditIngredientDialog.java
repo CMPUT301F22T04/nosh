@@ -172,19 +172,20 @@ public class EditIngredientDialog extends DialogFragment implements DatePickerDi
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
         // Format Date String to be in the yyyy-mm-dd format
+        int displayMonth = month + 1;
         if (Integer.toString(month).length() == 1 && Integer.toString(day).length() == 1) {
-            ingExpirationDate.setText(year + "-" + "0" + month + "-" + "0" + day);
+            ingExpirationDate.setText(year + "-" + "0" + displayMonth + "-" + "0" + day);
             return;
         }
         if (Integer.toString(month).length() == 1) {
-            ingExpirationDate.setText(year + "-" + "0" + month + "-" + day);
+            ingExpirationDate.setText(year + "-" + "0" + displayMonth + "-" + day);
             return;
         }
         if (Integer.toString(day).length() == 1) {
-            ingExpirationDate.setText(year + "-" + month + "-" + "0" + day);
+            ingExpirationDate.setText(year + "-" + displayMonth + "-" + "0" + day);
             return;
         }
-        ingExpirationDate.setText(year + "-" + month + "-" + day);
+        ingExpirationDate.setText(year + "-" + displayMonth + "-" + day);
     }
 
     /**
