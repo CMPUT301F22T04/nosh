@@ -20,7 +20,7 @@ public abstract class MealComponent extends Hashable {
 
     @NonNull
     @Override
-    protected Object clone() throws CloneNotSupportedException {
+    public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
 }

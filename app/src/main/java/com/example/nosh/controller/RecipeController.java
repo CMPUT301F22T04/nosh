@@ -59,11 +59,18 @@ public class RecipeController {
         recipeRepository.scaleServings(hashcode, servings);
     }
 
-    public void update(String hashcode, double preparationTime, long servings,
+    public void updateNewImage(String hashcode, double preparationTime, long servings,
                        String category, String comments, Uri localPhotoUri,
                        String title, ArrayList<Ingredient> ingredients) {
         String photographRemote = recipeImageRepository.add(localPhotoUri);
 
+        recipeRepository.update(hashcode, preparationTime, servings, category,
+                comments, photographRemote, title, ingredients);
+    }
+
+    public void update(String hashcode, double preparationTime, long servings,
+                       String category, String comments, String photographRemote,
+                       String title, ArrayList<Ingredient> ingredients) {
         recipeRepository.update(hashcode, preparationTime, servings, category,
                 comments, photographRemote, title, ingredients);
     }
@@ -73,6 +80,10 @@ public class RecipeController {
      */
     public HashMap<String, StorageReference> getRecipeImagesRemote() {
         return recipeImageRepository.getRecipeImagesRemote();
+    }
+
+    public StorageReference getRecipeImageRemote(String remoteLocation) {
+        return recipeImageRepository.getRecipeImageRemote(remoteLocation);
     }
 
     /**

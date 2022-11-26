@@ -1,6 +1,8 @@
 package com.example.nosh.fragments.recipes;
 
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,6 +17,7 @@ public class RecipeViewHolder extends RecyclerView.ViewHolder {
     private final ImageView imageView;
     private final TextView nameTextView;
     private  final TextView descriptionTxtView;
+    private final ImageButton delBtn;
 
 
     private final class ViewHolderListener implements View.OnClickListener {
@@ -27,10 +30,14 @@ public class RecipeViewHolder extends RecyclerView.ViewHolder {
 
         @Override
         public void onClick(View v) {
-            listener.onEditClick(getAdapterPosition());
+
+            if (v.getId() == delBtn.getId()) {
+                listener.onDeleteButtonClick(getAdapterPosition());
+            } else {
+                listener.onEditClick(getAdapterPosition());
+            }
         }
     }
-
     RecipeViewHolder(RecipeAdapter.RecyclerViewListener listener,
                             @NonNull View itemView) {
         super(itemView);
@@ -38,9 +45,11 @@ public class RecipeViewHolder extends RecyclerView.ViewHolder {
         imageView = itemView.findViewById(R.id.recipe_entry_img);
         nameTextView = itemView.findViewById(R.id.recipe_entry_name);
         descriptionTxtView = itemView.findViewById(R.id.recipe_entry_description);
+        delBtn = itemView.findViewById(R.id.del_btnR);
 
         ViewHolderListener viewHolderListener = new ViewHolderListener(listener);
 
+        delBtn.setOnClickListener(viewHolderListener);
         itemView.setOnClickListener(viewHolderListener);
     }
 
