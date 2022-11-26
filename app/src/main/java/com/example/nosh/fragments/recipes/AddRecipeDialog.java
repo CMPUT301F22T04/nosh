@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -55,6 +56,7 @@ public class AddRecipeDialog extends DialogFragment {
     private ActivityResultLauncher<Intent> launcher;
 
     private Uri recipeImageUri;
+    private Drawable originalImage;
     private ArrayList<Ingredient> ingredients;
     private RecipeIngredientAdapter adapter;
     private RecipeController controller;
@@ -165,6 +167,7 @@ public class AddRecipeDialog extends DialogFragment {
         backButton = view.findViewById(R.id.add_recipe_back_btn);
 
         recipeImageView = view.findViewById(R.id.recipe_image_view);
+        originalImage = recipeImageView.getDrawable();
 
         recipeName = view.findViewById(R.id.recipe_name_field);
         prepInput = view.findViewById(R.id.preparation_time_field);
@@ -221,11 +224,11 @@ public class AddRecipeDialog extends DialogFragment {
             commentInput.setError("Cannot be empty");
             invalidInput = false;
         }
-        if (recipeImageView.getDrawable()==null){
+        if (recipeImageView.getDrawable()==originalImage){
             Context context = getActivity().getApplicationContext();
-            CharSequence text = "Image cannot be empty!";
+            CharSequence text = "Please Select an Image!";
             int duration = Toast.LENGTH_SHORT;
-
+            invalidInput = false;
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
         }
