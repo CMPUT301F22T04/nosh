@@ -92,10 +92,10 @@ public class EntityUtil {
         }
 
         try {
-            ingredient.setUnit((Double)
+            ingredient.setUnit((String)
                     Objects.requireNonNull(map.get("unit")));
         } catch (ClassCastException e) {
-            ingredient.setUnit((double) (Long)
+            ingredient.setUnit((String)
                     Objects.requireNonNull(map.get("unit")));
         }
 

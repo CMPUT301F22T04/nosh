@@ -38,7 +38,7 @@ public class US01Test {
     int year1 = 2025, month1 = 11, day1 = 20;
     String date1 = year1 + "-" + month1 + "-" + day1;
     int quantity1 = 500;
-    int unit1 = 1;
+    String unit1 = "g";
     String category1 = "Pasta";
 
     // Sample Ingredient (Salt) Information
@@ -48,7 +48,7 @@ public class US01Test {
     int year2 = 2030, month2 = 10, day2 = 12;
     String date2 = year2 + "-" + month2 + "-" + day2;
     int quantity2 = 300;
-    int unit2 = 4;
+    String unit2 = "gram";
     String category2 = "Flavouring";
 
     // Sample Ingredient (Tomato Sauce) Information
@@ -57,8 +57,8 @@ public class US01Test {
     String location3 = "Cabinet";
     int year3 = 2023, month3 = 11, day3 = 25;
     String date3 = year3 + "-" + month3 + "-" + day3;
-    int quantity3 = 398;
-    int unit3 = 2;
+    int quantity3 = 12;
+    String unit3 = "cans";
     String category3 = "Sauce";
 
     // Establishes test rules
@@ -234,7 +234,7 @@ public class US01Test {
      * @param category Category of the ingredient
      */
     public void addIngredient(String name, String description, String location, int year,
-                              int month, int day, int quantity, int unit,
+                              int month, int day, int quantity, String unit,
                               String category){
         // Press add button
         solo.clickOnView(solo.getView("add_btn"));

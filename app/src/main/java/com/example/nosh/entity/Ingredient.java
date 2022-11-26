@@ -12,7 +12,7 @@ public class Ingredient extends MealComponent {
 
     private boolean inStorage = false;
     private Date bestBeforeDate = new Date();
-    private double unit;
+    private String unit;
     private long amount;
     private String category = "";
     private String description = "";
@@ -26,7 +26,7 @@ public class Ingredient extends MealComponent {
     /**
      * This constructor is for creating ingredients in the ingredient storage
      */
-    public Ingredient(Date bestBeforeDate, double unit, long amount,
+    public Ingredient(Date bestBeforeDate, String unit, long amount,
                       String category, String description, String location,
                       String name) {
         this(unit, amount, category, description, name);
@@ -37,7 +37,7 @@ public class Ingredient extends MealComponent {
         inStorage = true;
     }
 
-    public Ingredient(double unit, long amount, String category, String description,
+    public Ingredient(String unit, long amount, String category, String description,
                       String name) {
         this();
         this.amount = amount;
@@ -82,11 +82,11 @@ public class Ingredient extends MealComponent {
         this.bestBeforeDate = (Date) bestBeforeDate.clone();
     }
 
-    public double getUnit() {
+    public String getUnit() {
         return unit;
     }
 
-    public void setUnit(double unit) {
+    public void setUnit(String unit) {
         this.unit = unit;
     }
 

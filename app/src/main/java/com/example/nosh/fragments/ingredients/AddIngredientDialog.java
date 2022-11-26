@@ -127,7 +127,7 @@ public class AddIngredientDialog extends DialogFragment implements DatePickerDia
         args.putSerializable("date", date);
         args.putString("location", ingStorageLocation.getText().toString());
         args.putInt("qty", Integer.parseInt(ingQuantity.getText().toString()));
-        args.putDouble("unit", Double.parseDouble(ingUnit.getText().toString()));
+        args.putString("unit", ingUnit.getText().toString());
         args.putString("category", ingCategory.getText().toString());
 
         requireActivity().getSupportFragmentManager().setFragmentResult("add_ingredient", args);

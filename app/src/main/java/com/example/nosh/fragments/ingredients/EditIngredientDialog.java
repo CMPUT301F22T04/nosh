@@ -113,7 +113,7 @@ public class EditIngredientDialog extends DialogFragment implements DatePickerDi
         ingExpirationDate.setText(DateUtil.formatDate(ingredient.getBestBeforeDate()));
         ingStorageLocation.setText(ingredient.getLocation());
         ingQuantity.setHint(Long.toString(ingredient.getAmount()));
-        ingUnit.setHint(Double.toString(ingredient.getUnit()));
+        ingUnit.setHint(ingredient.getUnit());
         ingCategory.setHint(ingredient.getCategory());
 
     }
@@ -143,9 +143,9 @@ public class EditIngredientDialog extends DialogFragment implements DatePickerDi
                 ingredient.getAmount() :
                 Long.parseLong(ingQuantity.getText().toString()));
 
-        double unit = ((ingUnit.getText().toString().isEmpty()) ?
+        String unit = ((ingUnit.getText().toString().isEmpty()) ?
                 ingredient.getUnit() :
-                Double.parseDouble(ingUnit.getText().toString()));
+                ingUnit.getText().toString());
 
         String category = ((ingCategory.getText().toString().isEmpty()) ?
                ingredient.getCategory() :
@@ -157,7 +157,7 @@ public class EditIngredientDialog extends DialogFragment implements DatePickerDi
         args.putSerializable("date", date);
         args.putString("location", storageLocation);
         args.putLong("qty", qty);
-        args.putDouble("unit", unit);
+        args.putString("unit", unit);
         args.putString("category", category);
 
         requireActivity().getSupportFragmentManager().setFragmentResult("edit_ingredient", args);
