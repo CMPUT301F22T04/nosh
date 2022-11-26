@@ -288,6 +288,7 @@ public class EditRecipeDialog extends DialogFragment implements Observer {
             args.putString("Code","updateImage");
         }
         else{
+            args.putString("PhotoUrI",rec.getPhotographRemote());
             args.putString("Code","noUpdate");
         }
 

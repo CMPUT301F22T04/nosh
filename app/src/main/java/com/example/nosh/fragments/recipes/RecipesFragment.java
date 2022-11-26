@@ -114,16 +114,31 @@ public class RecipesFragment extends Fragment implements Observer {
                 //break;
             }
             if(requestKey.equals("edit_recipe")){
-                controller.update(
-                        result.getString("hashcode"),
-                        result.getDouble("prep"),
-                        result.getLong("servings"),
-                        result.getString("category"),
-                        result.getString("comments"),
-                        result.getParcelable("photoUri"),
-                        result.getString("name"),
-                        (ArrayList<Ingredient>) result.getSerializable("ingredients")
-                );
+                String res = result.getString("Code");
+                if (res.equalsIgnoreCase("updateImage")) {
+                    controller.updateNewImage(
+                            result.getString("hashcode"),
+                            result.getDouble("prep"),
+                            result.getLong("servings"),
+                            result.getString("category"),
+                            result.getString("comments"),
+                            result.getParcelable("photoUri"),
+                            result.getString("name"),
+                            (ArrayList<Ingredient>) result.getSerializable("ingredients")
+                    );
+                }
+                else{
+                    controller.update(
+                            result.getString("hashcode"),
+                            result.getDouble("prep"),
+                            result.getLong("servings"),
+                            result.getString("category"),
+                            result.getString("comments"),
+                            result.getString("photoUri"),
+                            result.getString("name"),
+                            (ArrayList<Ingredient>) result.getSerializable("ingredients")
+                    );
+                }
             }
         }
 

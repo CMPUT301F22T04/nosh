@@ -59,7 +59,7 @@ public class RecipeController {
         recipeRepository.scaleServings(hashcode, servings);
     }
 
-    public void update(String hashcode, double preparationTime, long servings,
+    public void updateNewImage(String hashcode, double preparationTime, long servings,
                        String category, String comments, Uri localPhotoUri,
                        String title, ArrayList<Ingredient> ingredients) {
         String photographRemote = recipeImageRepository.add(localPhotoUri);
