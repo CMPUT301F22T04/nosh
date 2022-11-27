@@ -30,7 +30,7 @@ import org.junit.Assert;
 public class US03Test {
     // Testing variables declaration
     private Solo solo;
-    private final int pause = 100;
+    private final int pause = 300;
 
     // Establishes test rules
     @Rule
@@ -86,13 +86,59 @@ public class US03Test {
         solo.waitForActivity("Timeout", pause * 20);
 
         // Step 2 - Day 1
-        String mealName = "Spaghetti Meal";
-        int mealServing = 2;
-        solo.enterText((EditText) solo.getView(R.id.new_meal_name), mealName);
+        String mealName1 = "Spaghetti Meal";
+        int mealServing1 = 2;
+        solo.enterText((EditText) solo.getView(R.id.new_meal_name), mealName1);
+        solo.waitForActivity("Timeout", pause * 2);
         solo.enterText((EditText) solo.getView(R.id.new_meal_servings),
-                String.valueOf(mealServing));
+                String.valueOf(mealServing1));
+        solo.waitForActivity("Timeout", pause * 2);
         solo.clickOnText("Tomato Sauce Spaghetti");
+        solo.clickOnView(solo.getView(R.id.finish_adding_meals_button));
+        solo.waitForActivity("Timeout", pause * 10);
 
+        // Step 2 - Day 2
+        String mealName2 = "Yummy Sandwich";
+        int mealServing2 = 1;
+        solo.clearEditText((EditText) solo.getView(R.id.new_meal_name));
+        solo.waitForActivity("Timeout", pause * 2);
+        solo.enterText((EditText) solo.getView(R.id.new_meal_name), mealName2);
+        solo.waitForActivity("Timeout", pause * 2);
+        solo.clearEditText((EditText) solo.getView(R.id.new_meal_servings));
+        solo.waitForActivity("Timeout", pause * 2);
+        solo.enterText((EditText) solo.getView(R.id.new_meal_servings),
+                String.valueOf(mealServing2));
+        solo.waitForActivity("Timeout", pause * 2);
+        solo.clickOnText("Tomato Sauce Spaghetti");
+        solo.clickOnText("Tuna Fish Sandwich");
+        solo.clickOnView(solo.getView(R.id.finish_adding_meals_button));
+        solo.waitForActivity("Timeout", pause * 5);
+
+        // Step 2 - Day 3
+        String mealName3 = "Spaghetti and Pie";
+        int mealServing3 = 3;
+        solo.clearEditText((EditText) solo.getView(R.id.new_meal_name));
+        solo.waitForActivity("Timeout", pause * 2);
+        solo.enterText((EditText) solo.getView(R.id.new_meal_name), mealName3);
+        solo.waitForActivity("Timeout", pause * 2);
+        solo.clearEditText((EditText) solo.getView(R.id.new_meal_servings));
+        solo.waitForActivity("Timeout", pause * 2);
+        solo.enterText((EditText) solo.getView(R.id.new_meal_servings),
+                String.valueOf(mealServing3));
+        solo.waitForActivity("Timeout", pause * 2);
+        solo.clickOnText("Tomato Sauce Spaghetti");
+        solo.clickOnText("Blueberry Pie");
+        solo.clickOnText("Tuna Fish Sandwich");
+        solo.clickOnView(solo.getView(R.id.finish_adding_meals_button));
+        solo.waitForActivity("Timeout", pause * 10);
+    }
+
+    /**
+     * US 03.01.01 Test
+     * This test if the app can make a meal plan with current recipe or ingredient storage.
+     */
+    @Test
+    public void US030201Test(){
 
 
 
@@ -103,17 +149,6 @@ public class US03Test {
         solo.setDatePicker(0, year, month, day);
         solo.clickOnText("OK");
         solo.waitForActivity("Timeout", pause * 10);
-    }
-
-    /**
-     * US 03.01.01 Test
-     * This test if the app can make a meal plan with current recipe or ingredient storage.
-     */
-    @Test
-    public void US030201Test(){
-        // Check if current activity is MainActivity
-
-
     }
 
     @After
