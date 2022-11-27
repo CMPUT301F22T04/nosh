@@ -164,37 +164,38 @@ public class NewMealPlanActivity extends AppCompatActivity implements Observer,
     @SuppressLint("SetTextI18n")
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+        int displayMonth = month + 1;
         if (Integer.toString(month).length() == 1 && Integer.toString(day).length() == 1) {
             if (selectingStartDate){
-                planStart.setText(year + "-" + "0" + month + "-" + "0" + day);
+                planStart.setText(year + "-" + "0" + displayMonth + "-" + "0" + day);
             } else {
-                planEnd.setText(year + "-" + "0" + month + "-" + "0" + day);
+                planEnd.setText(year + "-" + "0" + displayMonth + "-" + "0" + day);
             }
             return;
         }
         
         if (Integer.toString(month).length() == 1) {
             if (selectingStartDate){
-                planStart.setText(year + "-" + "0" + month + "-" + day);
+                planStart.setText(year + "-" + "0" + displayMonth + "-" + day);
             } else {
-                planEnd.setText(year + "-" + "0" + month + "-" + day);
+                planEnd.setText(year + "-" + "0" + displayMonth + "-" + day);
             }
             return;
         }
         
         if (Integer.toString(day).length() == 1) {
             if (selectingStartDate) {
-                planStart.setText(year + "-" + month + "-" + "0" + day);
+                planStart.setText(year + "-" + displayMonth + "-" + "0" + day);
             } else {
-                planEnd.setText(year + "-" + month + "-" + "0" + day);
+                planEnd.setText(year + "-" + displayMonth + "-" + "0" + day);
             }
             return;
         }
 
         if (selectingStartDate) {
-            planStart.setText(year + "-" + month + "-" + day);
+            planStart.setText(year + "-" + displayMonth + "-" + day);
         } else {
-            planEnd.setText(year + "-" + month + "-" + day);
+            planEnd.setText(year + "-" + displayMonth + "-" + day);
         }
     }
 }
