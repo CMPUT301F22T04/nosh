@@ -231,7 +231,7 @@ public class US02Test {
         addRecipe(title1, time1, servings1, category1, comments1, ingredients1);
         addRecipe(title2, time2, servings2, category2, comments2, ingredients2);
         addRecipe(title3, time3, servings3, category3, comments3, ingredients3);
-        solo.waitForActivity("Timeout", pause * 100);
+        solo.waitForActivity("Timeout", pause * 40);
     }
 
     /**
