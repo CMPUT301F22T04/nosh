@@ -65,9 +65,26 @@ public class US02Test {
     MockIngredient ing2 = new MockIngredient("Tomato",
             "A healthy nutritious fruit.", 300, "gram", "Fruit");
 
-    // Sa,ple Ingredient 3 (Cheese)
+    // Sample Ingredient 3 (Cheese)
     MockIngredient ing3 = new MockIngredient("Cheese",
             "Coagulation of the milk protein.", 50, "gram", "Dairy");
+
+    // Sample Ingredient 4 (Blueberry)
+    MockIngredient ing4 = new MockIngredient("Blueberry",
+            "A berry good for bones and heart.", 150, "gram", "Fruit");
+
+    // Sample Ingredient 5 (Flour)
+    MockIngredient ing5 = new MockIngredient("Flour",
+            "Whole wheat flour for baking.", 200, "gram", "Baking");
+
+    // Sample Ingredient 6 (Tuna Filling)
+    MockIngredient ing6 = new MockIngredient("Tuna Filling",
+            "Tasty filling for sandwich.", 300, "gram", "Filling");
+
+    // Sample Ingredient 7 (Bread Slice)
+    MockIngredient ing7 = new MockIngredient("Bread Slice",
+            "Fluffy, fresh bread slices.", 2, "slices", "Grain");
+
 
     // Establishes test rules
     @Rule
@@ -110,7 +127,7 @@ public class US02Test {
      * Note: as robotium cannot control activities outside of this application, image adding
      * cannot be tested, it has to be added manually during the test
      */
-    @Test
+    //@Test
     public void US020101Test(){
         ArrayList<MockIngredient> ingredients = new ArrayList<>();
         ingredients.add(ing1);
@@ -123,7 +140,7 @@ public class US02Test {
      * US 02.02.01 Test
      * This test if the app adds an ingredient to a recipe successfully.
      */
-    @Test
+    //@Test
     public void US020201Test(){
         solo.clickOnText("Tomato Sauce Spaghetti");
         solo.waitForActivity("Timeout", pause * 40);
@@ -149,7 +166,7 @@ public class US02Test {
      * US 02.04.01 Test
      * This test if the app view details properly.
      */
-    @Test
+    //@Test
     public void US020401Test(){
         solo.clickOnText("Tomato Sauce Spaghetti");
         solo.waitForActivity("Timeout", pause * 40);
@@ -161,7 +178,7 @@ public class US02Test {
      * US 02.05.01 Test
      * This test if the app edit details properly.
      */
-    @Test
+    //@Test
     public void US020501Test(){
         solo.clickOnText("Tomato Sauce Spaghetti");
 
@@ -173,8 +190,6 @@ public class US02Test {
         solo.clearEditText((EditText) solo.getView(R.id.preparation_time_field));
         solo.enterText((EditText) solo.getView(R.id.preparation_time_field), String.valueOf(time));
 
-        ArrayList<MockIngredient> ingredients= new ArrayList<>();
-        addIngredientsToRecipe(ing1);
         addIngredientsToRecipe(ing3);
 
         String description = "A tasty pasta for everyone with cheese.";
@@ -193,7 +208,7 @@ public class US02Test {
      * US 02.06.01 Test
      * This test if the app deletes a recipe successfully.
      */
-    @Test
+    //@Test
     public void US020601Test(){
         // delete button del_btnR
         solo.clickOnView(solo.getView(R.id.del_btnR));
@@ -206,18 +221,24 @@ public class US02Test {
      */
     @Test
     public void US020701Test(){
-        ArrayList<MockIngredient> ingredients = new ArrayList<>();
-        addRecipe(title1, time1, servings1, category1, comments1, ingredients);
-        addRecipe(title2, time2, servings2, category2, comments2, ingredients);
-        addRecipe(title3, time3, servings3, category3, comments3, ingredients);
-        solo.waitForActivity("Timeout", pause * 100);
+        ArrayList<MockIngredient> ingredients1 = new ArrayList<>();
+        ingredients1.add(ing1); ingredients1.add(ing2); ingredients1.add(ing3);
+        ArrayList<MockIngredient> ingredients2 = new ArrayList<>();
+        ingredients2.add(ing6); ingredients2.add(ing7);
+        ArrayList<MockIngredient> ingredients3 = new ArrayList<>();
+        ingredients3.add(ing4); ingredients3.add(ing5);
+
+        addRecipe(title1, time1, servings1, category1, comments1, ingredients1);
+        addRecipe(title2, time2, servings2, category2, comments2, ingredients2);
+        addRecipe(title3, time3, servings3, category3, comments3, ingredients3);
+        solo.waitForActivity("Timeout", pause * 40);
     }
 
     /**
      * US 02.08.01 Test
      * This test if recipe sorted correctly.
      */
-    @Test
+    //@Test
     public void US020801Test(){
         sortRecipe(0, 0);
         sortRecipe(1, 1);
@@ -287,13 +308,13 @@ public class US02Test {
         // Pick criteria
         switch(criteria) {
             case 0:
-                solo.clickOnText("Description");
+                solo.clickOnText("Title");
                 break;
             case 1:
-                solo.clickOnText("Best Before Date");
+                solo.clickOnText("Prep time");
                 break;
             case 2:
-                solo.clickOnText("Location");
+                solo.clickOnText("Servings");
                 break;
             case 3:
                 solo.clickOnText("Category");
