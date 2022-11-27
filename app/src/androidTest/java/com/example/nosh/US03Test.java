@@ -95,7 +95,7 @@ public class US03Test {
         solo.waitForActivity("Timeout", pause * 2);
         solo.clickOnText("Tomato Sauce Spaghetti");
         solo.clickOnView(solo.getView(R.id.finish_adding_meals_button));
-        solo.waitForActivity("Timeout", pause * 10);
+        solo.waitForActivity("Timeout", pause * 5);
 
         // Step 2 - Day 2
         String mealName2 = "Yummy Sandwich";
@@ -130,7 +130,7 @@ public class US03Test {
         solo.clickOnText("Blueberry Pie");
         solo.clickOnText("Tuna Fish Sandwich");
         solo.clickOnView(solo.getView(R.id.finish_adding_meals_button));
-        solo.waitForActivity("Timeout", pause * 10);
+        solo.waitForActivity("Timeout", pause * 5);
     }
 
     /**
