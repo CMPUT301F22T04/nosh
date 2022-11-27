@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 
@@ -68,6 +69,20 @@ public class MealPlanComponent extends Hashable implements Iterable<Meal> {
         for (Map.Entry<String, Meal> entry : meals.entrySet()) {
             this.meals.put(entry.getKey(), new Meal(entry.getValue()));
         }
+    }
+
+    void scaleMeal(String hashcode, int scaling) {
+        Objects.requireNonNull(meals.get(hashcode)).setServings(scaling);
+    }
+
+    void scaleMeals(int scaling) {
+        for (Meal meal : meals.values()) {
+            meal.setServings(scaling);
+        }
+    }
+
+    public int getSize() {
+        return meals.size();
     }
 
     @NonNull

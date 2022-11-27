@@ -9,6 +9,7 @@ import com.example.nosh.fragments.ingredients.IngredientsFragment;
 import com.example.nosh.fragments.plan.MealsOfDayDialog;
 import com.example.nosh.fragments.plan.PlanFragment;
 import com.example.nosh.fragments.list.ListFragment;
+import com.example.nosh.fragments.plan.ScaleMealPlanDialog;
 import com.example.nosh.fragments.recipes.EditRecipeDialog;
 import com.example.nosh.fragments.recipes.RecipesFragment;
 
@@ -52,4 +53,6 @@ public interface ApplicationComponent {
     void inject(ListFragment listFragment);
 
     void inject (EditRecipeDialog editRecipeDialog);
+
+    void inject (ScaleMealPlanDialog scaleMealPlanDialog);
 }

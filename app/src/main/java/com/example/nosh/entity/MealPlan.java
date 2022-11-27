@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.example.nosh.utils.DateUtil;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -102,6 +103,10 @@ public class MealPlan extends Hashable
         return plans;
     }
 
+    public ArrayList<Meal> getMealsByDay(String date) {
+        return Objects.requireNonNull(plans.get(date)).getMeals();
+    }
+
     public void setPlans(HashMap<String, MealPlanComponent> plans) {
         assert plans != null;
 
@@ -111,6 +116,40 @@ public class MealPlan extends Hashable
              plans.entrySet()) {
             this.plans.put(pairs.getKey(), new MealPlanComponent(pairs.getValue()));
         }
+    }
+
+    public MealPlanComponent getPlanByDay(String dateString) {
+        return new MealPlanComponent(Objects.requireNonNull(plans.get(dateString)));
+    }
+
+    public ArrayList<String> getDays() {
+        return new ArrayList<>(plans.keySet());
+    }
+
+    public ArrayList<String> getDaysWithMeals() {
+        ArrayList<String> dates = new ArrayList<>();
+
+        for (String date : plans.keySet()) {
+            if (Objects.requireNonNull(plans.get(date)).getSize() > 0) {
+                dates.add(date);
+            }
+        }
+
+        return dates;
+    }
+
+    public void scaleMealPlan(int scaling) {
+        for (MealPlanComponent mealPlanComponent : plans.values()) {
+            mealPlanComponent.scaleMeals(scaling);
+        }
+    }
+
+    public void scaleDay(String date, int scaling) {
+        Objects.requireNonNull(plans.get(date)).scaleMeals(scaling);
+    }
+
+    public void scaleMeal(String date, String hashcode, int scaling) {
+        Objects.requireNonNull(plans.get(date)).scaleMeal(hashcode, scaling);
     }
 
     public long getTotalDays() {

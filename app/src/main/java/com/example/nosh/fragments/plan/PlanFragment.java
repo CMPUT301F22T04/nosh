@@ -14,6 +14,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -50,7 +51,8 @@ public class PlanFragment extends Fragment implements Observer {
     private FragmentListener fragmentListener;
 
     private class FragmentListener implements View.OnClickListener,
-            ActivityResultCallback<ActivityResult>, MealPlanRecyclerViewListener {
+            ActivityResultCallback<ActivityResult>, MealPlanRecyclerViewListener,
+            FragmentResultListener {
 
         @Override
         public void onClick(View v) {
@@ -64,7 +66,8 @@ public class PlanFragment extends Fragment implements Observer {
 
                 activityResultLauncher.launch(intent);
             } else if (v.getId() == R.id.scale_recipes_button) {
-
+                ScaleMealPlanDialog scaleMealPlanDialog = ScaleMealPlanDialog.newInstance();
+                scaleMealPlanDialog.show(getParentFragmentManager(), "SCALE_MEAL_PLAN");
             }
         }
 
@@ -85,9 +88,22 @@ public class PlanFragment extends Fragment implements Observer {
         @Override
         public void onDeleteItemClick(int position) {
             if (position >= 0) {
-                controller.delete(mealPlans.get(0));
+                controller.delete(mealPlans.get(position));
 
-                adapter.notifyItemChanged(position);
+                adapter.notifyItemRemoved(position);
+            }
+        }
+
+        @Override
+        public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+            if (requestKey.compareTo(ScaleMealPlanDialog.TAG) == 0) {
+                controller.scaling(
+                        result.getString("scalingType"),
+                        result.getInt("scaling"),
+                        result.getString("mealPlanHash"),
+                        result.getString("date"),
+                        result.getString("mealHash")
+                );
             }
         }
     }
@@ -141,8 +157,18 @@ public class PlanFragment extends Fragment implements Observer {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         Button newMealPlanButton = v.findViewById(R.id.new_meal_plan_button);
+        Button scaleMealPlanButton = v.findViewById(R.id.scale_recipes_button);
 
         newMealPlanButton.setOnClickListener(fragmentListener);
+        scaleMealPlanButton.setOnClickListener(fragmentListener);
+
+        requireActivity()
+                .getSupportFragmentManager()
+                .setFragmentResultListener(
+                        ScaleMealPlanDialog.TAG,
+                        getViewLifecycleOwner(),
+                        fragmentListener
+                );
 
         return v;
     }

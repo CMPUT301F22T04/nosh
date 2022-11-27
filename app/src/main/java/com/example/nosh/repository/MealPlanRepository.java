@@ -75,7 +75,7 @@ public class MealPlanRepository extends Repository {
 
         for (MealComponent mealComponent : mealComponents) {
             try {
-                if(codes.contains(mealComponent.getHashcode())== false){
+                if(!codes.contains(mealComponent.getHashcode())){
                     usedMealComponents.add((MealComponent) mealComponent.clone());
                     codes.add(mealComponent.getHashcode());
                 }
@@ -108,6 +108,24 @@ public class MealPlanRepository extends Repository {
         transaction.putContents(MEAL_PLAN_HASHCODE, hashcode);
 
         notifyObservers(transaction);
+    }
+
+    public void scale(int scaling, String mealPlanHash) {
+        Objects.requireNonNull(mealPlans.get(mealPlanHash)).scaleMealPlan(scaling);
+
+        dbController.update(mealPlans.get(mealPlanHash));
+    }
+
+    public void scaleDay(int scaling, String mealPlanHash, String date) {
+        Objects.requireNonNull(mealPlans.get(mealPlanHash)).scaleDay(date, scaling);
+
+        dbController.update(mealPlans.get(mealPlanHash));
+    }
+
+    public void scaleMeal(int scaling, String mealPlanHash, String date, String mealHash) {
+        Objects.requireNonNull(mealPlans.get(mealPlanHash)).scaleMeal(date, mealHash, scaling);
+
+        dbController.update(mealPlans.get(mealPlanHash));
     }
 
     public void delete(MealPlan mealPlan) {

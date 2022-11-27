@@ -35,9 +35,6 @@ public class MealPlanController {
 
     /**
      * Receive all necessary information from users to create a a new mealplan
-     * @param name
-     * @param startDate
-     * @param endDate
      */
     public void add(String name, Date startDate, Date endDate) {
         mealPlanRepository.add(name, startDate, endDate);
@@ -94,6 +91,17 @@ public class MealPlanController {
         meal.setUsedDate(dateString);
 
         mealPlanRepository.addMealToDay(hashcode, dateString, meal);
+    }
+
+    public void scaling(String scalingType, int scaling, String mealPlanHash,
+                        String date, String mealHash) {
+        if (scalingType.compareTo("PLAN") == 0) {
+            mealPlanRepository.scale(scaling, mealPlanHash);
+        } else if (scalingType.compareTo("DAY") == 0) {
+            mealPlanRepository.scaleDay(scaling, mealPlanHash, date);
+        } else if (scalingType.compareTo("MEAL") == 0) {
+            mealPlanRepository.scaleMeal(scaling, mealPlanHash, date, mealHash);
+        }
     }
 
     /**

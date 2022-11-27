@@ -54,4 +54,10 @@
     <string name="recipe_comment_field_hint">Comments…</string>
     <string name="add">Add</string>
     <string name="delete_meal_plan">Delete Meal Plan</string>
+    <string name="scaling">Scaling</string>
+    <string name="select_a_meal_plan">Select a meal plan</string>
+    <string name="selected_meal_plan_day">Select a day in the selected meal plan</string>
+    <string name="select_a_meal_in_the_selected_day">Select a meal in the selected day</string>
+    <string name="confirm">Confirm</string>
+    <string name="zero">0</string>
 </resources>
