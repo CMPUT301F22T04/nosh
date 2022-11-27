@@ -144,6 +144,8 @@ public class MealPlanRepository extends Repository {
             assert latestMealComponent != null;
             mealComponents.replace(hash, latestMealComponent);
         }
+
+        super.notifyObservers();
     }
 
     public ArrayList<MealPlan> retrieve() {
@@ -187,7 +189,7 @@ public class MealPlanRepository extends Repository {
 
                     MealComponent localMealComponent = null;
 
-                    if  (mealComponents.containsKey(hash) && mealComponents.get(hash) == null) {
+                    if  (!mealComponents.containsKey(hash)) {
                         if (ingredientRepository.retrieve(hash) != null) {
                             localMealComponent = ingredientRepository.retrieve(hash);
                         } else if (recipeRepository.retrieve(hash) != null) {
@@ -196,6 +198,8 @@ public class MealPlanRepository extends Repository {
 
                         assert localMealComponent != null;
                         mealComponents.put(hash, localMealComponent);
+                    } else {
+                        localMealComponent = mealComponents.get(hash);
                     }
 
                     assert localMealComponent != null;

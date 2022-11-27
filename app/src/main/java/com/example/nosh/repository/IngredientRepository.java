@@ -55,6 +55,21 @@ public class IngredientRepository extends Repository {
         super.add(ingredient);
     }
 
+
+    public void add(Date bestBeforeDate, String unit, long amount,
+                    String category, String description, String location,
+                    String name, String hashcode) {
+
+        Ingredient ingredient = new Ingredient(bestBeforeDate, unit, amount,
+                category, description, location, name);
+
+        ingredient.setHashcode(hashcode);
+
+        ingredients.put(ingredient.getHashcode(), ingredient);
+
+        super.add(ingredient);
+    }
+
     public ArrayList<Ingredient> retrieve() {
         ArrayList<Ingredient> ingredients = new ArrayList<>();
 

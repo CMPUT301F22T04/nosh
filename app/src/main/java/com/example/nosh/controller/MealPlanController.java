@@ -93,6 +93,10 @@ public class MealPlanController {
         mealPlanRepository.addMealToDay(hashcode, dateString, meal);
     }
 
+    public void syncMealComponents() {
+        mealPlanRepository.syncMealComponents();
+    }
+
     public void scaling(String scalingType, int scaling, String mealPlanHash,
                         String date, String mealHash) {
         if (scalingType.compareTo("PLAN") == 0) {

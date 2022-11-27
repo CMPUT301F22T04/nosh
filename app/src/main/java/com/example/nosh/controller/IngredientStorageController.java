@@ -47,6 +47,13 @@ public class IngredientStorageController {
                 description, location, name);
     }
 
+    public void add(Date bestBeforeDate, long amount, String unit, String name,
+                    String description, String category, String location, String hashcode) {
+
+        ingredientRepository.add(bestBeforeDate, unit, amount, category,
+                description, location, name, hashcode);
+    }
+
     /**
      * Ask IngredientRepository to return a list reference of ingredient objects
      */
