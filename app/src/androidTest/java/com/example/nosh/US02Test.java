@@ -2,6 +2,7 @@ package com.example.nosh;
 
 import android.widget.Button;
 import android.widget.EditText;
+import java.util.ArrayList;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -33,7 +34,7 @@ import java.util.ArrayList;
 public class US02Test {
     // Testing variables declaration
     private Solo solo;
-    private final int pause = 200;
+    private final int pause = 100;
 
     // Sample Recipe (Tomato Sauce Spaghetti) Information
     String title1 = "Tomato Sauce Spaghetti";
@@ -55,6 +56,14 @@ public class US02Test {
     int servings3 = 4;
     String category3 = "Pastry";
     String comments3 = "Juicy blueberries in a golden crust.";
+
+    // Sample Ingredient 1 (Spaghetti)
+    MockIngredient ing1 = new MockIngredient("Spaghetti",
+            "A long, thin pasta.", 500, "gram", "Pasta");
+
+    // Sample Ingredient 2 (Tomato)
+    MockIngredient ing2 = new MockIngredient("Tomato",
+            "A healthy nutritious fruit.", 300, "gram", "Fruit");
 
     // Establishes test rules
     @Rule
@@ -95,38 +104,42 @@ public class US02Test {
      * US 02.01.01 Test
      * This test if the app adds a recipe successfully.
      * Note: as robotium cannot control activities outside of this application, image adding
-     * cannot be tested
+     * cannot be tested, it has to be added manually during the test
      */
     @Test
     public void US020101Test(){
-        addRecipe(title1, time1, servings1, category1, comments1);
+        ArrayList<MockIngredient> ingredients = new ArrayList<>();
+        ingredients.add(ing1);
+        ingredients.add(ing2);
+        addRecipe(title1, time1, servings1, category1, comments1, ingredients);
+        solo.waitForActivity("Timeout", pause * 20);
     }
 
     /**
      * US 02.02.01 Test
      * This test if the app adds an ingredient to a recipe successfully.
      */
-    //@Test
+    @Test
     public void US020201Test(){
-        // add ingredient button: add_recipe_ingredient
-        // ingredient name text: add_name_recipe_ingredient
-        // ingredient description text: add_description_recipe_ingredient
-        // ingredient quantity text: add_qty_recipe_ingredient
-        // ingredient unit text: add_unit_recipe_ingredient
-        // ingredient category text: add_ingredient_recipe_category
-        // submit button: submit_add_recipe_ingredient OR Confirm
+        solo.clickOnText("Tomato Sauce Spaghetti");
+        solo.clickOnView(solo.getView(R.id.add_recipe_back_btn));
+        solo.waitForActivity("Timeout", pause * 20);
     }
 
     /**
      * US 02.03.01 Test
      * This test if the app deletes an ingredient from a recipe successfully.
      */
-    //@Test
+    @Test
     public void US020301Test(){
         // delete ingredient button: del_btn_recipe_ingredient
         // edit ingredient button: edit_btn_recipe_ingredient
+        solo.clickOnText("Tomato Sauce Spaghetti");
+        solo.waitForActivity("Timeout", pause * 20);
+        solo.clickOnView(solo.getView(R.id.del_btn_recipe_ingredient));
+        solo.clickOnView(solo.getView(R.id.add_recipe_ingredient));
+        solo.waitForActivity("Timeout", pause * 20);
     }
-
 
     /**
      * US 02.04.01 Test
@@ -146,7 +159,6 @@ public class US02Test {
         // view id check 2.1.1
     }
 
-
     /**
      * US 02.06.01 Test
      * This test if the app deletes a recipe successfully.
@@ -160,16 +172,8 @@ public class US02Test {
      * US 02.07.01 Test
      * This test checks if a list of recipe is displayed correctly.
      */
-    @Test
+    //@Test
     public void US020701Test(){
-        addRecipe(title2, time2, servings2, category2, comments2);
-        addRecipe(title3, time3, servings3, category3, comments3);
-
-        // Checks if the ingredients are in the list
-        Assert.assertTrue("Search for Ingredient 1", solo.searchText(title1));
-        Assert.assertTrue("Search for Ingredient 2", solo.searchText(title2));
-        Assert.assertTrue("Search for Ingredient 3", solo.searchText(title3));
-        solo.waitForActivity("Timeout", pause * 10);
     }
 
     /**
@@ -178,10 +182,10 @@ public class US02Test {
      */
     //@Test
     public void US020801Test(){
-
     }
 
-    public void addRecipe(String title, int time, int servings, String category, String comments){
+    public void addRecipe(String title, int time, int servings, String category, String comments,
+                          ArrayList<MockIngredient> ingredients){
         // Press add button
         solo.clickOnView(solo.getView("add_recipe_btn"));
         solo.waitForActivity("Timeout", pause);
@@ -194,15 +198,38 @@ public class US02Test {
         solo.enterText((EditText) solo.getView(R.id.serving_field), String.valueOf(servings));
         solo.waitForActivity("Timeout", pause);
         solo.enterText((EditText) solo.getView(R.id.preparation_time_field), String.valueOf(time));
-        solo.waitForActivity("Timeout", pause);
+        solo.waitForActivity("Timeout", 2000);
+        for (int i = 0; i < ingredients.size(); i++) {
+            addIngredientsToRecipe(ingredients.get(i));
+        }
         solo.enterText((EditText) solo.getView(R.id.recipe_comment_field), comments);
         solo.waitForActivity("Timeout", pause);
-
-        solo.clickOnScreen(198,2007);
-
+        solo.clickOnView(solo.getView(R.id.submit_recipe));
         solo.waitForActivity("Timeout", pause * 20);
     }
 
+    public void addIngredientsToRecipe(MockIngredient ingredient){
+        // Extract fields
+        String name = ingredient.ingName;
+        String description = ingredient.ingDescription;
+        int quantity = ingredient.quantity;
+        String unit = ingredient.unit;
+        String category = ingredient.ingCategory;
+
+        // Press add button
+        solo.clickOnView(solo.getView(R.id.add_recipe_ingredient));
+
+        // Enter fields
+        solo.enterText((EditText) solo.getView(R.id.add_name_recipe_ingredient), name);
+        solo.enterText((EditText) solo.getView(R.id.add_description_recipe_ingredient),
+                description);
+        solo.enterText((EditText) solo.getView(R.id.add_qty_recipe_ingredient),
+                String.valueOf(quantity));
+        solo.enterText((EditText) solo.getView(R.id.add_unit_recipe_ingredient), unit);
+        solo.enterText((EditText) solo.getView(R.id.add_ingredient_recipe_category), category);
+        solo.clickOnView(solo.getView(R.id.submit_add_recipe_ingredient));
+        solo.waitForActivity("Timeout", pause * 10);
+    }
 
 
     @After
