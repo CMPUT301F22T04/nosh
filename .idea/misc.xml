@@ -4,6 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Fall22/CMPUT301/25nov/app/src/main/res/layout/add_remaining_details_layout.xml" value="0.25" />
+        <entry key="..\:/Fall22/CMPUT301/25nov/app/src/main/res/layout/fragment_ingredientssort.xml" value="0.23020833333333332" />
+        <entry key="..\:/Fall22/CMPUT301/25nov/app/src/main/res/layout/fragment_recipesort.xml" value="0.1" />
+        <entry key="..\:/Fall22/CMPUT301/25nov/app/src/main/res/layout/recipe_entry.xml" value="0.1125" />
         <entry key="..\:/Fall22/CMPUT301/Project/nosh/app/src/main/res/drawable/ic_cart.xml" value="0.183" />
         <entry key="..\:/Fall22/CMPUT301/Project/nosh/app/src/main/res/drawable/ic_ingredients.xml" value="0.183" />
         <entry key="..\:/Fall22/CMPUT301/Project/nosh/app/src/main/res/drawable/ic_plan.xml" value="0.183" />
