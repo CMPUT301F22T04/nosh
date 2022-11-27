@@ -121,6 +121,9 @@ public class ListFragment extends Fragment implements Observer {
             if (requestKey.equals("add_details")){
                 ingredients.remove(ingredient1);
                 adapter.update(ingredients);
+                ingredient1.setInStorage(true);
+                controller2.updateIngredientInRecipe(ingredient1);
+                adapter.update(ingredients);
                 adapter.notifyDataSetChanged();
                 Date date =(Date) result.getSerializable("date");
                 String location = result.getString("location");

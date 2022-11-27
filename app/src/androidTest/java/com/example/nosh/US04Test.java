@@ -17,23 +17,27 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
+import org.junit.Assert;
 
 /**
- * This class is responsible for intent testing of switching tabs.
+ * This class is responsible for intent tests of all US 04.
  * @author Lok Him Isaac Cheng
- * @version 1.0.1
+ * @version 1.0
  */
 @RunWith(AndroidJUnit4.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class SwitchTabTest {
+public class US04Test {
+    // Testing variables declaration
     private Solo solo;
-    private final int pause = 200;
+    private final int pause = 100;
+
+    // Establishes test rules
     @Rule
     public ActivityTestRule<Register> rule =
             new ActivityTestRule<>(Register.class, true, true);
 
     /**
-     * Runs before all tests and creates solo instance.
+     * Goes to the login page and login with credentials
      */
     @Before
     public void setUp(){
@@ -55,18 +59,60 @@ public class SwitchTabTest {
         solo.enterText((EditText) solo.getView(R.id.login_password), loginPassword);
         solo.clickOnButton("Login");
         solo.waitForActivity("Timeout", pause);
+
+        // Switch to Shopping List tab
+        solo.clickOnText("Shopping List");
+        solo.assertCurrentActivity("Wrong activity", MainActivity.class);
+        solo.waitForActivity("Timeout", pause * 2);
     }
 
+    /**
+     * US 04.01.01 Test
+     * This test if the app display correct items to be bought based on recipe and ingredient
+     * storage
+     */
     @Test
-    public void test1SwitchTabs(){
-        solo.clickOnText("Recipe");
-        solo.waitForActivity("Timeout", pause * 2);
-        solo.clickOnText("Meal Plan");
-        solo.waitForActivity("Timeout", pause * 2);
-        solo.clickOnText("Shopping List");
-        solo.waitForActivity("Timeout", pause * 2);
-        solo.clickOnText("Ingredients");
-        solo.waitForActivity("Timeout", pause * 10);
+    public void US040101Test(){
+
+    }
+
+    /**
+     * US 04.02.01 Test
+     * This test if the app display description, amount, unit, and ingredient category of each
+     * item in the shopping list
+     */
+    @Test
+    public void US040201Test(){
+
+    }
+
+    /**
+     * US 04.03.01 Test
+     * This test if the app can sort the shopping list of ingredients by description or category.
+     */
+    @Test
+    public void US040301Test(){
+
+    }
+
+    /**
+     * US 04.04.01 Test
+     * This test if the app can note that the user have picked up an ingredient on the shopping
+     * list.
+     */
+    @Test
+    public void US040401Test(){
+
+    }
+
+    /**
+     * US 04.05.01 Test
+     * This test if the app can add ingredients I have picked up to my ingredient storage,
+     * reminding me to complete details like location, actual amount, and unit.
+     */
+    @Test
+    public void US040501Test(){
+
     }
 
     @After

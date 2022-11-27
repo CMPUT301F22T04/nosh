@@ -84,11 +84,10 @@ public class PlanDayRecyclerViewAdapter extends
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         Pair<String, MealPlanComponent> pair = mealPlanComponents.get(position);
 
-        holder.getTextView().setText(pair.first);
+        holder.getTextView().setText( "☀️" + " " + pair.first);
         holder.getArrowImageView().setImageResource(R.drawable.arrow_down);
 
         NestedMealAdapter adapter = new NestedMealAdapter(pair.second.getMeals());
-
         holder
                 .getMealComponentRecyclerView()
                 .setLayoutManager(

@@ -15,7 +15,10 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-
+/**
+ * This class is a responsible for unit testing Meal entity class.
+ * @version 1.0
+ */
 public class TestMeal {
 
     ArrayList<MealComponent> mockMealComponentsA;
@@ -45,8 +48,8 @@ public class TestMeal {
 
     @Test
     void testCreation() {
-        Meal breakfast = new Meal(2, "breakfast");
-        Meal dinner = new Meal(5, "dinner");
+        Meal breakfast = new Meal(2, "2022-11-26", "hash", "breakfast");
+        Meal dinner = new Meal(5,"2022-11-26", "hash", "dinner");
 
         assert breakfast.getName().equals("breakfast");
         assert breakfast.getServings() == 2;
@@ -94,7 +97,7 @@ public class TestMeal {
 
     @Test
     void testMealCopy() {
-        MockMeal breakfast = new MockMeal(2, "breakfast");
+        MockMeal breakfast = new MockMeal(2, "2022-11-26", "hash","breakfast");
 
         for (MealComponent mealComponent : mockMealComponentsA) {
             breakfast.addMealComponent(mealComponent);
@@ -120,7 +123,7 @@ public class TestMeal {
 
     @Test
     void testSetMealComponents() {
-        MockMeal breakfast = new MockMeal(2, "breakfast");
+        MockMeal breakfast = new MockMeal(2, "2022-11-26", "hash","breakfast");
 
         breakfast.setMealComponents(mockMealComponentsA);
 
@@ -132,7 +135,7 @@ public class TestMeal {
 
     @Test
     void testGetMealComponents() {
-        MockMeal breakfast = new MockMeal(2, "breakfast");
+        MockMeal breakfast = new MockMeal(2, "2022-11-26", "hash","breakfast");
 
         HashMap<String, MealComponent> mealHashmap = new HashMap<>();
 
@@ -145,5 +148,31 @@ public class TestMeal {
         for (MealComponent mealComponent : breakfast.getMealComponents()) {
             assert mealHashmap.containsKey(mealComponent.getHashcode());
         }
+    }
+
+    // Setters and getters tests
+
+    @Test
+    void testSetGetServings(){
+        Meal testMeal = new Meal();
+        long serving = 1;
+        testMeal.setServings(serving);
+        assertEquals(testMeal.getServings(), serving);
+    }
+
+    @Test
+    void testSetGetName(){
+        Meal testMeal = new Meal();
+        String name = "Healthy Meal";
+        testMeal.setName(name);
+        assertEquals(testMeal.getName(), name);
+    }
+
+    @Test
+    void testSetGetUsedDate(){
+        Meal testMeal = new Meal();
+        String date = "2022-11-26";
+        testMeal.setUsedDate(date);
+        assertEquals(testMeal.getUsedDate(), date);
     }
 }

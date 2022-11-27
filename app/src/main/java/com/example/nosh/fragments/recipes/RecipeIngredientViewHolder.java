@@ -14,7 +14,7 @@ class RecipeIngredientViewHolder extends RecyclerView.ViewHolder {
 
     public final ImageButton delBtn;
     private final TextView nameTxtView;
-    private final ImageButton editBtn;
+    //private final ImageButton editBtn;
 
     private final class ViewHolderListener implements View.OnClickListener {
 
@@ -28,8 +28,6 @@ class RecipeIngredientViewHolder extends RecyclerView.ViewHolder {
         public void onClick(View v) {
             if (v.getId() == delBtn.getId()) {
                 listener.onDeleteButtonClick(getAdapterPosition());
-            } else {
-                listener.onEditClick(getAdapterPosition());
             }
         }
     }
@@ -40,7 +38,7 @@ class RecipeIngredientViewHolder extends RecyclerView.ViewHolder {
 
         delBtn = itemView.findViewById(R.id.del_btn_recipe_ingredient);
         nameTxtView = itemView.findViewById(R.id.stored_ingredient_recipe_name);
-        editBtn = itemView.findViewById(R.id.edit_btn_recipe_ingredient);
+       // editBtn = itemView.findViewById(R.id.edit_btn_recipe_ingredient);
 
         ViewHolderListener viewHolderListener = new ViewHolderListener(listener);
 

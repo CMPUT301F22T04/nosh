@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
@@ -58,6 +59,8 @@ public class EditRecipeDialog extends DialogFragment implements Observer {
     private EditText servingInput;
     private EditText categoryInput;
     private EditText commentInput;
+
+    private TextView fragmentTitle;
 
     private EditRecipeDialogListener listener;
     private ActivityResultLauncher<Intent> launcher;
@@ -130,7 +133,7 @@ public class EditRecipeDialog extends DialogFragment implements Observer {
         @Override
         public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
             if (requestKey.equals("add_ingredient")) {
-                Ingredient ingr = new Ingredient(result.getDouble("unit"),
+                Ingredient ingr = new Ingredient(result.getString("unit"),
                         result.getInt("qty"),
                         result.getString("category"),
                         result.getString("description"),
@@ -191,6 +194,10 @@ public class EditRecipeDialog extends DialogFragment implements Observer {
         View view = inflater.inflate(R.layout.add_recipe, container, false);
 
         addRecipeBtn = view.findViewById(R.id.submit_recipe);
+        addRecipeBtn.setText("Confirm");
+
+        fragmentTitle = view.findViewById(R.id.textView13);
+        fragmentTitle.setText("Edit Recipe");
         addRecipeIngredientBtn = view.findViewById(R.id.add_recipe_ingredient);
         backButton = view.findViewById(R.id.add_recipe_back_btn);
 
@@ -280,7 +287,7 @@ public class EditRecipeDialog extends DialogFragment implements Observer {
         args.putString("hashcode",hash);
         args.putString("name", recipeName.getText().toString());
         args.putDouble("prep", Double.parseDouble(prepInput.getText().toString()));
-        args.putInt("servings", Integer.parseInt(servingInput.getText().toString()));
+        args.putLong("servings", Long.parseLong(servingInput.getText().toString()));
         args.putString("category", categoryInput.getText().toString());
         args.putString("comments", commentInput.getText().toString());
         if (recipeImageUri != null){

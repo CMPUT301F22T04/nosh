@@ -19,12 +19,17 @@ import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.junit.Assert;
 
+/**
+ * This class is responsible for intent tests of all US 01.
+ * @author Lok Him Isaac Cheng
+ * @version 1.2
+ */
 @RunWith(AndroidJUnit4.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class US01Test {
     // Testing variables declaration
     private Solo solo;
-    private final int pause = 100;
+    private final int pause = 0;
 
     // Sample Ingredient (Spaghetti) Information
     String name1 = "Spaghetti";
@@ -33,27 +38,27 @@ public class US01Test {
     int year1 = 2025, month1 = 11, day1 = 20;
     String date1 = year1 + "-" + month1 + "-" + day1;
     int quantity1 = 500;
-    int unit1 = 1;
+    String unit1 = "g";
     String category1 = "Pasta";
 
     // Sample Ingredient (Salt) Information
     String name2 = "Salt";
     String description2 = "A universal flavour improver.";
     String location2 = "Counter-top";
-    int year2 = 2030, month2 = 10, day2 = 12;
+    int year2 = 2023, month2 = 10, day2 = 11;
     String date2 = year2 + "-" + month2 + "-" + day2;
     int quantity2 = 300;
-    int unit2 = 4;
+    String unit2 = "gram";
     String category2 = "Flavouring";
 
     // Sample Ingredient (Tomato Sauce) Information
     String name3 = "Tomato Sauce";
     String description3 = "A simple tomato sauce.";
     String location3 = "Cabinet";
-    int year3 = 2023, month3 = 11, day3 = 25;
+    int year3 = 2022, month3 = 12, day3 = 25;
     String date3 = year3 + "-" + month3 + "-" + day3;
-    int quantity3 = 398;
-    int unit3 = 2;
+    int quantity3 = 12;
+    String unit3 = "cans";
     String category3 = "Sauce";
 
     // Establishes test rules
@@ -114,10 +119,8 @@ public class US01Test {
         Assert.assertTrue("Search name", solo.searchText(name1));
         Assert.assertTrue("Search description", solo.searchText(description1));
         Assert.assertTrue("Search location", solo.searchText(location1));
-        Assert.assertTrue("Search date", solo.searchText(date1));
         Assert.assertTrue("Search quantity", solo.searchText(String.valueOf(quantity1)));
-        Assert.assertTrue("Search quantity",
-                solo.searchText(String.valueOf(Double.valueOf(unit1))));
+        Assert.assertTrue("Search quantity", solo.searchText(unit1));
         Assert.assertTrue("Search category", solo.searchText(category1));
         solo.waitForActivity("Timeout", pause * 5);
 
@@ -153,10 +156,8 @@ public class US01Test {
         Assert.assertTrue("Search name", solo.searchText(name1));
         Assert.assertTrue("Search description", solo.searchText(description1));
         Assert.assertTrue("Search location", solo.searchText(locationEdit));
-        Assert.assertTrue("Search date", solo.searchText(date1));
         Assert.assertTrue("Search quantity", solo.searchText(String.valueOf(quantityEdit)));
-        Assert.assertTrue("Search quantity",
-                solo.searchText(String.valueOf(Double.valueOf(unit1))));
+        Assert.assertTrue("Search quantity", solo.searchText(unit1));
         Assert.assertTrue("Search category", solo.searchText(category1));
         solo.waitForActivity("Timeout", pause * 5);
 
@@ -171,7 +172,7 @@ public class US01Test {
      */
     @Test
     public void US010401Test(){
-        solo.clickOnView(solo.getView("del_btn"));
+        solo.clickOnView(solo.getView("delete_ingredient_button"));
 
         // Checks if the item is no longer in the list
         Assert.assertFalse("Search for \"Spaghetti\"", solo.searchText(name1));
@@ -212,7 +213,6 @@ public class US01Test {
         sortIngredients(0, 2);
         sortIngredients(1, 3);
 
-        // Delete all items
         solo.waitForActivity("Timeout", pause * 20);
     }
 
@@ -229,7 +229,7 @@ public class US01Test {
      * @param category Category of the ingredient
      */
     public void addIngredient(String name, String description, String location, int year,
-                              int month, int day, int quantity, int unit,
+                              int month, int day, int quantity, String unit,
                               String category){
         // Press add button
         solo.clickOnView(solo.getView("add_btn"));
@@ -252,7 +252,7 @@ public class US01Test {
         solo.waitForActivity("Timeout", pause);
         solo.enterText((EditText) solo.getView(R.id.add_ingredient_category), category);
         solo.waitForActivity("Timeout", pause);
-        solo.clickOnButton("Add");
+        solo.clickOnButton("Confirm");
         solo.waitForActivity("Timeout", pause * 2);
     }
 

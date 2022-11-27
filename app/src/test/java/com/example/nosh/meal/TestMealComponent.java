@@ -8,6 +8,10 @@ import org.junit.jupiter.api.Test;
 import java.util.Date;
 import java.util.Objects;
 
+/**
+ * This class is responsible for unit testing Meal Component.
+ * @version 1.0
+ */
 
 public class TestMealComponent {
 
