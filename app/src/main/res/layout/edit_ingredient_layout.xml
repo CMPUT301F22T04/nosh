@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <ImageButton
+        android:id="@+id/cancel_edit"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:src="?attr/actionModeCloseDrawable"
+        android:text="Cancel"
+        app:backgroundTint="#FFFFFF" />
+
+    <TextView
+        android:id="@+id/edit_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cancel_edit"
+        android:layout_alignParentStart="true"
+        android:paddingTop="6dp"
+        android:text="Name"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/about"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edit_name"
+        android:layout_alignParentStart="true"
+        android:paddingTop="6dp"
+        android:text="About this ingredient 🤔"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/edit_description"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_below="@id/about"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/description_border"
+        android:gravity="start"
+        android:hint="Description..."
+        android:inputType="textMultiLine"
+        android:maxLength="120"
+        android:paddingLeft="6dp"
+        android:paddingTop="6dp"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/best_before"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edit_description"
+        android:layout_alignParentStart="true"
+        android:paddingTop="6dp"
+        android:text="Expiration date 📅"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/edit_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/best_before"
+        android:layout_alignParentStart="true"
+        android:text="yyyy-mm-dd"
+        android:textAllCaps="false"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:backgroundTint="@color/nosh" />
+
+    <TextView
+        android:id="@+id/storage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edit_date"
+        android:layout_alignParentStart="true"
+        android:paddingTop="6dp"
+        android:text="Storage location 🧺"
+        android:textColor="#000000"
+        android:textSize="18dp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/edit_storage_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/storage"
+        android:layout_alignParentStart="true"
+        android:hint="Storage location"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        app:backgroundTint="@color/nosh" />
+
+    <TextView
+        android:id="@+id/price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edit_storage_location"
+        android:layout_alignParentStart="true"
+        android:paddingTop="6dp"
+        android:text="Qty. 🛒"
+        android:textColor="#000000"
+        android:textSize="18dp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/edit_qty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/price"
+        android:layout_alignParentStart="true"
+        android:hint="How much?"
+        android:inputType="number"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edit_qty"
+        android:layout_alignParentStart="true"
+        android:paddingTop="6dp"
+        android:text="Unit ⚖️"
+        android:textColor="#000000"
+        android:textSize="18dp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/edit_unit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/count"
+        android:layout_alignParentStart="true"
+        android:hint="Kg, g, box..."
+        android:inputType="number"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edit_unit"
+        android:layout_alignParentStart="true"
+        android:paddingTop="6dp"
+        android:text="Ingredient Category 🗄️"
+        android:textColor="#000000"
+        android:textSize="18dp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/edit_ingredient_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/category"
+        android:layout_alignParentStart="true"
+        android:hint="Pick a category"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        app:backgroundTint="@color/nosh" />
+
+    <Button
+        android:id="@+id/submit_edit"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edit_ingredient_category"
+        android:layout_alignParentStart="true"
+        android:text="Confirm"
+        android:textAllCaps="false"
+        android:textStyle="bold"
+        app:backgroundTint="#22AE66" />
+</RelativeLayout>

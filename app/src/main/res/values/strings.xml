@@ -1,0 +1,57 @@
+<resources>
+    <string name="app_name">nosh</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="sample_text">Sample</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="delete_ingredient">Delete Stored Ingredient</string>
+    <string name="add_ingredient">Add Ingredient</string>
+    <string name="add_recipe">Add recipe</string>
+    <string name="recipe_image">Recipe Image</string>
+
+    <string name="sort_ingredient">Sort Ingredient</string>
+    <string name="sort_ingredients_by">Sort Ingredients by</string>
+
+    <string name="ascending">Ascending</string>
+    <string name="descending">Descending</string>
+    <string name="description">Description</string>
+    <string name="best_before_date">Best Before Date</string>
+    <string name="location">Location</string>
+    <string name="category">Category</string>
+
+    <string name="asc">asc</string>
+    <string name="desc">desc</string>
+    <string name="by_description">by_description</string>
+    <string name="by_date">by_date</string>
+    <string name="by_category">by_category</string>
+    <string name="by_location">by_location</string>
+
+
+    <string name="by_title">by_title</string>
+    <string name="by_prep">by_prep</string>
+    <string name="by_categoryR">by_categoryR</string>
+    <string name="by_servings">by_servings</string>
+
+    
+
+    <string name="sort">Sort</string>
+    <string name="cancel_operation">Cancel Operation</string>
+    <string name="recipe_name_hint">Recipe name</string>
+    <string name="preparation_time_field_hint">Prep time in minutes</string>
+    <string name="serving_field_hint">Number of servings</string>
+    <string name="recipe_category_field_hint">Enter recipe category</string>
+    <string name="click_to_add_ingredient">Click to Add ingredient</string>
+    <string name="comments">Comments</string>
+    <string name="recipe_comment_field_hint">Comments…</string>
+    <string name="add">Add</string>
+    <string name="delete_meal_plan">Delete Meal Plan</string>
+</resources>

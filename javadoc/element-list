@@ -1,0 +1,13 @@
+com.example.nosh
+com.example.nosh.auth
+com.example.nosh.controller
+com.example.nosh.database.controller
+com.example.nosh.database.Initializer
+com.example.nosh.entity
+com.example.nosh.fragments.ingredients
+com.example.nosh.fragments.list
+com.example.nosh.fragments.plan
+com.example.nosh.fragments.recipes
+com.example.nosh.injection
+com.example.nosh.repository
+com.example.nosh.utils
