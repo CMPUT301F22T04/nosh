@@ -196,6 +196,8 @@ public class EditRecipeDialog extends DialogFragment implements Observer {
         addRecipeBtn = view.findViewById(R.id.submit_recipe);
         addRecipeBtn.setText("Confirm");
 
+        fragmentTitle = view.findViewById(R.id.textView13);
+        fragmentTitle.setText("Edit Recipe");
         addRecipeIngredientBtn = view.findViewById(R.id.add_recipe_ingredient);
         backButton = view.findViewById(R.id.add_recipe_back_btn);
 
