@@ -1,5 +1,6 @@
 package com.example.nosh;
 
+import android.widget.DatePicker;
 import android.widget.EditText;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -20,7 +21,7 @@ import org.junit.runners.MethodSorters;
 import org.junit.Assert;
 
 /**
- * This class is responsible for intent tests of all US 03.
+ * This class is responsible for intent tests of all US 03. (Please run US 02 tests first)
  * @author Lok Him Isaac Cheng
  * @version 1.0
  */
@@ -72,13 +73,36 @@ public class US03Test {
      */
     @Test
     public void US030101Test(){
-        /* Create meal plan
+        // Step 1
         String planName = "Healthy Plan";
-        solo.clickOnText("New Meal Plan");
+        int year1 = 2022, month1 = 12, day1 = 3;
+        int year2 = 2022, month2 = 12, day2 = 5;
+        solo.clickOnView(solo.getView(R.id.new_meal_plan_button));
         solo.enterText((EditText) solo.getView(R.id.new_meal_plan_name), planName);
-         */
+        solo.waitForActivity("Timeout", pause * 10);
+        setDate(year1, month1, day1);
+        setDate(year2, month2, day2);
+        solo.clickOnView(solo.getView(R.id.finish_new_meal_step1_button));
+        solo.waitForActivity("Timeout", pause * 20);
+
+        // Step 2 - Day 1
+        String mealName = "Spaghetti Meal";
+        int mealServing = 2;
+        solo.enterText((EditText) solo.getView(R.id.new_meal_name), mealName);
+        solo.enterText((EditText) solo.getView(R.id.new_meal_servings),
+                String.valueOf(mealServing));
+        solo.clickOnText("Tomato Sauce Spaghetti");
 
 
+
+
+    }
+
+    public void setDate(int year, int month, int day){
+        solo.clickOnButton("yyyy-mm-dd");
+        solo.setDatePicker(0, year, month, day);
+        solo.clickOnText("OK");
+        solo.waitForActivity("Timeout", pause * 10);
     }
 
     /**
