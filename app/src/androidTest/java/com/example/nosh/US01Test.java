@@ -29,7 +29,7 @@ import org.junit.Assert;
 public class US01Test {
     // Testing variables declaration
     private Solo solo;
-    private final int pause = 100;
+    private final int pause = 0;
 
     // Sample Ingredient (Spaghetti) Information
     String name1 = "Spaghetti";
@@ -45,7 +45,7 @@ public class US01Test {
     String name2 = "Salt";
     String description2 = "A universal flavour improver.";
     String location2 = "Counter-top";
-    int year2 = 2030, month2 = 10, day2 = 12;
+    int year2 = 2023, month2 = 10, day2 = 11;
     String date2 = year2 + "-" + month2 + "-" + day2;
     int quantity2 = 300;
     String unit2 = "gram";
@@ -55,7 +55,7 @@ public class US01Test {
     String name3 = "Tomato Sauce";
     String description3 = "A simple tomato sauce.";
     String location3 = "Cabinet";
-    int year3 = 2023, month3 = 11, day3 = 25;
+    int year3 = 2022, month3 = 12, day3 = 25;
     String date3 = year3 + "-" + month3 + "-" + day3;
     int quantity3 = 12;
     String unit3 = "cans";
@@ -119,10 +119,8 @@ public class US01Test {
         Assert.assertTrue("Search name", solo.searchText(name1));
         Assert.assertTrue("Search description", solo.searchText(description1));
         Assert.assertTrue("Search location", solo.searchText(location1));
-        Assert.assertTrue("Search date", solo.searchText(date1));
         Assert.assertTrue("Search quantity", solo.searchText(String.valueOf(quantity1)));
-        Assert.assertTrue("Search quantity",
-                solo.searchText(String.valueOf(Double.valueOf(unit1))));
+        Assert.assertTrue("Search quantity", solo.searchText(unit1));
         Assert.assertTrue("Search category", solo.searchText(category1));
         solo.waitForActivity("Timeout", pause * 5);
 
@@ -158,10 +156,8 @@ public class US01Test {
         Assert.assertTrue("Search name", solo.searchText(name1));
         Assert.assertTrue("Search description", solo.searchText(description1));
         Assert.assertTrue("Search location", solo.searchText(locationEdit));
-        Assert.assertTrue("Search date", solo.searchText(date1));
         Assert.assertTrue("Search quantity", solo.searchText(String.valueOf(quantityEdit)));
-        Assert.assertTrue("Search quantity",
-                solo.searchText(String.valueOf(Double.valueOf(unit1))));
+        Assert.assertTrue("Search quantity", solo.searchText(unit1));
         Assert.assertTrue("Search category", solo.searchText(category1));
         solo.waitForActivity("Timeout", pause * 5);
 
