@@ -213,7 +213,6 @@ public class US01Test {
         sortIngredients(0, 2);
         sortIngredients(1, 3);
 
-        // Delete all items
         solo.waitForActivity("Timeout", pause * 20);
     }
 

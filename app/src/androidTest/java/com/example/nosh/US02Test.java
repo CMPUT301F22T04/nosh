@@ -27,7 +27,7 @@ import java.util.ArrayList;
 /**
  * This class is responsible for intent tests of all US 02.
  * @author Lok Him Isaac Cheng
- * @version 1.1
+ * @version 1.6
  */
 @RunWith(AndroidJUnit4.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -64,6 +64,10 @@ public class US02Test {
     // Sample Ingredient 2 (Tomato)
     MockIngredient ing2 = new MockIngredient("Tomato",
             "A healthy nutritious fruit.", 300, "gram", "Fruit");
+
+    // Sa,ple Ingredient 3 (Cheese)
+    MockIngredient ing3 = new MockIngredient("Cheese",
+            "Coagulation of the milk protein.", 50, "gram", "Dairy");
 
     // Establishes test rules
     @Rule
@@ -106,7 +110,7 @@ public class US02Test {
      * Note: as robotium cannot control activities outside of this application, image adding
      * cannot be tested, it has to be added manually during the test
      */
-    @Test
+    //@Test
     public void US020101Test(){
         ArrayList<MockIngredient> ingredients = new ArrayList<>();
         ingredients.add(ing1);
@@ -119,9 +123,10 @@ public class US02Test {
      * US 02.02.01 Test
      * This test if the app adds an ingredient to a recipe successfully.
      */
-    @Test
+    //@Test
     public void US020201Test(){
         solo.clickOnText("Tomato Sauce Spaghetti");
+        solo.waitForActivity("Timeout", pause * 40);
         solo.clickOnView(solo.getView(R.id.add_recipe_back_btn));
         solo.waitForActivity("Timeout", pause * 20);
     }
@@ -130,14 +135,13 @@ public class US02Test {
      * US 02.03.01 Test
      * This test if the app deletes an ingredient from a recipe successfully.
      */
-    @Test
+    //@Test
     public void US020301Test(){
         // delete ingredient button: del_btn_recipe_ingredient
         // edit ingredient button: edit_btn_recipe_ingredient
         solo.clickOnText("Tomato Sauce Spaghetti");
         solo.waitForActivity("Timeout", pause * 20);
         solo.clickOnView(solo.getView(R.id.del_btn_recipe_ingredient));
-        solo.clickOnView(solo.getView(R.id.add_recipe_ingredient));
         solo.waitForActivity("Timeout", pause * 20);
     }
 
@@ -147,7 +151,10 @@ public class US02Test {
      */
     //@Test
     public void US020401Test(){
-        //
+        solo.clickOnText("Tomato Sauce Spaghetti");
+        solo.waitForActivity("Timeout", pause * 40);
+        solo.clickOnView(solo.getView(R.id.add_recipe_back_btn));
+        solo.waitForActivity("Timeout", pause * 20);
     }
 
     /**
@@ -156,7 +163,30 @@ public class US02Test {
      */
     //@Test
     public void US020501Test(){
-        // view id check 2.1.1
+        solo.clickOnText("Tomato Sauce Spaghetti");
+
+        String newName = "Tomato Cheese Spaghetti";
+        solo.clearEditText((EditText) solo.getView(R.id.recipe_name_field));
+        solo.enterText((EditText) solo.getView(R.id.recipe_name_field), newName);
+
+        int time = 30;
+        solo.clearEditText((EditText) solo.getView(R.id.preparation_time_field));
+        solo.enterText((EditText) solo.getView(R.id.preparation_time_field), String.valueOf(time));
+
+        ArrayList<MockIngredient> ingredients= new ArrayList<>();
+        addIngredientsToRecipe(ing1);
+        addIngredientsToRecipe(ing3);
+
+        String description = "A tasty pasta for everyone with cheese.";
+        solo.clearEditText((EditText) solo.getView(R.id.recipe_comment_field));
+        solo.enterText((EditText) solo.getView(R.id.recipe_comment_field), description);
+
+        solo.clickOnView(solo.getView(R.id.submit_recipe));
+        solo.waitForActivity("Timeout", pause * 20);
+
+        solo.clickOnText(newName);
+        solo.waitForActivity("Timeout", pause * 20);
+
     }
 
     /**
@@ -166,6 +196,8 @@ public class US02Test {
     //@Test
     public void US020601Test(){
         // delete button del_btnR
+        solo.clickOnView(solo.getView(R.id.del_btnR));
+        solo.waitForActivity("Timeout", pause * 40);
     }
 
     /**
@@ -174,14 +206,23 @@ public class US02Test {
      */
     //@Test
     public void US020701Test(){
+        ArrayList<MockIngredient> ingredients = new ArrayList<>();
+        addRecipe(title1, time1, servings1, category1, comments1, ingredients);
+        addRecipe(title2, time2, servings2, category2, comments2, ingredients);
+        addRecipe(title3, time3, servings3, category3, comments3, ingredients);
+        solo.waitForActivity("Timeout", pause * 100);
     }
 
     /**
      * US 02.08.01 Test
      * This test if recipe sorted correctly.
      */
-    //@Test
+    @Test
     public void US020801Test(){
+        sortRecipe(0, 0);
+        sortRecipe(1, 1);
+        sortRecipe(0, 2);
+        sortRecipe(1, 3);
     }
 
     public void addRecipe(String title, int time, int servings, String category, String comments,
@@ -198,7 +239,7 @@ public class US02Test {
         solo.enterText((EditText) solo.getView(R.id.serving_field), String.valueOf(servings));
         solo.waitForActivity("Timeout", pause);
         solo.enterText((EditText) solo.getView(R.id.preparation_time_field), String.valueOf(time));
-        solo.waitForActivity("Timeout", 2000);
+        solo.waitForActivity("Timeout", 8000);
         for (int i = 0; i < ingredients.size(); i++) {
             addIngredientsToRecipe(ingredients.get(i));
         }
@@ -228,6 +269,39 @@ public class US02Test {
         solo.enterText((EditText) solo.getView(R.id.add_unit_recipe_ingredient), unit);
         solo.enterText((EditText) solo.getView(R.id.add_ingredient_recipe_category), category);
         solo.clickOnView(solo.getView(R.id.submit_add_recipe_ingredient));
+        solo.waitForActivity("Timeout", pause * 10);
+    }
+
+    public void sortRecipe(int order, int criteria){
+        // Press sort button
+        solo.clickOnView(solo.getView("sort_buttonR"));
+        solo.waitForActivity("Timeout", pause);
+
+        // Pick order
+        if (order == 0) {
+            solo.clickOnText("Ascending");
+        } else {
+            solo.clickOnText("Descending");
+        }
+
+        // Pick criteria
+        switch(criteria) {
+            case 0:
+                solo.clickOnText("Description");
+                break;
+            case 1:
+                solo.clickOnText("Best Before Date");
+                break;
+            case 2:
+                solo.clickOnText("Location");
+                break;
+            case 3:
+                solo.clickOnText("Category");
+                break;
+        }
+
+        // Press sort button
+        solo.clickOnView(solo.getView("confirm_sortR"));
         solo.waitForActivity("Timeout", pause * 10);
     }
 
