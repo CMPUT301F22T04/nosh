@@ -103,7 +103,6 @@
         android:layout_below="@id/count"
         android:layout_alignParentStart="true"
         android:hint="Kg, g, box..."
-        android:inputType="number"
         android:textSize="16sp" />
 
     <TextView
