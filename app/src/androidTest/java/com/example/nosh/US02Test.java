@@ -135,7 +135,7 @@ public class US02Test {
      * US 02.03.01 Test
      * This test if the app deletes an ingredient from a recipe successfully.
      */
-    //@Test
+    @Test
     public void US020301Test(){
         // delete ingredient button: del_btn_recipe_ingredient
         // edit ingredient button: edit_btn_recipe_ingredient
@@ -173,8 +173,6 @@ public class US02Test {
         solo.clearEditText((EditText) solo.getView(R.id.preparation_time_field));
         solo.enterText((EditText) solo.getView(R.id.preparation_time_field), String.valueOf(time));
 
-        ArrayList<MockIngredient> ingredients= new ArrayList<>();
-        addIngredientsToRecipe(ing1);
         addIngredientsToRecipe(ing3);
 
         String description = "A tasty pasta for everyone with cheese.";
@@ -287,13 +285,13 @@ public class US02Test {
         // Pick criteria
         switch(criteria) {
             case 0:
-                solo.clickOnText("Description");
+                solo.clickOnText("Title");
                 break;
             case 1:
-                solo.clickOnText("Best Before Date");
+                solo.clickOnText("Prep time");
                 break;
             case 2:
-                solo.clickOnText("Location");
+                solo.clickOnText("Servings");
                 break;
             case 3:
                 solo.clickOnText("Category");
