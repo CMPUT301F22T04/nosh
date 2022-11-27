@@ -110,7 +110,7 @@ public class US02Test {
      * Note: as robotium cannot control activities outside of this application, image adding
      * cannot be tested, it has to be added manually during the test
      */
-    //@Test
+    @Test
     public void US020101Test(){
         ArrayList<MockIngredient> ingredients = new ArrayList<>();
         ingredients.add(ing1);
@@ -123,7 +123,7 @@ public class US02Test {
      * US 02.02.01 Test
      * This test if the app adds an ingredient to a recipe successfully.
      */
-    //@Test
+    @Test
     public void US020201Test(){
         solo.clickOnText("Tomato Sauce Spaghetti");
         solo.waitForActivity("Timeout", pause * 40);
@@ -149,7 +149,7 @@ public class US02Test {
      * US 02.04.01 Test
      * This test if the app view details properly.
      */
-    //@Test
+    @Test
     public void US020401Test(){
         solo.clickOnText("Tomato Sauce Spaghetti");
         solo.waitForActivity("Timeout", pause * 40);
@@ -161,7 +161,7 @@ public class US02Test {
      * US 02.05.01 Test
      * This test if the app edit details properly.
      */
-    //@Test
+    @Test
     public void US020501Test(){
         solo.clickOnText("Tomato Sauce Spaghetti");
 
@@ -193,7 +193,7 @@ public class US02Test {
      * US 02.06.01 Test
      * This test if the app deletes a recipe successfully.
      */
-    //@Test
+    @Test
     public void US020601Test(){
         // delete button del_btnR
         solo.clickOnView(solo.getView(R.id.del_btnR));
@@ -204,7 +204,7 @@ public class US02Test {
      * US 02.07.01 Test
      * This test checks if a list of recipe is displayed correctly.
      */
-    //@Test
+    @Test
     public void US020701Test(){
         ArrayList<MockIngredient> ingredients = new ArrayList<>();
         addRecipe(title1, time1, servings1, category1, comments1, ingredients);
