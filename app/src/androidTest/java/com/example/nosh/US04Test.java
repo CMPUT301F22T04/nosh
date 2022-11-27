@@ -73,7 +73,7 @@ public class US04Test {
      */
     @Test
     public void US040101Test(){
-
+        // Nothing to be done by robotium
     }
 
     /**
@@ -83,7 +83,7 @@ public class US04Test {
      */
     @Test
     public void US040201Test(){
-
+        // Nothing to be done by robotium
     }
 
     /**
@@ -92,7 +92,9 @@ public class US04Test {
      */
     @Test
     public void US040301Test(){
-
+        sortShoppingList(0);
+        sortShoppingList(1);
+        solo.waitForActivity("Timeout", pause * 15);
     }
 
     /**
@@ -113,6 +115,26 @@ public class US04Test {
     @Test
     public void US040501Test(){
 
+    }
+
+    public void sortShoppingList(int criteria){
+        // Press sort button
+        solo.clickOnView(solo.getView(R.id.sort_list_button));
+        solo.waitForActivity("Timeout", pause);
+
+        // Pick criteria
+        switch(criteria) {
+            case 0:
+                solo.clickOnText("Description");
+                break;
+            case 1:
+                solo.clickOnText("Category");
+                break;
+        }
+
+        // Press sort button
+        solo.clickOnView(solo.getView("confirm_sortL"));
+        solo.waitForActivity("Timeout", pause * 10);
     }
 
     @After

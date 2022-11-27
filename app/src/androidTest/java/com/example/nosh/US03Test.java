@@ -134,13 +134,11 @@ public class US03Test {
     }
 
     /**
-     * US 03.01.01 Test
-     * This test if the app can make a meal plan with current recipe or ingredient storage.
+     * US 03.02.01 Test
+     * This test if the app can scale recipes correctly.
      */
     @Test
     public void US030201Test(){
-
-
 
     }
 
