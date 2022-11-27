@@ -1,13 +1,11 @@
 package com.example.nosh.fragments.recipes;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,10 +13,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.nosh.controller.RecipeSorting;
+
 import com.example.nosh.Nosh;
 import com.example.nosh.R;
 import com.example.nosh.controller.RecipeController;
+import com.example.nosh.controller.RecipeSorting;
 import com.example.nosh.entity.Ingredient;
 import com.example.nosh.entity.Recipe;
 import com.google.firebase.storage.StorageReference;
@@ -237,8 +236,6 @@ public class RecipesFragment extends Fragment implements Observer {
     /**
      * Receive notification from Recipe Repository that there are new changes in
      * data / entity objects. Retrieve the latest copy of the data
-     * @param o
-     * @param arg
      */
     @Override
     public void update(Observable o, Object arg) {
