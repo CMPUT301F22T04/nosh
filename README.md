@@ -1,5 +1,6 @@
 ## CMPUT301F22T04
 Welcome to the nosh, a meal planning mobile application!
+Deesigned, developed and tested using Android Studio, Figma, and Robotium
 
 ## Table of Contents
 - [Introduction](#introduction)
