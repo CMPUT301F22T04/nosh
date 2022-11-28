@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -54,25 +55,28 @@ public class ScaleMealPlanDialog extends DialogFragment {
         @Override
         public void onClick(View v) {
             if (v.getId() == R.id.confirm_scaling) {
-                Bundle bundle = new Bundle();
+                if (inputVerification()) {
 
-                bundle.putString("scalingType", scalingType);
-                bundle.putInt("scaling", Integer.parseInt(servingEditText.getText().toString()));
-                bundle.putString("mealPlanHash", selectedMealPlan.getHashcode());
+                    Bundle bundle = new Bundle();
 
-                if (scalingType.compareTo(DAY_LEVEL) == 0 &&
-                        mealPlanDaySpinner.getSelectedItemPosition() != 0) {
-                    bundle.putString("date", (String) mealPlanDaySpinner.getSelectedItem());
-                } else if (scalingType.compareTo(MEAL_LEVEL) == 0) {
-                    bundle.putString("date", (String) mealPlanDaySpinner.getSelectedItem());
-                    bundle.putString("mealHash", selectedMeal.getHashcode());
+                    bundle.putString("scalingType", scalingType);
+                    bundle.putInt("scaling", Integer.parseInt(servingEditText.getText().toString()));
+                    bundle.putString("mealPlanHash", selectedMealPlan.getHashcode());
+
+                    if (scalingType.compareTo(DAY_LEVEL) == 0 &&
+                            mealPlanDaySpinner.getSelectedItemPosition() != 0) {
+                        bundle.putString("date", (String) mealPlanDaySpinner.getSelectedItem());
+                    } else if (scalingType.compareTo(MEAL_LEVEL) == 0) {
+                        bundle.putString("date", (String) mealPlanDaySpinner.getSelectedItem());
+                        bundle.putString("mealHash", selectedMeal.getHashcode());
+                    }
+
+                    requireActivity()
+                            .getSupportFragmentManager()
+                            .setFragmentResult(TAG, bundle);
+
+                    dismiss();
                 }
-
-                requireActivity()
-                        .getSupportFragmentManager()
-                        .setFragmentResult(TAG, bundle);
-
-                dismiss();
             }
         }
 
@@ -214,5 +218,29 @@ public class ScaleMealPlanDialog extends DialogFragment {
         mealSpinner.setOnItemSelectedListener(dialogListener);
 
         return view;
+    }
+
+    private boolean inputVerification() {
+        if (servingEditText.getText().toString().compareTo("") == 0) {
+            Toast.makeText(
+                    requireContext(),
+                    "Servings cannot be empty",
+                    Toast.LENGTH_SHORT
+            ).show();
+
+            return false;
+        }
+
+        if (mealPlansSpinner.getSelectedItemPosition() <= 0) {
+            Toast.makeText(
+                    requireContext(),
+                    "Please select a meal plan",
+                    Toast.LENGTH_SHORT
+            ).show();
+
+            return false;
+        }
+
+        return true;
     }
 }

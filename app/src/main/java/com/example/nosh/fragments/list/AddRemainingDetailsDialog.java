@@ -20,6 +20,7 @@ import androidx.fragment.app.DialogFragment;
 import com.example.nosh.R;
 import com.example.nosh.utils.DateUtil;
 
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -69,9 +70,7 @@ public class AddRemainingDetailsDialog extends DialogFragment implements DatePic
 
         //cancelButton.setOnClickListener(v -> dismiss());
 
-        submitButton.setOnClickListener(v -> {
-            updateIngredientAction();
-        });
+        submitButton.setOnClickListener(v -> updateIngredientAction());
 
         return view;
     }
@@ -83,7 +82,13 @@ public class AddRemainingDetailsDialog extends DialogFragment implements DatePic
         Bundle args = new Bundle();
 
         String d = ingExpirationDate.getText().toString();
-        Date date = DateUtil.getCalendar(d).getTime();
+
+        Date date;
+        try {
+            date = DateUtil.getCalendar(d).getTime();
+        } catch (ParseException e) {
+            date = new Date();
+        }
 
         args.putSerializable("date", date);
         args.putString("location", ingStorageLocation.getText().toString());

@@ -3,6 +3,7 @@ package com.example.nosh.activities;
 import static com.example.nosh.controller.MealPlanController.ADD_MEAL_TO_DAY;
 import static com.example.nosh.controller.MealPlanController.MEAL_PLAN_HASHCODE;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.nosh.MainActivity;
@@ -30,6 +32,7 @@ import com.example.nosh.entity.MealComponent;
 import com.example.nosh.entity.MealPlan;
 import com.example.nosh.entity.Transaction;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Observable;
@@ -68,7 +71,8 @@ public class AddMealsToDaysActivity extends AppCompatActivity implements Observe
 
     private Integer dayCount = 1;
 
-    private class EventListener implements View.OnClickListener {
+    private class EventListener implements View.OnClickListener,
+            DialogInterface.OnClickListener {
 
         @Override
         public void onClick(View v) {
@@ -97,10 +101,21 @@ public class AddMealsToDaysActivity extends AppCompatActivity implements Observe
                     clearInput();
                 }
             } else if (v.getId() == R.id.new_meal_button) {
+                if (inputVerification()) {
+
+                    createMeal();
+                    Toast.makeText(getApplicationContext(), "New Meal added to day " + dayCount,
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            dialog.dismiss();
+
+            if (which == DialogInterface.BUTTON_POSITIVE) {
                 createMeal();
-                Toast.makeText(getApplicationContext(), "New Meal added to day " + dayCount,
-                        Toast.LENGTH_SHORT).show();
-                clearInput();
             }
         }
     }
@@ -192,15 +207,23 @@ public class AddMealsToDaysActivity extends AppCompatActivity implements Observe
             }
         }
 
-        mealPlanController.addMealToDay(
-                mealPlan.getStartDate(),
-                dayCount,
-                meal,
-                mealPlan.getHashcode());
+        try {
+            mealPlanController.addMealToDay(
+                    mealPlan.getStartDate(),
+                    dayCount,
+                    meal,
+                    mealPlan.getHashcode());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        clearInput();
     }
 
     void clearInput(){
         mealName.setText("");
+        mealName.setError(null);
+        mealServings.setError(null);
         mealServings.setText("");
         mealComponentListView.setAdapter(adapter);
     }
@@ -240,5 +263,39 @@ public class AddMealsToDaysActivity extends AppCompatActivity implements Observe
         previousMealButton.setOnClickListener(listener);
         newMealButton.setOnClickListener(listener);
         nextPlanDayButton.setOnClickListener(listener);
+    }
+
+    private boolean inputVerification() {
+        if (mealName.getText().toString().compareTo("") == 0) {
+            mealName.setError("Name cannot be empty");
+
+            return false;
+        }
+
+        if (mealServings.getText().toString().compareTo("") == 0) {
+            mealServings.setError("Servings cannot be empty");
+
+            return false;
+        }
+
+        if (mealComponentListView.getSelectedItemPosition() == -1) {
+            showAlertDialog();
+
+            return false;
+        }
+
+        return true;
+    }
+
+    private void showAlertDialog() {
+        AlertDialog.Builder builder = new
+                AlertDialog.Builder(this);
+
+        builder
+                .setMessage("Are you sure to create a new meal with no ingredients and " +
+                        "recipes ?")
+                .setPositiveButton("Yes", listener)
+                .setNegativeButton("No", listener)
+                .show();
     }
 }

@@ -9,6 +9,7 @@ import com.example.nosh.entity.MealPlanComponent;
 import com.example.nosh.repository.MealPlanRepository;
 import com.example.nosh.utils.DateUtil;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -79,7 +80,8 @@ public class MealPlanController {
         return sortedMealPlanComponents;
     }
 
-    public void addMealToDay(Date startDate, Integer dayCount, Meal meal, String hashcode) {
+    public void addMealToDay(Date startDate, Integer dayCount, Meal meal, String hashcode)
+            throws ParseException {
         Calendar date = DateUtil.getCalendar(
                 DateUtil.formatDate(startDate)
         );

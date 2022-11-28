@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,6 +23,7 @@ import com.example.nosh.controller.MealPlanController;
 import com.example.nosh.entity.Transaction;
 import com.example.nosh.utils.DateUtil;
 
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Observable;
 import java.util.Observer;
@@ -55,12 +57,26 @@ public class NewMealPlanActivity extends AppCompatActivity implements Observer,
                 // Once a new Meal Plan is created and added in the Repository
                 // update() method will be called to launch an new Activity
 
-                controller.add(
-                        // TODO: add input verification
-                        planName.getText().toString(),
-                        DateUtil.getCalendar(planStart.getText().toString()).getTime(),
-                        DateUtil.getCalendar(planEnd.getText().toString()).getTime()
-                );
+                if (planName.getText().toString().compareTo("") == 0) {
+                    planName.setError("Name cannot be empty");
+
+                    return;
+                }
+
+                try {
+                    controller.add(
+                            planName.getText().toString(),
+                            DateUtil.getCalendar(planStart.getText().toString()).getTime(),
+                            DateUtil.getCalendar(planEnd.getText().toString()).getTime()
+                    );
+                } catch (ParseException e) {
+                    Toast
+                            .makeText(
+                                    getApplicationContext(),
+                                    "Please select both start date and end date",
+                                    Toast.LENGTH_SHORT)
+                            .show();
+                }
 
             } else if (v.getId() == R.id.cancel_new_meal_plan_button) {
                 cancelOperation();

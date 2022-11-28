@@ -22,6 +22,7 @@ import androidx.fragment.app.DialogFragment;
 import com.example.nosh.R;
 import com.example.nosh.utils.DateUtil;
 
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -120,7 +121,14 @@ public class AddIngredientDialog extends DialogFragment implements DatePickerDia
         Bundle args = new Bundle();
 
         String d = ingExpirationDate.getText().toString();
-        Date date = DateUtil.getCalendar(d).getTime();
+
+        Date date;
+
+        try {
+            date = DateUtil.getCalendar(d).getTime();
+        } catch (ParseException e) {
+            date = new Date();
+        }
 
         args.putString("name", ingName.getText().toString());
         args.putString("description", ingDescription.getText().toString());
@@ -130,7 +138,9 @@ public class AddIngredientDialog extends DialogFragment implements DatePickerDia
         args.putString("unit", ingUnit.getText().toString());
         args.putString("category", ingCategory.getText().toString());
 
-        requireActivity().getSupportFragmentManager().setFragmentResult("add_ingredient", args);
+        requireActivity()
+                .getSupportFragmentManager()
+                .setFragmentResult("add_ingredient", args);
 
         dismiss();
     }

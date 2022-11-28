@@ -25,14 +25,10 @@ public class DateUtil {
     /**
      * Obtain a Calendar object from a string date with format yyyy-mm-dd
      */
-    public static Calendar getCalendar(String strDate) {
+    public static Calendar getCalendar(String strDate) throws ParseException {
         final Calendar c = Calendar.getInstance();
 
-        try {
-            c.setTime(Objects.requireNonNull(formatter.parse(strDate)));
-        } catch (ParseException | NullPointerException e) {
-            e.printStackTrace();
-        }
+        c.setTime(Objects.requireNonNull(formatter.parse(strDate)));
 
         return c;
     }

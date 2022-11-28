@@ -41,7 +41,6 @@
     <string name="by_categoryR">by_categoryR</string>
     <string name="by_servings">by_servings</string>
 
-    
 
     <string name="sort">Sort</string>
     <string name="cancel_operation">Cancel Operation</string>
@@ -60,4 +59,5 @@
     <string name="select_a_meal_in_the_selected_day">Select a meal in the selected day</string>
     <string name="confirm">Confirm</string>
     <string name="zero">0</string>
+    <string name="loading_screen_logo">Loading Screen Logo</string>
 </resources>

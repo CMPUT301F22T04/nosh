@@ -23,6 +23,7 @@ import com.example.nosh.R;
 import com.example.nosh.entity.Ingredient;
 import com.example.nosh.utils.DateUtil;
 
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -130,9 +131,14 @@ public class EditIngredientDialog extends DialogFragment implements DatePickerDi
                         ingredient.getDescription() :
                         ingDescription.getText().toString());
 
-        Date date = ((ingExpirationDate.getText().toString().isEmpty()) ?
-                DateUtil.getCalendar(ingredient.getBestBeforeDate().toString()).getTime() :
-                DateUtil.getCalendar(ingExpirationDate.getText().toString()).getTime());
+        Date date;
+        try {
+            date = ((ingExpirationDate.getText().toString().isEmpty()) ?
+                    DateUtil.getCalendar(ingredient.getBestBeforeDate().toString()).getTime() :
+                    DateUtil.getCalendar(ingExpirationDate.getText().toString()).getTime());
+        } catch (ParseException e) {
+            date = new Date();
+        }
 
         String storageLocation =
                 ((ingStorageLocation.getText().toString().isEmpty()) ?
