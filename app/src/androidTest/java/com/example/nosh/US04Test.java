@@ -122,6 +122,7 @@ public class US04Test {
     @Test
     public void US040501Test(){
         solo.clickOnText("Ingredients");
+        solo.waitForActivity("Timeout", pause * 10);
     }
 
     public void sortShoppingList(int criteria){
