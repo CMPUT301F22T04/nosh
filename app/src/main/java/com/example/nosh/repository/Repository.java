@@ -6,6 +6,9 @@ import com.example.nosh.entity.Hashable;
 import java.util.Observable;
 import java.util.Observer;
 
+/**
+ * This class is abstract class responsible for the repository classes.
+ */
 
 abstract public class Repository extends Observable implements Observer {
 

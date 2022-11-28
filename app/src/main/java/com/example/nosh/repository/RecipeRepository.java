@@ -12,6 +12,10 @@ import java.util.Observable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+/**
+ * This class is responsible for the Recipe repository.
+ */
+
 
 @Singleton
 public class RecipeRepository extends Repository {

@@ -23,6 +23,10 @@ import com.example.nosh.utils.DateUtil;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * This class is responsible for connecting the UI and backend of adding ingredients to recipe.
+ */
+
 public class AddIngredientToRecipeDialog extends DialogFragment {
 
     private AddIngredientToRecipeDialogListener listener;

@@ -19,6 +19,14 @@ import java.util.Observer;
 
 import javax.inject.Inject;
 
+/**
+ * This class acts as messenger between UI layer for Meal Plan Storage and
+ * Data / Model layer for Meal Plan Storage. It receive and send all the
+ * requests made by the users via trigger events in the UI layers (e.g., click
+ * add button, click delete button, etc.)
+ *
+ * @version 1.0.1
+ */
 
 public class MealPlanController {
 

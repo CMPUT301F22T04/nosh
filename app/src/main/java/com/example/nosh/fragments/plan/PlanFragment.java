@@ -31,7 +31,6 @@ import java.util.Observer;
 
 import javax.inject.Inject;
 
-
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link PlanFragment#newInstance} factory method to

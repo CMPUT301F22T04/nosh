@@ -22,6 +22,9 @@ import java.util.Observable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+/**
+ * This class is responsible for the Meal Plan repository.
+ */
 
 @Singleton
 public class MealPlanRepository extends Repository {

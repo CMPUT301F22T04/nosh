@@ -18,6 +18,9 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * This class is the recipe adapter responsible for displaying recipe list.
+ */
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeViewHolder> {
 

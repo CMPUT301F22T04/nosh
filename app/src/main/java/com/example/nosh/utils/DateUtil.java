@@ -8,6 +8,9 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * This class is responsible for the Date utility.
+ */
 
 public class DateUtil {
 

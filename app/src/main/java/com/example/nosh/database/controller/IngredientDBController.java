@@ -21,6 +21,10 @@ import java.util.concurrent.Future;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+/**
+ * This class is responsible for creating, saving and retrieving Ingredient class objects from
+ * the database.
+ */
 
 @Singleton
 public class IngredientDBController extends DBController {

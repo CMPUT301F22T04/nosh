@@ -12,6 +12,9 @@ import java.util.Observer;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+/**
+ * This class is responsible for the image repository.
+ */
 
 @Singleton
 public class RecipeImageRepository extends Observable implements Observer {

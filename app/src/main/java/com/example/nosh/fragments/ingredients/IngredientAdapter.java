@@ -13,6 +13,9 @@ import com.example.nosh.entity.Ingredient;
 
 import java.util.ArrayList;
 
+/**
+ * This class is responsible for the Ingredient class RecyclerView adapter.
+ */
 
 public class IngredientAdapter extends
         RecyclerView.Adapter<IngredientViewHolder> {

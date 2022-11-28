@@ -24,6 +24,10 @@ import java.util.concurrent.Future;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+/**
+ * This class is responsible for creating, saving and retrieving Recipe class objects from
+ * the database.
+ */
 
 @Singleton
 public class RecipeDBController extends DBController {

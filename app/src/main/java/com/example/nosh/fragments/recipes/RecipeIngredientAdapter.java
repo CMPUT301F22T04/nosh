@@ -1,6 +1,5 @@
 package com.example.nosh.fragments.recipes;
 
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +12,10 @@ import com.example.nosh.R;
 import com.example.nosh.entity.Ingredient;
 
 import java.util.ArrayList;
+
+/**
+ * This class is the ingredient adapter responsible for displaying ingredient list in recipes.
+ */
 
 public class RecipeIngredientAdapter extends
         RecyclerView.Adapter<RecipeIngredientViewHolder> {

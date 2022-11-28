@@ -28,7 +28,10 @@ import java.util.concurrent.Future;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-
+/**
+ * This class is responsible for creating, saving and retrieving Meal Plan class objects from
+ * the database.
+ */
 @Singleton
 public class MealPlanDBController extends DBController {
 

@@ -47,6 +47,9 @@ import java.util.Observer;
 
 import javax.inject.Inject;
 
+/**
+ * This class is responsible for connecting the UI and backend of editing recipe.
+ */
 
 public class EditRecipeDialog extends DialogFragment implements Observer {
 

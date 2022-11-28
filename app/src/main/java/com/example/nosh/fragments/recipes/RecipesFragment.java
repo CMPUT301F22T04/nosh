@@ -30,6 +30,9 @@ import java.util.Observer;
 
 import javax.inject.Inject;
 
+/**
+ * This class is responsible for the recipe fragment.
+ */
 
 public class RecipesFragment extends Fragment implements Observer {
     //Initalize some needed variables

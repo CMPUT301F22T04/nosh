@@ -13,6 +13,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * This class is responsible for the entity utility.
+ */
 
 public class EntityUtil {
 

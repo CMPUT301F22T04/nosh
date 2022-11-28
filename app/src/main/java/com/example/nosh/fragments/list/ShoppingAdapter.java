@@ -13,6 +13,9 @@ import com.example.nosh.entity.Ingredient;
 
 import java.util.ArrayList;
 
+/**
+ * This class is responsible for the Shopping list class RecyclerView adapter.
+ */
 
 public class ShoppingAdapter extends
         RecyclerView.Adapter<ShoppingViewHolder> {

@@ -10,6 +10,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+/**
+ * This class is responsible for recipe sorting functionality with specific criteria.
+ * @version 1.0
+ */
 
 public class RecipeSorting {
 

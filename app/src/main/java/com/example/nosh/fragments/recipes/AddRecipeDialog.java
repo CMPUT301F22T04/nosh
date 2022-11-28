@@ -38,6 +38,9 @@ import com.example.nosh.entity.Ingredient;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * This class is responsible for connecting the UI and backend of adding recipe.
+ */
 
 public class AddRecipeDialog extends DialogFragment {
 

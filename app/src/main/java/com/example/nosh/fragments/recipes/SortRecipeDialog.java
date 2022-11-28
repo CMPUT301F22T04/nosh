@@ -17,8 +17,9 @@ import androidx.fragment.app.DialogFragment;
 import com.example.nosh.R;
 
 /**
- * Sorting recipes class
+ * This class is responsible for connecting the UI and backend of sorting recipe functionality.
  */
+
 public class SortRecipeDialog extends DialogFragment {
 
     public static SortRecipeDialog newInstance() {

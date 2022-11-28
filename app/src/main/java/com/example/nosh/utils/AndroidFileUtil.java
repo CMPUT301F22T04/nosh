@@ -12,6 +12,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
 
+/**
+ * This class is responsible for the Android File utility.
+ */
 
 public class AndroidFileUtil {
 
