@@ -6,7 +6,7 @@ Welcome to the nosh, a meal planning mobile application!
 - [Wiki Page](#wiki-page)
 - [Issue](#issue)
 - [License](#license)
-- [Rubric](#rubric)
+
 
 ## Team Members
 | Name  | CCID | 
@@ -56,5 +56,9 @@ This repository is maintained actively, so if you face any issue please <a href=
 
 <h4>Liked the work ?</h4>
 Give the repository a star :-)
+
+## License
+
+
 
 
