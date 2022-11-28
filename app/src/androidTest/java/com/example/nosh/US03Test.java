@@ -71,7 +71,7 @@ public class US03Test {
      * US 03.01.01 Test
      * This test if the app can make a meal plan with current recipe or ingredient storage.
      */
-    @Test
+    //@Test
     public void US030101Test(){
         // Step 1
         String planName = "Healthy Plan";
@@ -98,7 +98,7 @@ public class US03Test {
         solo.waitForActivity("Timeout", pause * 5);
 
         // Step 2 - Day 2
-        String mealName2 = "Yummy Sandwich";
+        String mealName2 = "Yummy Sandwich Meal";
         int mealServing2 = 1;
         solo.clearEditText((EditText) solo.getView(R.id.new_meal_name));
         solo.waitForActivity("Timeout", pause * 2);
@@ -115,7 +115,7 @@ public class US03Test {
         solo.waitForActivity("Timeout", pause * 5);
 
         // Step 2 - Day 3
-        String mealName3 = "Spaghetti and Pie";
+        String mealName3 = "Spaghetti and Pie Meal";
         int mealServing3 = 3;
         solo.clearEditText((EditText) solo.getView(R.id.new_meal_name));
         solo.waitForActivity("Timeout", pause * 2);
@@ -139,7 +139,18 @@ public class US03Test {
      */
     @Test
     public void US030201Test(){
-
+        //scale_field
+        int scale = 2;
+        solo.clickOnView(solo.getView(R.id.scale_recipes_button));
+        solo.waitForActivity("Timeout", pause * 2);
+        solo.enterText((EditText) solo.getView(R.id.scale_field), String.valueOf(scale));
+        solo.waitForActivity("Timeout", pause * 2);
+        solo.pressSpinnerItem(0, 1);
+        solo.pressSpinnerItem(1, 0);
+        solo.clickOnView(solo.getView(R.id.confirm_scaling));
+        solo.waitForActivity("Timeout", pause * 2);
+        solo.clickOnText("Healthy Plan");
+        solo.waitForActivity("Timeout", pause * 10);
     }
 
     public void setDate(int year, int month, int day){
