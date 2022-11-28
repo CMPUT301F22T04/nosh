@@ -104,7 +104,14 @@ public class US04Test {
      */
     @Test
     public void US040401Test(){
-
+        int year = 2023, month = 1, day = 3;
+        solo.clickOnView(solo.getView(R.id.pick_up_checkbox));
+        solo.clickOnButton("yyyy-mm-dd");
+        solo.setDatePicker(0, year, month, day);
+        solo.clickOnText("OK");
+        solo.waitForActivity("Timeout", pause * 5);
+        solo.clickOnView(solo.getView(R.id.submit_details));
+        solo.waitForActivity("Timeout", pause * 10);
     }
 
     /**
@@ -114,7 +121,8 @@ public class US04Test {
      */
     @Test
     public void US040501Test(){
-
+        solo.clickOnText("Ingredients");
+        solo.waitForActivity("Timeout", pause * 10);
     }
 
     public void sortShoppingList(int criteria){
