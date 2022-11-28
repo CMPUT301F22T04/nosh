@@ -59,6 +59,8 @@ Give the repository a star :-)
 
 ## License
 
+https://github.com/CMPUT301F22T04/nosh/blob/main/LICENSE
+
 
 
 
