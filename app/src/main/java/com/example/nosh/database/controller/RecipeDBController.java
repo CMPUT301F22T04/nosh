@@ -124,7 +124,7 @@ public class RecipeDBController extends DBController {
                         "servings", recipe.getServings(),
                         "category", recipe.getCategory(),
                         "comments", recipe.getComments(),
-                        "photograph", recipe.getPhotographRemote(),
+                        "photographRemote", recipe.getPhotographRemote(),
                         "title", recipe.getName()
                 )
                 .addOnSuccessListener(unused -> Log.i(

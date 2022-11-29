@@ -11,6 +11,7 @@ import com.example.nosh.database.controller.MealPlanDBController;
 import com.example.nosh.entity.Meal;
 import com.example.nosh.entity.MealComponent;
 import com.example.nosh.entity.MealPlan;
+import com.example.nosh.entity.MealPlanComponent;
 import com.example.nosh.entity.Transaction;
 
 import java.util.ArrayList;
@@ -126,6 +127,16 @@ public class MealPlanRepository extends Repository {
     }
 
     public void delete(MealPlan mealPlan) {
+
+        // TODO: Hot fix but not performance efficient
+        for (MealPlanComponent mealPlanComponent : mealPlan.getPlans().values()) {
+            for (Meal meal : mealPlanComponent) {
+                for (MealComponent mealComponent : meal) {
+                    mealComponents.remove(mealComponent.getHashcode());
+                }
+            }
+        }
+
         mealPlans.remove(mealPlan.getHashcode());
 
         super.delete(mealPlan);

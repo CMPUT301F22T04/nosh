@@ -114,7 +114,7 @@ public class AddIngredientToRecipeDialog extends DialogFragment {
         args.putString("description", IngredientDescription.getText().toString());
         args.putInt("qty", Integer.parseInt(IngredientQuantity.getText().toString()));
         args.putString("unit", IngredientUnit.getText().toString());
-        args.putString("category", IngredientQuantity.getText().toString());
+        args.putString("category", IngredientCategory.getText().toString());
 
         requireActivity().getSupportFragmentManager().setFragmentResult("add_ingredient", args);
 

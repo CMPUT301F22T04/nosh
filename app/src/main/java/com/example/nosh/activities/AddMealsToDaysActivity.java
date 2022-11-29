@@ -278,13 +278,15 @@ public class AddMealsToDaysActivity extends AppCompatActivity implements Observe
             return false;
         }
 
-        if (mealComponentListView.getSelectedItemPosition() == -1) {
-            showAlertDialog();
-
-            return false;
+        for (int i = 0; i < mealComponentListView.getCount(); i++){
+            if (mealComponentListView.isItemChecked(i)) {
+                return true;
+            }
         }
 
-        return true;
+        showAlertDialog();
+
+        return false;
     }
 
     private void showAlertDialog() {
