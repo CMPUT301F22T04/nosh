@@ -107,17 +107,6 @@ public class MealPlan extends Hashable
         return Objects.requireNonNull(plans.get(date)).getMeals();
     }
 
-    public void setPlans(HashMap<String, MealPlanComponent> plans) {
-        assert plans != null;
-
-        this.plans = new HashMap<>();
-
-        for (Map.Entry<String, MealPlanComponent> pairs:
-             plans.entrySet()) {
-            this.plans.put(pairs.getKey(), new MealPlanComponent(pairs.getValue()));
-        }
-    }
-
     public MealPlanComponent getPlanByDay(String dateString) {
         return new MealPlanComponent(Objects.requireNonNull(plans.get(dateString)));
     }
@@ -136,6 +125,23 @@ public class MealPlan extends Hashable
         }
 
         return dates;
+    }
+
+    public void removeMealComponent(String mealComponentHash) {
+        for (MealPlanComponent mealPlanComponent : plans.values()) {
+            mealPlanComponent.removeMealComponent(mealComponentHash);
+        }
+    }
+
+    public void setPlans(HashMap<String, MealPlanComponent> plans) {
+        assert plans != null;
+
+        this.plans = new HashMap<>();
+
+        for (Map.Entry<String, MealPlanComponent> pairs:
+             plans.entrySet()) {
+            this.plans.put(pairs.getKey(), new MealPlanComponent(pairs.getValue()));
+        }
     }
 
     public void scaleMealPlan(int scaling) {
@@ -178,6 +184,4 @@ public class MealPlan extends Hashable
     public void forEach(@NonNull Consumer<? super Map.Entry<String, MealPlanComponent>> action) {
         Iterable.super.forEach(action);
     }
-
-
 }

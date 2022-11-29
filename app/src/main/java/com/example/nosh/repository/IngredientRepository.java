@@ -2,6 +2,7 @@ package com.example.nosh.repository;
 
 import com.example.nosh.database.controller.IngredientDBController;
 import com.example.nosh.entity.Ingredient;
+import com.example.nosh.entity.Transaction;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -105,9 +106,14 @@ public class IngredientRepository extends Repository {
     }
 
     public void delete(Ingredient ingredient) {
+        Transaction transaction = new Transaction(MealPlanRepository.REMOVE_MEAL_COMPONENT);
+        transaction.putContents("MealComponentHash", ingredient.getHashcode());
+
         ingredients.remove(ingredient.getHashcode());
 
-        super.delete(ingredient);
+        dbController.delete(ingredient);
+
+        notifyObservers(transaction);
     }
 
     /**

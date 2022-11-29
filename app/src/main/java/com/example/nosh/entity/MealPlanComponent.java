@@ -81,6 +81,12 @@ public class MealPlanComponent extends Hashable implements Iterable<Meal> {
         }
     }
 
+    void removeMealComponent(String mealComponentHash) {
+        for (Meal meal : meals.values()) {
+            meal.removeMealComponent(mealComponentHash);
+        }
+    }
+
     public int getSize() {
         return meals.size();
     }

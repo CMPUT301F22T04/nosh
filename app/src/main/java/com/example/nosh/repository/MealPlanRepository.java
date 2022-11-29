@@ -7,6 +7,7 @@ import static com.example.nosh.database.controller.MealPlanDBController.COLLECTI
 import static com.example.nosh.database.controller.MealPlanDBController.MEALS;
 import static com.example.nosh.database.controller.MealPlanDBController.SYNC_COMPLETE;
 
+import com.example.nosh.database.controller.DBController;
 import com.example.nosh.database.controller.MealPlanDBController;
 import com.example.nosh.entity.Meal;
 import com.example.nosh.entity.MealComponent;
@@ -27,6 +28,8 @@ import javax.inject.Singleton;
 @Singleton
 public class MealPlanRepository extends Repository {
 
+    static final String REMOVE_MEAL_COMPONENT = "REMOVE_MEAL_COMPONENT";
+
     private final HashMap<String, MealPlan> mealPlans;
     private final HashMap<String, MealComponent> mealComponents;
     private final IngredientRepository ingredientRepository;
@@ -41,6 +44,9 @@ public class MealPlanRepository extends Repository {
         this.mealComponents = new HashMap<>();
         this.ingredientRepository = ingredientRepository;
         this.recipeRepository = recipeRepository;
+
+        this.ingredientRepository.addObserver(this);
+        this.recipeRepository.addObserver(this);
 
         mealPlans = new HashMap<>();
 
@@ -142,6 +148,12 @@ public class MealPlanRepository extends Repository {
         super.delete(mealPlan);
     }
 
+    private void removeMealComponent(String mealComponentHash) {
+        for (MealPlan mealPlan : mealPlans.values()) {
+            mealPlan.removeMealComponent(mealComponentHash);
+        }
+    }
+
     public void syncMealComponents() {
         for (String hash : mealComponents.keySet()) {
             MealComponent latestMealComponent = null;
@@ -171,10 +183,29 @@ public class MealPlanRepository extends Repository {
      */
     @Override
     public void update(Observable o, Object arg) {
-        assert arg instanceof Transaction;
+        if (o instanceof DBController) {
+            if (arg instanceof Transaction) {
+                Transaction transaction = (Transaction) arg;
 
-        Transaction transaction = (Transaction) arg;
+                fireStoreGetReturn(transaction);
+            }
+        } else if (o instanceof Repository) {
+            if (arg instanceof Transaction) {
+                Transaction transaction = (Transaction) arg;
 
+                if (transaction.getTag().compareTo(REMOVE_MEAL_COMPONENT) == 0) {
+                    String mealComponentHash = (String)
+                            transaction.getContents().get("MealComponentHash");
+
+                    removeMealComponent(mealComponentHash);
+
+                    mealComponents.remove(mealComponentHash);
+                }
+            }
+        }
+    }
+
+    private void fireStoreGetReturn(Transaction transaction) {
         if (transaction.getTag().compareTo(SYNC_COMPLETE) == 0) {
             Object content = transaction
                     .getContents()
@@ -200,7 +231,7 @@ public class MealPlanRepository extends Repository {
 
                     MealComponent localMealComponent = null;
 
-                    if  (!mealComponents.containsKey(hash)) {
+                    if (!mealComponents.containsKey(hash)) {
                         if (ingredientRepository.retrieve(hash) != null) {
                             localMealComponent = ingredientRepository.retrieve(hash);
                         } else if (recipeRepository.retrieve(hash) != null) {

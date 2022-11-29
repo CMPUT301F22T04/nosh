@@ -60,6 +60,10 @@ public class Meal extends Hashable implements Iterable<MealComponent> {
         mealComponents.remove(mealComponent.getHashcode());
     }
 
+    void removeMealComponent(String mealComponentHash) {
+        mealComponents.remove(mealComponentHash);
+    }
+
     // Getters and Setters
     public ArrayList<MealComponent> getMealComponents() {
         assert mealComponents != null;
